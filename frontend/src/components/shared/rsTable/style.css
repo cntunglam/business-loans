@@ -1,0 +1,83 @@
+.table-wrapper {
+  /* border: 1px solid #ddd; */
+  border-radius: 8px 8px 0 0;
+  box-shadow:
+    3px 0px 4px 0px #00000014,
+    -3px 0px 4px 0px #00000014;
+  scrollbar-color: #dfdfdf transparent;
+  scrollbar-padding: 0 !important ;
+}
+
+.table-wrapper tr .pin-left-end {
+  box-shadow: 10px 0 10px 0px rgba(0, 0, 0, 0.05);
+}
+
+.table-wrapper tr .pin-right-start {
+  box-shadow: -10px 0 10px 0px rgba(0, 0, 0, 0.05);
+}
+
+.table-wrapper table {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+.table-wrapper thead {
+  background-color: #ededed;
+}
+
+.table-wrapper thead tr,
+.table-wrapper thead tr th {
+  background-color: transparent;
+}
+
+.table-wrapper th {
+  width: 150px;
+}
+
+.pin-left,
+.pin-right {
+  position: sticky;
+  z-index: 1;
+}
+th.pin-left,
+th.pin-right {
+  background-color: #ededed !important;
+}
+td.pin-left,
+td.pin-right,
+td {
+  background-color: inherit !important;
+}
+
+th.pin-left,
+th.pin-right {
+  background: #f5f5f5;
+  z-index: 3;
+}
+
+.table-wrapper::-webkit-scrollbar {
+  height: 4px !important;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background-color: #f7f7f7;
+  border-radius: 4px !important;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #a0a0a0;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f7f7f7;
+}
+
+.MuiSelect-listbox {
+  padding: 5px !important;
+}
+
+.MuiSelect-listbox li {
+  text-wrap: auto !important;
+}

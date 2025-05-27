@@ -1,0 +1,10 @@
+{
+  "submit": "Submit",
+  "next": "Next",
+  "back": "Back",
+  "continue": "Continue",
+  "signin": "Sign In",
+  "email": "Email",
+  "invalid_email": "Invalid email",
+  "finalize": "Finalize"
+}

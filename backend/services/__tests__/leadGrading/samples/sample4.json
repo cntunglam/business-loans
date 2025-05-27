@@ -1,0 +1,280 @@
+{
+  "ref_no": "R000000011",
+  "status": "200",
+  "response_report": {
+    "ACTION": "A",
+    "HEADER": {
+      "RUN_NO": "1",
+      "USER_ID": "L032YET018",
+      "CLIENT_ID": "32",
+      "ERR_ITEMS": {},
+      "TOT_ITEMS": "1"
+    },
+    "STATUS": "OK",
+    "MESSAGE": {
+      "ITEM": {
+        "APPREFNO": "R000000011",
+        "APPSUBMNO": "1",
+        "MLCB_REPORT": {
+          "ORDID": "6999187",
+          "APPTYP": "S",
+          "APPDATE": "02/01/2025",
+          "APPTIME": "19:09",
+          "APPREFNO": "R000000011",
+          "APPLICANT": {
+            "LOANTYPE": {
+              "GRT_SUR": {},
+              "SCRLONSUM": "0.00",
+              "USCLONSUM": "9391.50",
+              "SCRTPAJNTG": "0.00",
+              "SCRTPAMAIN": "0.00",
+              "USCTPAJNTG": "0.00",
+              "USCTPAMAIN": "12227.79",
+              "SCRTBOPAJNTG": "0.00",
+              "SCRTBOPAMAIN": "0.00",
+              "USCTBOPAJNTG": "0.00",
+              "USCTBOPAMAIN": "9391.50",
+              "SCRRSVSUMJNTG": "0.00",
+              "SCRRSVSUMMAIN": "0.00",
+              "USCRSVSUMJNTG": "0.00",
+              "USCRSVSUMMAIN": "0.00"
+            },
+            "PROVIDED": {
+              "P_NAM": "MAHENDRAN SHALINI",
+              "P_NAT": "SGP",
+              "APPOBL": "M",
+              "P_IDNO": "S8743585G",
+              "P_IDTYP": "NRIC",
+              "P_DOB_DOR": "30/12/1987"
+            },
+            "AGGCAPCMP": {
+              "APPTYP": "M",
+              "STSDESC": "Please proceed for Loan Approval",
+              "GRTTBOPA": "0.00",
+              "JNTTBOPA": "0.00",
+              "SOLTBOPA": "9391.50",
+              "BALQALWJL": "NA",
+              "GRTRESSUM": "0.00",
+              "JNTRESSUM": "0.00",
+              "LONAPPSTS": "Pending",
+              "MAXUSCLON": "16800.00",
+              "SOJTTBOPA": "9391.50",
+              "SOLRESSUM": "0.00",
+              "BALLONQALL": "7408.50",
+              "SOJTRESSUM": "0.00",
+              "USCLAMTREQ": "1000.00"
+            },
+            "AVAILABLE": {
+              "A_IDS": {
+                "A_ID": {
+                  "A_IDNO": "S8743585G",
+                  "A_IDTYP": "NRIC"
+                }
+              },
+              "A_NAT": "SGP",
+              "A_NAMS": {
+                "A_NAM": {
+                  "NAM": "MAHENDRAN SHALINI"
+                }
+              },
+              "A_DOB_DOR": "30/12/1987"
+            },
+            "PAYMENTSTS": {
+              "LOAN": [
+                {
+                  "CYCLE": [
+                    {
+                      "YEAR": "2025",
+                      "MONTH": "01",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "12",
+                      "STATUS": "OK"
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "11",
+                      "STATUS": "OK"
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "10",
+                      "STATUS": "OK"
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "09",
+                      "STATUS": "OK"
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "08",
+                      "STATUS": "OK"
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "07",
+                      "STATUS": "OK"
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "06",
+                      "STATUS": "OK"
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "05",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "04",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "03",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "02",
+                      "STATUS": {}
+                    }
+                  ],
+                  "DCLFLAG": "0",
+                  "LOANDATE": "05/2024",
+                  "LOANSEQNO": "1",
+                  "TOTPAYAMT": "2048.19",
+                  "OBLIGATION": "M"
+                },
+                {
+                  "CYCLE": [
+                    {
+                      "YEAR": "2025",
+                      "MONTH": "01",
+                      "STATUS": "60"
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "12",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "11",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "10",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "09",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "08",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "07",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "06",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "05",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "04",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "03",
+                      "STATUS": {}
+                    },
+                    {
+                      "YEAR": "2024",
+                      "MONTH": "02",
+                      "STATUS": {}
+                    }
+                  ],
+                  "DCLFLAG": "0",
+                  "LOANDATE": "12/2024",
+                  "LOANSEQNO": "2",
+                  "TOTPAYAMT": "10179.60",
+                  "OBLIGATION": "M"
+                }
+              ]
+            },
+            "EMPTYP_INCM": {
+              "CUREMP": "ALLKIN SINGAPORE LTD.",
+              "EMPSTA": "EMP",
+              "INCANN": "33600.00",
+              "INCMON": "2800.00",
+              "DOCTYPS": {
+                "DOCTYP": {
+                  "INCDOCTYP": "OTHERS",
+                  "LASTUPDDAT": "02/01/2025"
+                }
+              },
+              "INCMON2": "2800.00",
+              "INCMON3": "2800.00",
+              "INCMONAVG": "2800.00"
+            }
+          },
+          "APPSUBMNO": "1",
+          "CLIENT_ID": "32",
+          "REPORTTYP": "S"
+        }
+      }
+    },
+    "SERVICE": "GETMLCBR"
+  },
+  "mlcb_loan_active": 2,
+  "response_quantum": {
+    "ACTION": "A",
+    "HEADER": {
+      "RUN_NO": "1",
+      "USER_ID": "L032YET018",
+      "CLIENT_ID": "32",
+      "ERR_ITEMS": {},
+      "TOT_ITEMS": "1"
+    },
+    "STATUS": "OK",
+    "MESSAGE": {
+      "ITEM": {
+        "APPREFNO": "R000000011",
+        "APPSUBMNO": "1",
+        "ALQ_CALCULATIONS": {
+          "P_NAM": "MAHENDRAN SHALINI",
+          "APPOBL": "M",
+          "P_IDNO": "S8743585G",
+          "APPDATE": "02/01/2025",
+          "APPTIME": "19:09",
+          "P_IDTYP": "NRIC",
+          "STSDESC": "Please proceed for Loan Approval",
+          "BALLONQALL": "7408.50"
+        }
+      }
+    },
+    "SERVICE": "GETMLCBALQ"
+  },
+  "mlcb_loan_balance": {
+    "0": "9391.50"
+  }
+}

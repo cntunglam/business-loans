@@ -1,0 +1,219 @@
+const countryCodeMap: Record<string, string> = {
+  AD: 'AND', // ANDORRAN
+  AE: 'ARE', // UNITED ARAB EMIRATES
+  AF: 'AFG', // AFGHAN
+  AG: 'ATG', // ANTIGUAN
+  AI: 'AIA', // ANGUILLAN
+  AL: 'ALB', // ALBANIAN
+  AM: 'ARM', // ARMENIAN
+  AN: 'ANT', // NETHERLANDS ANTILILLES
+  AO: 'AGO', // ANGOLAN
+  AQ: 'ATA', // ANTARCTICA
+  AR: 'ARG', // ARGENTINIAN
+  AS: 'ASM', // AMERICAN SAMOAN
+  AT: 'AUT', // AUSTRIAN
+  AU: 'AUS', // AUSTRALIAN
+  AZ: 'AZE', // AZERBAIJANI
+  BA: 'BIH', // BOSNIAN
+  BB: 'BRB', // BARBADOS
+  BD: 'BGD', // BANGLADESHI
+  BE: 'BEL', // BELGIAN
+  BF: 'BFA', // BURKINABE
+  BG: 'BGR', // BULGARIAN
+  BH: 'BHR', // BAHRAINI
+  BI: 'BDI', // BURUNDIAN
+  BJ: 'BEN', // BENINESE
+  BL: 'BLR', // BELARUSSIAN
+  BN: 'BRN', // BRUNEIAN
+  BO: 'BOL', // BOLIVIAN
+  BR: 'BRA', // BRAZILIAN
+  BS: 'BHS', // BAHAMIAN
+  BT: 'BTN', // BHUTANESE
+  BU: 'MMR', // MYANMAR
+  BW: 'BWA', // BOTSWANA
+  BZ: 'BLZ', // BELIZEAN
+  CA: 'CAN', // CANADIAN
+  CB: 'HRV', // CROATIAN
+  CD: 'COD', // DEMOCRATIC REPUBLIC OF THE CONGO
+  CF: 'CAF', // CENTRAL AFRICAN REPUBLIC
+  CG: 'COG', // CONGOLESE
+  CH: 'CHE', // SWISS
+  CI: 'CIV', // IVORY COAST
+  CK: 'COK', // COOK ISLANDER
+  CL: 'CHL', // CHILEAN
+  CM: 'CMR', // CAMEROONIAN
+  CN: 'CHN', // CHINESE
+  CO: 'COL', // COLOMBIAN
+  CR: 'CRI', // COSTA RICAN
+  CS: 'CSK', // CZECHOSLOVAK
+  CU: 'CUB', // CUBAN
+  CV: 'CPV', // CAPE VERDEAN
+  CY: 'CYP', // CYPRIOT
+  CZ: 'CZE', // CZECH
+  DD: 'DDR', // GERMAN, EAST
+  DE: 'DEU', // GERMAN, WEST
+  DG: 'DEU', // GERMAN
+  DJ: 'DJI', // DJIBOUTIAN
+  DK: 'DNK', // DANISH
+  DM: 'DMA', // DOMINICAN
+  DO: 'DOM', // DOMINICAN (REPUBLIC)
+  DZ: 'DZA', // ALGERIAN
+  EC: 'ECU', // ECUADORIAN
+  EG: 'EGY', // EGYPTIAN
+  EH: 'ESH', // SAHRAWI
+  EN: 'EST', // ESTONIAN
+  ER: 'ERI', // ERITREAN
+  ES: 'ESP', // SPANISH
+  ET: 'ETH', // ETHIOPIAN
+  FI: 'FIN', // FINNISH
+  FJ: 'FJI', // FIJIAN
+  FR: 'FRA', // FRENCH
+  GA: 'GAB', // GABON
+  GB: 'GBR', // BRITISH
+  GD: 'GRD', // GRENADIAN
+  GE: 'GEO', // GEORGIAN
+  GF: 'GUF', // FRENCH GUIANESE
+  GH: 'GHA', // GHANAIAN
+  GM: 'GMB', // GAMBIAN
+  GN: 'GIN', // GUINEAN
+  GP: 'GLP', // GUADELOUPIAN
+  GQ: 'GNQ', // EQUATORIAL GUINEA
+  GR: 'GRC', // GREEK
+  GT: 'GTM', // GUATEMALAN
+  GU: 'GUM', // GUAMANIAN
+  GW: 'GNB', // GUINEAN (BISSAU)
+  GY: 'GUY', // GUYANESE
+  HK: 'HKG', // CHINESE/HONGKONG SAR
+  HN: 'HND', // HONDURAN
+  HT: 'HTI', // HAITIAN
+  HU: 'HUN', // HUNGARIAN
+  ID: 'IDN', // INDONESIAN
+  IE: 'IRL', // IRISH
+  IL: 'ISR', // ISRAELI
+  IN: 'IND', // INDIAN
+  IQ: 'IRQ', // IRAQI
+  IR: 'IRN', // IRANIAN
+  IS: 'ISL', // ICELANDER
+  IT: 'ITA', // ITALIAN
+  JM: 'JAM', // JAMAICAN
+  JO: 'JOR', // JORDANIAN
+  JP: 'JPN', // JAPANESE
+  KE: 'KEN', // KENYAN
+  KG: 'KGZ', // KIRGHIZ
+  KH: 'KHM', // KAMPUCHEAN
+  KI: 'KIR', // KIRIBATI
+  KM: 'COM', // COMORAN
+  KP: 'PRK', // D.P.R. KOREAN
+  KR: 'KOR', // KOREAN, SOUTH
+  KW: 'KWT', // KUWAITI
+  KY: 'KGZ', // KYRGYZSTAN
+  KZ: 'KAZ', // KAZAKHSTANI
+  LA: 'LAO', // LAOTIAN
+  LB: 'LBN', // LEBANESE
+  LC: 'LCA', // ST. LUCIA
+  LI: 'LIE', // LIECHTENSTEINER
+  LK: 'LKA', // SRI LANKAN
+  LR: 'LBR', // LIBERIAN
+  LS: 'LSO', // LESOTHO
+  LT: 'LTU', // LITHUANIAN
+  LU: 'LUX', // LUXEMBOURGER
+  LV: 'LVA', // LATVIAN
+  LY: 'LBY', // LIBYAN
+  MA: 'MAR', // MOROCCAN
+  MC: 'MCO', // MONACAN
+  MD: 'MDA', // MOLDAVIAN
+  MG: 'MDG', // MADAGASY
+  MH: 'MHL', // MARSHALLESE
+  ML: 'MLI', // MALIAN
+  MM: 'MMR', // MYANMAR
+  MN: 'MNG', // MONGOLIAN
+  MO: 'MAC', // CHINESE/MACAO SAR
+  MR: 'MRT', // MAURITANEAN
+  MT: 'MLT', // MALTESE
+  MU: 'MUS', // MAURITIAN
+  MV: 'MDV', // MALDIVIAN
+  MW: 'MWI', // MALAWIAN
+  MX: 'MEX', // MEXICAN
+  MY: 'MYS', // MALAYSIAN
+  MZ: 'MOZ', // MOZAMBICAN
+  NA: 'NAM', // NAMIBIAN
+  NC: 'NCL', // NEW CALEDONIA
+  NE: 'NER', // NIGER
+  NG: 'NGA', // NIGERIAN
+  NI: 'NIC', // NICARAGUAN
+  NL: 'NLD', // DUTCH
+  NO: 'NOR', // NORWEGIAN
+  NP: 'NPL', // NEPALESE
+  NR: 'NRU', // NAURUAN
+  NZ: 'NZL', // NEW ZEALANDER
+  OM: 'OMN', // OMANI
+  PA: 'PAN', // PANAMANIAN
+  PE: 'PER', // PERUVIAN
+  PF: 'PYF', // FRENCH POLYNESIAN
+  PG: 'PNG', // PAPUA NEW GUINEAN
+  PH: 'PHL', // FILIPINO
+  PK: 'PAK', // PAKISTANI
+  PL: 'POL', // POLISH
+  PR: 'PRI', // PUERTO RICAN
+  PT: 'PRT', // PORTUGUESE
+  PW: 'PLW', // PALAUAN
+  PY: 'PRY', // PARAGUAYAN
+  QA: 'QAT', // QATARI
+  RE: 'REU', // REUNIONESE
+  RO: 'ROU', // ROMANIAN
+  RS: 'SRB', // SERBIAN
+  RU: 'RUS', // RUSSIAN
+  RW: 'RWA', // RWANDAN
+  SA: 'SAU', // SAUDI ARABIAN
+  SB: 'SLB', // SOLOMON ISLANDER
+  SC: 'SYC', // SEYCHELLOIS
+  SD: 'SDN', // SUDANESE
+  SE: 'SWE', // SWEDISH
+  SG: 'SGP', // SINGAPORE CITIZEN
+  SI: 'SVN', // SLOVENIAN
+  SK: 'SVK', // SLOVAK
+  SL: 'SLE', // SIERRA LEONE
+  SM: 'SMR', // SAMMARINESE
+  SN: 'SEN', // SENEGALESE
+  SO: 'SOM', // SOMALI
+  SR: 'SUR', // SURINAMER
+  ST: 'STP', // SAO TOMEAN
+  SV: 'SLV', // SALVADORAN
+  SY: 'SYR', // SYRIAN
+  SZ: 'SWZ', // SWAZI
+  TD: 'TCD', // CHADIAN
+  TG: 'TGO', // TOGOLESE
+  TH: 'THA', // THAI
+  TJ: 'TJK', // TAJIKISTANI
+  TM: 'TKM', // TURKMEN
+  TN: 'TUN', // TUNISIAN
+  TO: 'TON', // TONGAN
+  TR: 'TUR', // TURK
+  TT: 'TTO', // TRINIDADIAN & TOBAGONIAN
+  TV: 'TUV', // TUVALU
+  TW: 'TWN', // TAIWANESE
+  TZ: 'TZA', // TANZANIAN
+  UA: 'UKR', // UKRAINIAN
+  UG: 'UGA', // UGANDAN
+  US: 'USA', // AMERICAN
+  UY: 'URY', // URUGUAYAN
+  UZ: 'UZB', // UZBEKISTAN
+  VA: 'VAT', // VATICAN CITY STATE (HOLY SEE)
+  VC: 'VCT', // ST. VINCENTIAN
+  VE: 'VEN', // VENEZUELAN
+  VN: 'VNM', // VIETNAMESE
+  VU: 'VUT', // NI-VANUATU
+  WS: 'WSM', // SAMOAN
+  YE: 'YEM', // YEMEN ARAB REP
+  ZA: 'ZAF', // SOUTH AFRICAN
+  ZM: 'ZMB', // ZAMBIAN
+  ZW: 'ZWE', // ZIMBABWEAN
+};
+
+export function convertToThreeLetterCode(twoLetterCode: string): string {
+  if (!(twoLetterCode in countryCodeMap)) {
+    throw new Error(`Country code ${twoLetterCode} is not supported`);
+  }
+
+  return countryCodeMap[twoLetterCode.toUpperCase()] as string;
+}

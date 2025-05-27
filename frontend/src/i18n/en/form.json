@@ -1,0 +1,29 @@
+{
+  "borrowAmount": {
+    "title": "How much do you want to borrow?"
+  },
+  "borrowTerm": {
+    "title": "Over what period would you like to pay?"
+  },
+  "finalStep": {
+    "title": "Borrowers use ROSHI to compare loans, apply online & settle faster.",
+    "item1": "Access better personal loan rates",
+    "item2": "Quick loan decision (97% approval rate)",
+    "item3": "Real-time application updates via chat & mail",
+    "protecting": "Protecting your information",
+    "almostThere": "Almost there...",
+    "addEmail": "Add email to launch application",
+    "verified": "Phone number verified",
+    "email_verified": "Email verified",
+    "launch": "Launch Your Application",
+    "agreement": "By registering you agree to ROSHI’s <1>Privacy Policy</1> and <2>Terms & Conditions</2>.",
+    "phoneInput": {
+      "placeholder": "Add phone number",
+      "error": "Please enter a valid phone number"
+    },
+    "emailInput": {
+      "placeholder": "Add Email",
+      "error": "Please enter a valid email address"
+    }
+  }
+}

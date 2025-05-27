@@ -1,0 +1,42 @@
+model AffiliateLink {
+    id String @id @default(uuid())
+
+    targetUrl String
+
+    utmSource   String?
+    utmCampaign String
+
+    referralCode String
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+
+    visitors AffiliateVisitor[]
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    shortUrlId String?
+    shortUrl   ShortUrl? @relation(fields: [shortUrlId], references: [id])
+
+    @@schema("public")
+}
+
+model AffiliateVisitor {
+    id String @id @default(uuid())
+
+    affiliateLinkId String
+    affiliateLink   AffiliateLink @relation(fields: [affiliateLinkId], references: [id])
+
+    userId String?
+    user   User?   @relation(fields: [userId], references: [id])
+
+    loanRequestId String?
+    loanRequest   LoanRequest? @relation(fields: [loanRequestId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@schema("public")
+}
