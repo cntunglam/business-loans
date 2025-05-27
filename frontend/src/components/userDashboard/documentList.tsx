@@ -13,7 +13,7 @@ interface Props {
 export const DocumentList: FC<Props> = ({ refetch, applicantInfo }) => {
   const requiredDocuments = [
     {
-      disabled: !!applicantInfo?.singpassData,
+      disabled: false,
       category: "Income",
       documents: [
         {

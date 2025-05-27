@@ -17,7 +17,6 @@ import { Flex } from "../../shared/flex";
 import { RsTooltip } from "../../shared/rsTooltip";
 import { ViewDocumentBtn } from "../../shared/viewDocumentBtn";
 import { OfferActions } from "../offerActions";
-import { SingpassButton } from "../singpassButton";
 
 export type ColumnKeys = keyof typeof lenderDashboardColumns;
 
@@ -253,13 +252,6 @@ export const lenderDashboardColumns = {
       </>
     ),
   },
-  singpassVerified: {
-    key: "singpassVerified",
-    title: "Singpass",
-    align: "center",
-    render: (row: LenderDashboardApplication) =>
-      row.applicantInfo?.hasSingpass ? <SingpassButton loanRequestId={row.id} /> : <></>,
-  },
   type: {
     key: "type",
     title: "Type",
@@ -301,9 +293,9 @@ export const lenderDashboardColumns = {
   },
   nricNo: {
     key: "nricNo",
-    title: "NRIC/FIN No.",
+    title: "Số CCCD",
     width: 150,
-    render: (row: LenderDashboardApplication) => row?.applicantInfo?.nric || "-",
+    render: (row: LenderDashboardApplication) => row.applicantInfo?.nric || "-",
   },
   loanResponse: {
     key: "loanResponse",
@@ -392,7 +384,6 @@ export const approvedColumns = [
   lenderDashboardColumns.propertyOwnership,
   lenderDashboardColumns.jobTitle,
   lenderDashboardColumns.document,
-  lenderDashboardColumns.singpassVerified,
   lenderDashboardColumns.type,
   { ...lenderDashboardColumns.action, width: 110 },
 ] as const;
@@ -417,7 +408,6 @@ export const acceptedOffersColumns = [
   lenderDashboardColumns.propertyOwnership,
   lenderDashboardColumns.jobTitle,
   lenderDashboardColumns.document,
-  lenderDashboardColumns.singpassVerified,
   lenderDashboardColumns.type,
   lenderDashboardColumns.action,
 ] as const;
@@ -449,7 +439,6 @@ export const newColumns = [
   lenderDashboardColumns.propertyOwnership,
   lenderDashboardColumns.jobTitle,
   lenderDashboardColumns.document,
-  lenderDashboardColumns.singpassVerified,
   { ...lenderDashboardColumns.action, width: 180 },
 ] as const;
 

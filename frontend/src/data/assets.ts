@@ -23,8 +23,6 @@ export const ASSETS = {
   DANGER: "/icons/danger.svg",
   ASTERISK: "/icons/Asterisk.svg",
   APRIL_AVATAR: "/images/april.jpg",
-  SINGPASS_LOGO: "/icons/singpassLogo.svg",
-  SINGPASS_BUTTON: "/icons/singpassButton.svg",
   STANDARD_LOAN: "/icons/standardLoan.svg",
   LOGO_WITH_CIRCLE: "/icons/logoWithCircle.svg",
   PERSON_RUSHING: "/icons/personRushing.svg",

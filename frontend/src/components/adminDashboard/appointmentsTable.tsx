@@ -20,7 +20,7 @@ export const AppointmentsTable = () => {
   };
 
   // Define the timezone for Singapore
-  const timeZone = "Asia/Singapore";
+  const timeZone = "Asia/Ho_Chi_Minh";
 
   const filteredAppointments = appointments?.filter((appointment) => {
     if (!appointment.scheduledTime) return false;

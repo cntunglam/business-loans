@@ -9,24 +9,6 @@ export const generateWebhookPayload = async <T extends NotificationTypeEnum>(
   params: { loanRequestId: string } & NotifPayloadParams<T>,
 ) => {
   switch (notificationType) {
-    // case NotificationTypeEnum.NEW_LOAN_REQUEST: {
-    //   const loanRequest = formatLoanRequestForLender(await getLoanRequest(params.loanRequestId));
-    //   return {
-    //     loanRequestId: params.loanRequestId,
-    //     loanRequest,
-    //   };
-    // }
-    // case NotificationTypeEnum.AUTO_IPA: {
-    //   const typedParams = params as NotifPayloadParams<NotificationTypeEnum.AUTO_IPA>;
-    //   const loanRequest = formatLoanRequestForLender(await getLoanRequest(params.loanRequestId));
-    //   const loanResponse = await getLoanResponse(typedParams.loanResponseId);
-    //   return {
-    //     loanRequestId: params.loanRequestId,
-    //     loanRequest: exclude(loanRequest, ['loanResponses']),
-    //     loanResponseId: typedParams.loanResponseId,
-    //     loanResponse: loanResponse,
-    //   };
-    // }
     case NotificationTypeEnum.APPOINTMENT_SCHEDULED: {
       const typedParams = params as NotifPayloadParams<NotificationTypeEnum.APPOINTMENT_SCHEDULED>;
       return getAppointmentForWebhook(typedParams.appointmentId);
@@ -49,7 +31,6 @@ export const generateWebhookPayload = async <T extends NotificationTypeEnum>(
         loanResponse: loanResponse,
         loanRequestId: params.loanRequestId,
         loanRequest: formattedLoanRequest,
-        singpassData: loanRequest.applicantInfo?.singpassData,
         userId: loanRequest.user?.id,
         user: {
           id: loanRequest.user?.id,

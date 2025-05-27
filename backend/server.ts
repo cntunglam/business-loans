@@ -20,14 +20,12 @@ import { loanRequestRouter } from './routes/v1/loanRequest.route';
 import { loanResponseRouter } from './routes/v1/loanResponse.route';
 import { loggerRouter } from './routes/v1/logger.routes';
 import { shortUrlRouter } from './routes/v1/shortUrl.route';
-import { singpassRouter } from './routes/v1/singpass.route';
 import { tokenRouter } from './routes/v1/token.route';
 import { visitorRouter } from './routes/v1/visitor.route';
 import { whatsppRouter } from './routes/v1/whatsapp.route';
 import { updateUserSettings } from './services/account.service';
 import { setupCronJobs } from './services/cronjob.service';
 import { getShortUrlByCode, isPathAllowed } from './services/shortUrl.service';
-import { jwksKeys } from './services/singpass.service';
 import { asyncHandler, errorHandler } from './utils/errorHandler';
 import { wrapRoutes } from './utils/wrapRoutes';
 
@@ -38,13 +36,6 @@ app.use(compression());
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Expose public keys for singpass
-app.get('/.well-known/keys.json', (req, res) => {
-  res.json({
-    keys: jwksKeys,
-  });
-});
 
 //V1 routes
 const routers = [
@@ -63,7 +54,6 @@ const routers = [
   { path: '/appointment', router: appointmentRouter },
   { path: '/whatsapp', router: whatsppRouter },
   { path: '/applicant', router: applicantInfoRouter },
-  { path: '/spass', router: singpassRouter },
   { path: '/visitor', router: visitorRouter },
   { path: '/logger', router: loggerRouter },
   { path: '/short-url', router: shortUrlRouter },

@@ -48,7 +48,6 @@ export const initReApplyJob = () => {
         data: {
           data: loanRequest.applicantInfo!.data!,
           dataFormat: loanRequest.applicantInfo!.dataFormat,
-          singpassData: loanRequest.applicantInfo!.singpassData!,
         },
       });
 

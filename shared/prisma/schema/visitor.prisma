@@ -1,5 +1,4 @@
 model VisitorData {
-  singpassData Json?
   referer      String?
 
   id        String   @id @default(uuid())
@@ -23,7 +22,6 @@ model VisitorDataV2 {
 
   // Application data
   stepData     StepData[]
-  singpassData Json?
 
   lastActiveAt DateTime @updatedAt
 

@@ -7,7 +7,6 @@ import { LenderLayout } from "./components/layout/lenderLayout";
 import { MainLayout } from "./components/layout/mainLayout";
 import { UserLayout } from "./components/layout/userLayout";
 import MatomoTagManager from "./components/shared/MatomoTagManager";
-import { CONSTANTS } from "./data/constants";
 import { AdminDashboardView } from "./views/adminDashboard.view";
 import { AffiliateOverviewView } from "./views/affiliateOverview";
 import { ApplicantInfoView } from "./views/applicantInfoView";
@@ -18,18 +17,12 @@ import { LenderDashboardView } from "./views/lenderDashboard.view";
 import { LenderSettingsView } from "./views/lenderSettings.view";
 import { LoanApplicationView } from "./views/loanApplication.view";
 import { SigninView } from "./views/signin.view";
-import { SingpassApplicationView } from "./views/singpassApplication.view";
-import { SingpassCallbackView } from "./views/singpassCallback.view";
 import { UserDocumentsView } from "./views/userDocuments.view";
 import { UserOverviewView } from "./views/userOverview.view";
 import { UserUnsubscribeView } from "./views/userUnsubscribe.view";
 
 export const AppRouter = () => {
   const routes = useRoutes([
-    {
-      path: CONSTANTS.ENV === "development" ? "/callback" : "/spass/callback",
-      element: <SingpassCallbackView />,
-    },
     {
       path: "error/:code",
       element: <ErrorView />,
@@ -55,12 +48,12 @@ export const AppRouter = () => {
         </Authorization>
       ),
       children: [
-        { path: "/apply", element: <LoanApplicationView loanRequestType={LoanRequestTypeEnum.GENERAL} /> },
+        { path: "apply", element: <LoanApplicationView loanRequestType={LoanRequestTypeEnum.GENERAL} /> },
         {
-          path: "/apply-for-zero-interest-loan",
+          path: "apply-for-zero-interest-loan",
           element: <LoanApplicationView loanRequestType={LoanRequestTypeEnum.ZERO_INTEREST} />,
         },
-        { path: "/singpass-apply", element: <SingpassApplicationView /> },
+        { path: "*", element: <Navigate replace to="apply" /> },
       ],
     },
     {

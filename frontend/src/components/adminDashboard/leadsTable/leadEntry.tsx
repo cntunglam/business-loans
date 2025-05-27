@@ -1,4 +1,4 @@
-import { ChatBubbleOutline, CopyAll, MoreHoriz, Star, StarBorder, Verified } from "@mui/icons-material";
+import { ChatBubbleOutline, CopyAll, MoreHoriz, Star, StarBorder } from "@mui/icons-material";
 import { Box, Chip, Dropdown, Link, Menu, MenuButton, MenuItem, Tooltip, Typography, useTheme } from "@mui/joy";
 import {
   AppointmentStatusEnum,
@@ -266,11 +266,6 @@ export const LeadEntry: FC<LeadEntryProps> = ({ loanRequest, refetch }) => {
       <TableCell>
         <RsEllipsis text={replaceLineBreak(loanRequest?.referer || "")} maxLines={2} />
       </TableCell>
-      <td>
-        {loanRequest.applicantInfo?.hasSingpassData && (
-          <Verified color="primary" onClick={() => openModal("singpass")} sx={{ cursor: "pointer" }} />
-        )}
-      </td>
       <td>{loanRequest.isAutoReapply ? "YES" : "NO"}</td>
       <td>
         <Dropdown>

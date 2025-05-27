@@ -13,7 +13,6 @@ import {
   LoanResponseStatusEnum,
   Prisma,
   SgManualFormSchema,
-  SingpassData,
   StatusEnum,
   SupportDataSchema,
   TargetTypeEnum,
@@ -279,7 +278,7 @@ export const formatLoanRequestForAdmin = (
           closedDealOffer: true;
         };
       };
-      applicantInfo: { select: { singpassData: true; data: true; documents: { where: { isDeleted: false } } } };
+      applicantInfo: { select: { data: true; documents: { where: { isDeleted: false } } } };
       customerSupport: { select: { id: true; name: true } };
     };
   }>,
@@ -415,15 +414,14 @@ export const createLoanRequestSchema = z.object({
   purpose: z.string().max(255),
   amount: z.coerce.number().int().positive(),
   term: z.coerce.number().int().positive(),
-  applicantInfo: SgManualFormSchema,
   type: z.nativeEnum(LoanRequestTypeEnum),
+  applicantInfo: SgManualFormSchema,
   referer: z.string().optional(),
   override: z.boolean().optional(),
 });
 
 export const createNewLoanRequest = async (
   data: z.infer<typeof createLoanRequestSchema>,
-  singpassData: SingpassData | null,
   userId: string,
   override?: boolean,
 ) => {
@@ -449,7 +447,6 @@ export const createNewLoanRequest = async (
       data: {
         dataFormat: ApplicationTypesEnum.SG_MANUAL,
         data: data.applicantInfo,
-        singpassData: singpassData as any,
       },
     });
 

@@ -17,7 +17,6 @@ import { OfferPreview } from "../lenderDashboard/offerPreview";
 import { ActivityLogsModal } from "../userDashboard/activityLogsModal";
 import { ApplicationDetailsWrapper } from "../userDashboard/applicationDetailsWrapper";
 import { DocumentVerificationModal } from "./documentVerificationModal";
-import { SingpassInfoModalWrapper } from "./singpassInfoModalWrapper";
 
 type ModalType =
   | "documents"
@@ -29,7 +28,6 @@ type ModalType =
   | "publicNote"
   | "details"
   | "closedDealOffer"
-  | "singpass"
   | "mlcbReport"
   | "NotesFromROSHI";
 
@@ -131,8 +129,6 @@ export const useLeadData = ({ loanRequest, refetch }: Props) => {
         return <OfferPreview onClose={closeModal} offer={offer || undefined} isClosedDeal />;
       case "NotesFromROSHI":
         return <OfferPreview onClose={closeModal} offer={offer || undefined} isClosedDeal />;
-      case "singpass":
-        return <SingpassInfoModalWrapper loanRequestId={loanRequest.id} onClose={closeModal} />;
       case "mlcbReport":
         return <MlcbReportModal loanRequestId={loanRequest.id} onClose={closeModal} />;
       default:

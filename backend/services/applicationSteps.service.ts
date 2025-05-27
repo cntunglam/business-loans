@@ -1,37 +1,16 @@
 import {
   ApplicationStepsEnum,
-  birthDateToAge,
   employmentStatusesEnum,
   EmploymentTimeEnum,
-  getResidencyStatusFromSingpassData,
   LoanRequestTypeEnum,
   MinMaxSettings,
   propertyOwnershipsEnum,
   residencyStatusesEnum,
-  SingpassData,
 } from '@roshi/shared';
 import { getPhoneSchema } from '@roshi/shared/models/common.model';
 import { z } from 'zod';
 import { regularPersonalLoanSteps } from './applicationSteps/general';
 import { zeroInterestLoanSteps } from './applicationSteps/zeroInterest';
-
-export const SingpassSkipFields = {
-  [ApplicationStepsEnum.nricNumber]: (singpassData: SingpassData) => singpassData?.uinfin?.value,
-  [ApplicationStepsEnum.fullName]: (singpassData: SingpassData) => singpassData.name?.value,
-  [ApplicationStepsEnum.phoneNumber]: (singpassData: SingpassData) =>
-    singpassData?.mobileno?.nbr?.value
-      ? `${singpassData.mobileno.areacode || '65'}${singpassData.mobileno.nbr}`
-      : undefined,
-  [ApplicationStepsEnum.residencyStatus]: (singpassData: SingpassData) =>
-    getResidencyStatusFromSingpassData(singpassData),
-  [ApplicationStepsEnum.age]: (singpassData: SingpassData) => {
-    if (singpassData.dob?.value) {
-      const age = birthDateToAge(new Date(singpassData.dob.value));
-      if (age >= 21) return age;
-      return null;
-    }
-  },
-} as const;
 
 export const ApplicationSteps = {
   [ApplicationStepsEnum.borrowAmount]: {

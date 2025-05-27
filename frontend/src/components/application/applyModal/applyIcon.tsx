@@ -16,7 +16,7 @@ export const ApplyIcon = ({ image }: Props) => {
     <Box sx={{ width: "100%", height: "100%", position: "relative", minHeight: "150px" }}>
       <img
         src={image}
-        alt="singpass"
+        alt=""
         height="100%"
         width="100%"
         style={{

@@ -24,8 +24,6 @@ export const formatApplicantInfoForLender = (
     documents: applicantInfo.documents?.map((doc) => formatDocumentForLenderOrBorrower(doc)),
     mlcbRatio: rest.lenderDebt / rest.monthlyIncome,
     loanRequest: applicantInfo.applicantOf || applicantInfo.guarantorOf,
-    hasSingpass: applicantInfo.singpassData != null && (!options || options.isReapply === false),
-    //Provide basic info. For approved offers to get full data, we will design endpoint to ensure we track lenders when they see the phone number.
   };
 };
 
@@ -41,7 +39,6 @@ export const formatApplicantForBorrower = (
     documents: applicantInfo.documents?.map((doc) => formatDocumentForLenderOrBorrower(doc)),
     mlcbRatio: data.lenderDebt / data.monthlyIncome,
     loanRequest: applicantInfo.applicantOf || applicantInfo.guarantorOf,
-    singpassData: applicantInfo.singpassData,
   };
 };
 
@@ -54,9 +51,8 @@ export const formatApplicantForAdmin = (
   return {
     ...data,
     id: applicantInfo.id!,
-    documents: applicantInfo.documents,
+    documents: applicantInfo.documents?.map((doc) => formatDocumentForLenderOrBorrower(doc)),
     mlcbRatio: data.lenderDebt / data.monthlyIncome,
     loanRequest: applicantInfo.applicantOf || applicantInfo.guarantorOf,
-    hasSingpassData: !!applicantInfo.singpassData,
   };
 };

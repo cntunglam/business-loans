@@ -14,7 +14,7 @@ const envVars = {
   AZURE_STORAGE_CONNECTION_STRING: '',
   AZURE_STORAGE_BUCKET_PREFIX: 'roshi-dev',
   CLIENT_APP_URL: 'http://localhost:5173',
-  TIMEZONE: 'Asia/Singapore',
+  TIMEZONE: 'Asia/Ho_Chi_Minh',
   WA_API_BASE_URL: '',
   WA_PHONE_NUMBER: '',
   WA_PICKY_TOKEN: '',

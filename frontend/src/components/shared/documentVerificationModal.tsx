@@ -1,12 +1,16 @@
 import { Button } from "@mui/joy";
-import { DocumentVerificationStatusEnum, Prisma } from "@roshi/shared";
+import { DocumentVerificationStatusEnum } from "@roshi/shared";
 import { FC, useEffect, useState } from "react";
 import { useGetDocumentLink, useUpdateDocument } from "../../api/useDocumentApi";
 import { DocumentPreviewModal } from "./documentPreviewModal";
 import { Flex } from "./flex";
 
 interface Props {
-  documents: Prisma.DocumentGetPayload<true>[];
+  documents: {
+    filename: string;
+    documentType: string;
+    humanVerificationStatus: string;
+}[];
   onClose: () => void;
 }
 export const DocumentVerificationModal: FC<Props> = ({ documents, onClose }) => {
@@ -40,38 +44,17 @@ export const DocumentVerificationModal: FC<Props> = ({ documents, onClose }) => 
     setIsLoading(false);
   };
 
-  // const nextOrPrev = async (next: boolean) => {
-  //   setIsLoading(true);
-  //   let newIndex = next ? current + 1 : current - 1;
-  //   if (newIndex < 0) {
-  //     newIndex = documents.length - 1;
-  //   }
-  //   if (newIndex >= documents.length) {
-  //     newIndex = 0;
-  //   }
-  //   await getLink(documents[newIndex].filename);
-  //   setCurrent(newIndex);
-  //   setIsLoading(false);
-  // };
-
   useEffect(() => {
     getLink(documents[0].filename);
   }, []);
 
   return (
     <>
-      {/* <LoadingPage variant="overlay" isLoading={getDocumentLink.isPending} /> */}
       <DocumentPreviewModal
         url={currentLink}
         isLoading={isLoading}
         filename={documents[current].filename}
         onClose={onClose}
-        // onNext={() => {
-        //   nextOrPrev(true);
-        // }}
-        // onPrevious={() => {
-        //   nextOrPrev(false);
-        // }}
         bottomSlot={
           <Flex x xc gap3>
             <Button color="primary" onClick={() => handleNextDocument(true)}>

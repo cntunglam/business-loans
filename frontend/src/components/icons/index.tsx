@@ -4,7 +4,6 @@ import CopyIcon from "./copyIcon";
 import FlashIcon from "./flashIcon";
 import NoteIcon from "./noteIcon";
 import SearchIcon from "./searchIcon";
-import SingPassVerifiedIcon from "./singpassVerifiedIcon";
 
 export const Icons = {
   ArrowRight: ArrowRightIcon,
@@ -13,7 +12,6 @@ export const Icons = {
   Flash: FlashIcon,
   Note: NoteIcon,
   Search: SearchIcon,
-  SingPassVerified: SingPassVerifiedIcon,
 };
 
 export type IconType = keyof typeof Icons;

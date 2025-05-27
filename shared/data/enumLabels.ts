@@ -52,7 +52,6 @@ export const ActivityLogEnumLabels = {
   [ActivityLogEnum.APPOINTMENT_CANCELED]: "Cancelled an appointment",
   // contact
   [ActivityLogEnum.CONTACTED]: "Contacted",
-  [ActivityLogEnum.VIEW_SINGPASS]: "Viewed full Singpass data",
   // offer
   [ActivityLogEnum.OFFER_SELECTED]: "Selected an offer",
   [ActivityLogEnum.OFFER_DELETED]: "Rejected an offer",

@@ -4,19 +4,18 @@ import {
   ERROR_KEYS,
   JobsEnum,
   SgManualFormSchema,
-  SingpassData,
   zodPageNumber,
 } from '@roshi/shared';
 import { ActivityLogEnum, LoanRequestStatusEnum, StatusEnum, TargetTypeEnum } from '@roshi/shared/models/databaseEnums';
 import { randomUUID } from 'crypto';
-import { endOfMonth, startOfMonth, subDays, subMonths } from 'date-fns';
+import { endOfMonth, startOfMonth, subMonths } from 'date-fns';
 import { Request, Response } from 'express';
 import _ from 'lodash';
 import { z } from 'zod';
 import { prismaClient } from '../../clients/prismaClient';
 import { CONFIG } from '../../config';
 import { createJob } from '../../jobs/boss';
-import { getUserSingpassData, updateUserLastLogin } from '../../services/account.service';
+import { updateUserLastLogin } from '../../services/account.service';
 import { createActivityLog } from '../../services/activityLog.service';
 import { formatApplicantInfoForLender } from '../../services/applicantInfo.service';
 import { getCompanyFromUserId } from '../../services/company.service';
@@ -192,7 +191,7 @@ export const getLoanRequests = async (req: Request, res: Response) => {
         tab === 'rejected'
           ? undefined
           : {
-              select: { data: true, singpassData: true, documents: { where: { isDeleted: false } } },
+              select: { data: true, documents: { where: { isDeleted: false } } },
             },
       loanResponses: {
         where: { lenderId: company.id },
@@ -239,10 +238,6 @@ export const getLoanRequests = async (req: Request, res: Response) => {
     totalPages: Math.ceil(count / CONFIG.ITEMS_PER_PAGE),
   });
 };
-
-export const createGuarantorSchema = z.object({
-  applicantInfo: SgManualFormSchema,
-});
 
 export const getClosedLoanRequestsSchema = z.object({
   page: zodPageNumber,
@@ -323,6 +318,10 @@ export const searchLoanRequest = (req: Request, res: Response) => {
   return successResponse(res, loanRequest);
 };
 
+export const createGuarantorSchema = z.object({
+  applicantInfo: SgManualFormSchema,
+});
+
 export const createGuarantor = async (req: Request, res: Response) => {
   const loanRequest = await prismaClient.loanRequest.findFirst({
     where: { userId: req.user!.sub, status: LoanRequestStatusEnum.ACTIVE },
@@ -357,87 +356,6 @@ export const deleteGuarantor = async (req: Request, res: Response) => {
   });
 
   return successResponse(res, result);
-};
-
-export const getSingpassDataHandler = async (req: Request, res: Response) => {
-  if (!req.hasCustomerSupportPermissions && !req.user?.companyId)
-    return errorResponse(res, 400, ERROR_KEYS.UNAUTHORIZED);
-  const { id } = req.params;
-
-  const loanRequest = await prismaClient.loanRequest.findUniqueOrThrow({
-    where: {
-      id,
-      status: { not: LoanRequestStatusEnum.DELETED },
-    },
-    include: {
-      applicantInfo: true,
-      loanResponses: {
-        where: { lenderId: req.hasCustomerSupportPermissions ? undefined : req.user!.companyId! },
-        select: {
-          id: true,
-          singpassDataViewedAt: true,
-          outcomeStatus: true,
-          status: true,
-          acceptedAt: true,
-          appointment: { select: { scheduledTime: true } },
-        },
-      },
-    },
-  });
-
-  const singpassData =
-    (await getUserSingpassData(loanRequest.userId)) || (loanRequest.applicantInfo?.singpassData as SingpassData);
-
-  if (req.hasCustomerSupportPermissions) {
-    return successResponse(res, {
-      singpassData: singpassData,
-    });
-  }
-
-  const loanResponse = loanRequest.loanResponses.length > 0 ? loanRequest.loanResponses[0] : undefined;
-  if (loanResponse && loanResponse.outcomeStatus !== StatusEnum.PENDING)
-    return errorResponse(res, 400, ERROR_KEYS.UNAUTHORIZED);
-
-  if (
-    loanResponse &&
-    ((loanResponse.acceptedAt && loanResponse.acceptedAt > subDays(new Date(), CONFIG.LEAD_EXPIRATION_DAYS)) ||
-      loanResponse.appointment?.scheduledTime)
-  ) {
-    if (!loanResponse.singpassDataViewedAt) {
-      await createActivityLog({
-        userId: req.user!.sub,
-        loanRequestId: id,
-        activityType: ActivityLogEnum.VIEW_SINGPASS,
-        targetType: TargetTypeEnum.LOAN_REQUEST,
-        targetId: id,
-      });
-      await prismaClient.loanResponse.update({
-        where: { id: loanResponse.id },
-        data: { singpassDataViewedAt: new Date() },
-      });
-    }
-
-    return successResponse(res, {
-      singpassData: singpassData,
-    });
-  }
-
-  if (singpassData?.cpfcontributions) {
-    const employers: Record<string, string> = {};
-    singpassData.cpfcontributions.history?.forEach((item) => {
-      if (!item.employer?.value) return;
-      if (!(item.employer.value in employers))
-        employers[item.employer.value] = 'Employer ' + (Object.keys(employers).length + 1);
-      item.employer.value = employers[item.employer.value];
-      return item;
-    });
-  }
-
-  return successResponse(res, {
-    singpassData: {
-      cpfcontributions: singpassData?.cpfcontributions,
-    },
-  });
 };
 
 export const assignCustomerSupport = async (req: Request, res: Response) => {

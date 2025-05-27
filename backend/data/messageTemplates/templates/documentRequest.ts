@@ -1,11 +1,8 @@
-export default `Hi {#name#}!
+export default `Xin chào, tôi là trợ lý ảo từ ROSHI. 
 
-We hope you're doing well! To ensure you receive more exciting offers 🥳 we kindly request that you upload the following documents:
+Để tiếp tục hồ sơ vay của bạn, vui lòng cung cấp các tài liệu sau:
+1. CCCD (Căn cước công dân)
+2. Sao kê ngân hàng 3 tháng gần nhất
+3. Hợp đồng lao động hoặc bảng lương
 
-1. Your NRIC
-2. Your last 3 pay slips
-3. A credit report (CBS or MLCB)
-
-Please upload them via this link: {#userDocumentsLink#}.
-
-If you have any questions, feel free to reach out. Thank you for your cooperation, and we look forward to bringing you more great offers soon!`
+Cảm ơn bạn!`;

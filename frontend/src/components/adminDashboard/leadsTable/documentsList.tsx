@@ -5,15 +5,18 @@ import {
   DocumentTypeEnumLabels,
   DocumentVerificationStatusEnum,
   DocumentVerificationStatusEnumColors,
-  DocumentVerificationStatusEnumLabels,
-  Prisma,
+  DocumentVerificationStatusEnumLabels
 } from "@roshi/shared";
 import { FC } from "react";
 import { Flex } from "../../shared/flex";
 import { ViewDocumentBtn } from "../../shared/viewDocumentBtn";
 
 interface Props {
-  documents: Prisma.DocumentGetPayload<true>[];
+  documents: {
+    filename: string;
+    documentType: string;
+    humanVerificationStatus: string;
+}[];
   onDelete?: (id: string) => void;
 }
 export const DocumentsList: FC<Props> = ({ documents }) => {

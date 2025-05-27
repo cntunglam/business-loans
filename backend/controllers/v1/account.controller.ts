@@ -1,6 +1,5 @@
 import { ERROR_KEYS } from '@roshi/shared';
 import { UserRoleEnum } from '@roshi/shared/models/databaseEnums';
-import { differenceInDays } from 'date-fns';
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { prismaClient } from '../../clients/prismaClient';
@@ -84,15 +83,10 @@ export const OTPLoginHandler = async (req: Request, res: Response) => {
 export const getCurrentUserHandler = async (req: Request, res: Response) => {
   const user = await prismaClient.user.findUnique({
     where: { id: req.user!.sub },
-    include: { company: true, singpassData: { orderBy: { createdAt: 'desc' }, take: 1 } },
+    include: { company: true },
   });
 
-  const singpassData = user?.singpassData && user.singpassData.length > 0 ? user.singpassData[0] : null;
-
-  return successResponse(res, {
-    ...user,
-    hasRecentSingpassData: singpassData && differenceInDays(new Date(), singpassData.createdAt) < 30,
-  });
+  return successResponse(res, user);
 };
 
 export const updateUserSettingsSchema = z.object({

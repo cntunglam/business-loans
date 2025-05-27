@@ -74,18 +74,43 @@ model LoanRequestGrading {
 }
 
 model ApplicantInfo {
-  dataFormat   String
-  data         Json
-  singpassData Json?
-  documents    Document[]
+  fullName    String?
+  cccdNumber  String?
+  phoneNumber String?
+  email       String?
+  dateOfBirth DateTime?
 
+  streetAddress String?
+  city          String?
+  province      String?
+
+  employmentType   String?
+  monthlyIncome    Float?
+  hasLaborContract Boolean?
+
+  idCardFrontUrl        String?
+  idCardBackUrl         String?
+  householdBookUrl      String?
+  tempResidenceUrl      String?
+  utilityBillUrl        String?
+  employmentContractUrl String?
+  salarySlipUrl         String?
+  bankStatementUrl      String?
+
+  dataFormat  String?
+  data        Json?
+  documents   Document[]
   applicantOf LoanRequest? @relation(name: "applicantInfo")
   guarantorOf LoanRequest? @relation(name: "guarantorInfo")
 
+  // System fields
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([cccdNumber])
+  @@index([phoneNumber])
+  @@index([email])
   @@schema("public")
 }
 
@@ -111,8 +136,6 @@ model LoanResponse {
   acceptedAt            DateTime?
   contactedByBorrowerAt DateTime?
   contactedByLenderAt   DateTime?
-
-  singpassDataViewedAt DateTime?
 
   supportData Json?
 

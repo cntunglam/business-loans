@@ -1,6 +1,4 @@
 import { format } from "date-fns";
-import { residencyStatusesEnum } from "../data/applicationData";
-import { SingpassData } from "../models/singpass.model";
 
 export const formatWithoutTz = (date: Date, form: string) => {
   return format(date.getTime() + new Date().getTimezoneOffset() * 60 * 1000, form);
@@ -29,29 +27,6 @@ export function calculateEMI(loanAmount: number, monthlyInterestRate: number, lo
 export const shortId = (uuid: string) => {
   return `${uuid.split("-").at(-1)}`;
 };
-
-export function getResidencyStatusFromSingpassData(singpassData: SingpassData) {
-  //PR OR SC
-  if (singpassData.uinfin?.value.startsWith("S") || singpassData.uinfin?.value.startsWith("T")) {
-    if (singpassData.nationality?.code === "SG") {
-      return residencyStatusesEnum.SINGAPOREAN;
-    }
-    return residencyStatusesEnum.PERMANANT_RESIDENT;
-  }
-  return undefined;
-}
-
-//Not working. Disable for now
-
-// export function getPropertyOwnershipFromSingpassData(singpassData: SingpassData) {
-//   if (singpassData?.ownerprivate?.value === true) {
-//     return propertyOwnershipsEnum.PRIVATE_PROPERTY;
-//   }
-//   if (singpassData.hdbtype?.code !== undefined) {
-//     return propertyOwnershipsEnum.HDB;
-//   }
-//   return undefined;
-// }
 
 export function hashStringToNumber(str: string, max: number) {
   let hash = 0;

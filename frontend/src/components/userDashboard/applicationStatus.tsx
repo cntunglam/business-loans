@@ -5,7 +5,6 @@ import { FC } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDeleteMyLoanRequest, useGetMyLoanRequest } from "../../api/useLoanRequestApi";
 import { OpenDialog } from "../../context/DialogContainer";
-import { useUserContext } from "../../context/userContext";
 import { ASSETS } from "../../data/assets";
 import useMediaQueries from "../../hooks/useMediaQueries";
 import { Flex } from "../shared/flex";
@@ -18,11 +17,9 @@ interface Props {
 }
 
 export const ApplicationStatus: FC<Props> = ({ application, openModal, highlightOffers }) => {
-  const { user } = useUserContext();
   const deleteApplication = useDeleteMyLoanRequest();
   const [params, setParams] = useSearchParams();
 
-  const isSingpassVerified = user && user.singpassData && user.singpassData.length > 0;
   const offersFound = application.loanResponses.filter((res) => res.status === LoanResponseStatusEnum.ACCEPTED).length;
   const appointment = application.loanResponses.find((res) => res.appointment)?.appointment;
 
@@ -82,28 +79,6 @@ export const ApplicationStatus: FC<Props> = ({ application, openModal, highlight
               },
             }}
           >
-            <Step
-              indicator={
-                <img
-                  src={ASSETS.CHECKMARK}
-                  style={{ width: 20, height: 20, filter: isSingpassVerified ? undefined : "saturate(0%)" }}
-                />
-              }
-            >
-              <Flex gap1 yc sx={{ justifyContent: { xs: "space-between" } }}>
-                <Typography level="body-sm" fontWeight={"normal"}>
-                  Singpass
-                </Typography>
-                <Typography
-                  level="body-xs"
-                  color={isSingpassVerified ? "lightPrimary" : "neutral"}
-                  fontWeight={"bold"}
-                  sx={{ top: 25, position: { sm: "absolute" }, whiteSpace: "nowrap" }}
-                >
-                  {isSingpassVerified ? "Verified" : "Not verified"}
-                </Typography>
-              </Flex>
-            </Step>
             <Step
               indicator={
                 <img

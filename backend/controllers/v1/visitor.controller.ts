@@ -1,10 +1,9 @@
-import { ApplicationStepsEnum, getPhoneSchema, LoanRequestTypeEnum, SingpassData } from '@roshi/shared';
+import { ApplicationStepsEnum, getPhoneSchema, LoanRequestTypeEnum } from '@roshi/shared';
 import { randomUUID } from 'crypto';
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { prismaClient } from '../../clients/prismaClient';
-import { getUserSingpassData } from '../../services/account.service';
-import { ApplicationSteps, loanRequestTypeToSteps, SingpassSkipFields } from '../../services/applicationSteps.service';
+import { ApplicationSteps, loanRequestTypeToSteps } from '../../services/applicationSteps.service';
 import { createLoanRequestSchema, createNewLoanRequest } from '../../services/loanRequest.service';
 import { sendOtpToWhatsapp } from '../../services/otp.service';
 import { successResponse } from '../../utils/successResponse';
@@ -45,46 +44,9 @@ export const initializeVisitor = async (req: Request, res: Response) => {
     include: { stepData: true },
   });
 
-  let steps = loanRequestTypeToSteps[loanRequestType as LoanRequestTypeEnum];
-  let singpassData: SingpassData | null = null;
-  // User is most likely to have most recent singpass data
-  if (userId) {
-    try {
-      const user = await prismaClient.user.findUnique({
-        where: { id: userId },
-        include: {
-          singpassData: {
-            orderBy: { createdAt: 'desc' },
-            take: 1,
-          },
-        },
-      });
+  const steps = loanRequestTypeToSteps[loanRequestType as LoanRequestTypeEnum].filter((s) => !s.fixedValue);
 
-      if (user && user.singpassData.length > 0) {
-        singpassData = user.singpassData[0].data as SingpassData;
-        await prismaClient.visitorDataV2.update({
-          where: { id: visitorId },
-          data: {
-            singpassData: singpassData as any,
-          },
-        });
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  } else if (newVisitor.singpassData) {
-    singpassData = newVisitor.singpassData as SingpassData;
-  }
-
-  steps = steps.filter((s) => {
-    if (s.fixedValue) return false;
-    if (singpassData && s.key in SingpassSkipFields) {
-      return !SingpassSkipFields[s.key as keyof typeof SingpassSkipFields](singpassData as SingpassData);
-    }
-    return true;
-  });
-
-  return successResponse(res, { steps, visitor: { ...newVisitor, singpassData: singpassData as any } });
+  return successResponse(res, { steps, visitor: newVisitor });
 };
 
 export const saveStepProgressHandler = async (req: Request, res: Response) => {
@@ -144,6 +106,7 @@ export const handleSubmitPhoneSchema = z.object({
   phone: getPhoneSchema(),
   visitorId: z.string(),
 });
+
 export const handleSubmitPhone = async (req: Request, res: Response) => {
   const { phone, visitorId } = handleSubmitPhoneSchema.parse(req.body);
 
@@ -184,6 +147,7 @@ export const handleFinalizeSchema = z.object({
   override: z.coerce.boolean().optional(),
   affiliateVisitorId: z.coerce.string().optional(),
 });
+
 export const finalizeLoanRequestHandler = async (req: Request, res: Response) => {
   const { visitorId, override, affiliateVisitorId } = handleFinalizeSchema.parse(req.body);
 
@@ -211,16 +175,6 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
 
   const user = await prismaClient.user.findFirstOrThrow({ where: { id: req.user!.sub } });
 
-  const userSingpassData = await getUserSingpassData(req.user!.sub);
-  const singpassData = userSingpassData || (visitor.singpassData ? (visitor.singpassData as SingpassData) : undefined);
-
-  if (singpassData) {
-    Object.keys(SingpassSkipFields).forEach((key) => {
-      if (stepDataMap[key]) return;
-      stepDataMap[key] = SingpassSkipFields[key as keyof typeof SingpassSkipFields](singpassData);
-    });
-  }
-
   const phoneNumber =
     (visitor.stepData.find((sd) => sd.stepKey === ApplicationStepsEnum.phoneNumber)?.data as string) || user.phone;
 
@@ -246,7 +200,7 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
     applicantInfo,
   };
 
-  const createdLoanRequest = await createNewLoanRequest(combinedData, singpassData || null, req.user!.sub, override);
+  const createdLoanRequest = await createNewLoanRequest(combinedData, req.user!.sub, override);
 
   await prismaClient.visitorDataV2.update({
     where: { id: visitorId },

@@ -60,22 +60,17 @@ export const computeReapplyLoanRequests = async (day = new Date()) => {
             },
           },
         },
-        // Has either used Singpass OR made an appointment
+        // Has made an appointment
         {
-          OR: [
-            { singpassData: { some: {} } },
-            {
-              loanRequests: {
+          loanRequests: {
+            some: {
+              loanResponses: {
                 some: {
-                  loanResponses: {
-                    some: {
-                      appointment: { isNot: null },
-                    },
-                  },
+                  appointment: { isNot: null },
                 },
               },
             },
-          ],
+          },
         },
         // Exclude loan requests from the current month
         {
@@ -98,7 +93,6 @@ export const computeReapplyLoanRequests = async (day = new Date()) => {
     },
     include: {
       userSettings: true,
-      singpassData: true,
       loanRequests: {
         orderBy: {
           createdAt: 'desc',
@@ -145,14 +139,12 @@ export const computeReapplyLoanRequests = async (day = new Date()) => {
 
   const eligibleUsers = potentialUsers.filter((user) => {
     if (user.userSettings?.autoReapplyDisabled) return false;
-    // Check applicant info for income if not found in singpass
     for (const request of user.loanRequests) {
       const applicantInfo = SgManualFormSchema.safeParse(request.applicantInfo?.data);
       if (applicantInfo.success && applicantInfo.data.monthlyIncome <= 1250) return false;
       if (applicantInfo.data && isForeigner(applicantInfo.data) && applicantInfo.data.monthlyIncome < 2500)
         return false;
     }
-
     return true;
   });
 

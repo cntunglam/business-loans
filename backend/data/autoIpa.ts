@@ -5,7 +5,6 @@ import {
   Prisma,
   propertyOwnershipsEnum,
   residencyStatusesEnum,
-  SingpassData,
 } from '@roshi/shared';
 import { z } from 'zod';
 import { createLoanOfferSchema } from '../controllers/v1/loanOffer.controller';
@@ -224,15 +223,11 @@ export const getIpaForMoneyplus = (loanRequest: LoanRequestAdmin): IpaResponse =
   try {
     if (!loanRequest.applicantInfo) return null;
     const applicantInfo = formatApplicantForAdmin(loanRequest.applicantInfo);
-    const singpassData = loanRequest.applicantInfo.singpassData as SingpassData;
-
     if (
       applicantInfo.employmentStatus !== employmentStatusesEnum.EMPLOYED &&
       applicantInfo.employmentStatus !== employmentStatusesEnum.SELF_EMPLOYED
     )
       return null;
-    if (!singpassData?.uinfin) return null;
-
     if (
       applicantInfo.residencyStatus !== residencyStatusesEnum.SINGAPOREAN &&
       applicantInfo.residencyStatus !== residencyStatusesEnum.PERMANANT_RESIDENT
@@ -348,57 +343,6 @@ export const getIpaForOrangeCredit = (loanRequest: LoanRequestAdmin) => {
     };
   } catch (e) {
     console.error('error while generating IPA for orange credit');
-    console.error(loanRequest, e);
-    return null;
-  }
-};
-
-//https://docs.google.com/document/d/1ahwQfmXOV2EdaTrdd0cAn75HgBIh_OJK/edit
-export const getIpaFor1CreditHub = (loanRequest: LoanRequestAdmin) => {
-  try {
-    if (!loanRequest.applicantInfo) return null;
-    const applicantInfo = formatApplicantForAdmin(loanRequest.applicantInfo);
-    const singpassData = loanRequest.applicantInfo.singpassData as SingpassData;
-    const minIncome =
-      applicantInfo.residencyStatus === residencyStatusesEnum.SINGAPOREAN ||
-      applicantInfo.residencyStatus === residencyStatusesEnum.PERMANANT_RESIDENT
-        ? 2500
-        : 3400;
-    if (applicantInfo.monthlyIncome < minIncome) return null;
-    if (getMlcbRatio(applicantInfo) > 4.5) return null;
-
-    if (applicantInfo.employmentStatus !== employmentStatusesEnum.EMPLOYED) return null;
-
-    if (
-      applicantInfo.currentEmploymentTime === EmploymentTimeEnum.NA ||
-      applicantInfo.currentEmploymentTime === EmploymentTimeEnum.UNDER_THREE_MONTHS
-    )
-      return null;
-
-    if (!singpassData?.uinfin) return null;
-
-    if (singpassData.cpfcontributions?.unavailable) return null;
-
-    if (singpassData.nationality?.code === 'MY') return null;
-
-    const maxAmount = applicantInfo.monthlyIncome * 3 - applicantInfo.lenderDebt;
-    let offerAmount = Math.min(loanRequest.amount, maxAmount);
-    if (offerAmount < 2500) return null;
-
-    const maxTerm = 15;
-
-    return {
-      companyId: '8739f2c3-5153-440b-a153-6638370ea185',
-      offer: {
-        amount: offerAmount,
-        term: Math.min(maxTerm, loanRequest.term),
-        monthlyInterestRate: 3.75,
-        variableUpfrontFees: 10,
-        fixedUpfrontFees: 0,
-      },
-    };
-  } catch (e) {
-    console.error('error while generating IPA for 1 credit hub');
     console.error(loanRequest, e);
     return null;
   }

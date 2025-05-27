@@ -53,7 +53,6 @@ const TABLE_HEADER: { key: string; label: string; sortable?: boolean; width: str
   { key: "customerSupport", label: "Customer Support", width: "200px" },
   { key: "privateNote", label: "Private Note", width: "200px" },
   { key: "referer", label: "Referer", width: "200px" },
-  { key: "singpass", label: "Singpass", width: "80px" },
   { key: "reapply", label: "Is Reapply", width: "80px" },
   { key: "actions", label: "Actions", width: "100px" },
 ];

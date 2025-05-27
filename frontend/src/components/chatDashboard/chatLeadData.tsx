@@ -1,4 +1,4 @@
-import { CopyAll, Edit, MoreHoriz, Verified } from "@mui/icons-material";
+import { CopyAll, Edit, MoreHoriz } from "@mui/icons-material";
 import { Box, Chip, Dropdown, Link, Menu, MenuButton, MenuItem, Typography, useTheme } from "@mui/joy";
 import {
   AppointmentStatusEnum,
@@ -32,16 +32,6 @@ export const ChatLeadData: FC<Props> = ({ loanRequest, refetch }) => {
   return (
     <Flex x gap2 py={1}>
       {renderModal()}
-      {/* <Flex>
-        <FavoriteIcon
-          sx={{ ":hover": { color: "neutral.400" }, cursor: "pointer" }}
-          onClick={() =>
-            updateLoanRequest
-              .mutateAsync({ id: loanRequest.id, isFavorite: !loanRequest.isFavorite })
-              .then(() => refetch())
-          }
-        />
-      </Flex> */}
       <Flex y>
         <RsEllipsis sx={{ fontWeight: 600 }} text={loanRequest.applicantInfo?.fullname || ""} maxLines={2} />
         <Flex x yc gap1>
@@ -170,18 +160,7 @@ export const ChatLeadData: FC<Props> = ({ loanRequest, refetch }) => {
         </Flex>
       </Flex>
       <Flex y xst gap1>
-        {/* <Flex hover pointer onClick={() => openModal("publicNote")}>
-          {loanRequest?.publicNote ? (
-            <RsEllipsis text={replaceLineBreak(loanRequest?.publicNote || "")} maxLines={1} />
-          ) : (
-            "Add public note"
-          )}
-        </Flex> */}
-
         <Flex x xst fullwidth yc gap2 minWidth={"50px"}>
-          {loanRequest.applicantInfo?.hasSingpassData && (
-            <Verified color="primary" onClick={() => openModal("singpass")} sx={{ cursor: "pointer" }} />
-          )}
           <Dropdown>
             <MenuButton size="sm">
               <MoreHoriz />
@@ -202,7 +181,7 @@ export const ChatLeadData: FC<Props> = ({ loanRequest, refetch }) => {
                               ? LoanRequestStatusEnum.ACTIVE
                               : LoanRequestStatusEnum.DELETED,
                         })
-                        .then(() => refetch()),
+                        .then(() => refetch())
                   })
                 }
               >

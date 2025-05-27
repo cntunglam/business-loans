@@ -111,7 +111,6 @@ export enum ActivityLogEnum {
   APPOINTMENT_CANCELED = "APPOINTMENT_CANCELED",
   // contact
   CONTACTED = "CONTACTED",
-  VIEW_SINGPASS = "VIEW_SINGPASS",
   // offer
   OFFER_SELECTED = "OFFER_SELECTED",
   OFFER_DELETED = "OFFER_DELETED",
@@ -225,5 +224,4 @@ export enum LeadTierEnum {
 
 export enum VisitorActionTypeEnum {
   STEP_CHANGE = "STEP_CHANGE",
-  SINGPASS_AUTH = "SINGPASS_AUTH",
 }

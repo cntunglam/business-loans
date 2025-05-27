@@ -10,7 +10,6 @@ export * from './controllers/v1/loanRequest.controller';
 export * from './controllers/v1/loanResponse.controller';
 export * from './controllers/v1/logger.controller';
 export * from './controllers/v1/shortUrl.controller';
-export * from './controllers/v1/singpass.controller';
 export * from './controllers/v1/token.controller';
 export * from './controllers/v1/visitor.controller';
 export * from './controllers/v1/whatsapp.controller';

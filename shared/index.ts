@@ -15,7 +15,6 @@ export * from "./models/jobsEnum";
 export * from "./models/MessageTemplatesEnum";
 export * from "./models/otherEnums";
 export * from "./models/reapplyFilterEnum";
-export * from "./models/singpass.model";
 export * from "./models/supportData.model";
 export * from "./models/whatsapp.model";
 export * from "./utils/holidaysUtils";

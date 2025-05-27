@@ -12,7 +12,6 @@ import {
   getLoanResponsesByLoanRequestId,
   getMyLoanRequest,
   getPartnerOffers,
-  getSingpassDataHandler,
   restoreMyLoanRequest,
 } from '../../controllers/v1/loanRequest.controller';
 import { verifyAuth } from '../../utils/verifyAuth';
@@ -51,13 +50,6 @@ loanRequestRouter.delete(
   verifyAuth([UserRoleEnum.BORROWER, UserRoleEnum.ADMIN, UserRoleEnum.CUSTOMER_SUPPORT]),
   deleteGuarantor,
 );
-loanRequestRouter.get(
-  '/:id/view-singpass',
-  verifyAuth([UserRoleEnum.LENDER, UserRoleEnum.ADMIN, UserRoleEnum.CUSTOMER_SUPPORT]),
-  getSingpassDataHandler,
-);
-
-loanRequestRouter.put('/:id/assign-customer-support', verifyAuth([UserRoleEnum.ADMIN]), assignCustomerSupport);
 
 loanRequestRouter.get(
   '/:id/activity-logs',
@@ -70,3 +62,5 @@ loanRequestRouter.get(
   verifyAuth([UserRoleEnum.ADMIN, UserRoleEnum.CUSTOMER_SUPPORT]),
   getLoanResponsesByLoanRequestId,
 );
+
+loanRequestRouter.put('/:id/assign-customer-support', verifyAuth([UserRoleEnum.ADMIN]), assignCustomerSupport);

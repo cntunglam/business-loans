@@ -4,7 +4,7 @@
 
 - Has at least 1 ACTIVE loan request OR has closed at least 1 loan
 - AND has received at least 1 offer (Make sure to check outcome status. Could be approved but LOST after appointment)
-- AND Applied with Singpass OR made at least 1 appointment
+- AND Applied by made at least 1 appointment
 - AND monthlyIncome > 1250
 
 ### Successive reapplies (check based on previous re-apply)

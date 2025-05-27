@@ -9,7 +9,6 @@ import type {
   getLoanResponsesByLoanRequestId,
   getMyLoanRequest,
   getPartnerOffers,
-  getSingpassDataHandler,
 } from "@roshi/backend";
 import { AwaitedRT, NonNullRT } from "@roshi/shared";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -101,17 +100,6 @@ export const useDeleteGuarantor = () => {
   const axios = useAxios({ skipDateTransformation: true });
   return useMutation({
     mutationFn: () => axios.delete(`/loan-request/guarantor`).then((res) => res.data),
-  });
-};
-
-export const useViewSingpassQueryKey = "useViewSingpass";
-export const useViewSingpassData = (id: string, options?: { enabled: boolean }) => {
-  const axios = useAxios();
-  return useQuery({
-    queryKey: [useViewSingpassQueryKey, id],
-    queryFn: () =>
-      axios.get<ReturnType<typeof getSingpassDataHandler>>(`/loan-request/${id}/view-singpass`).then((res) => res.data),
-    enabled: options?.enabled,
   });
 };
 

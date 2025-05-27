@@ -354,7 +354,7 @@ export const getAllLeads = async (req: Request, res: Response) => {
 
   const loanRequests = await prismaClient.loanRequest.findMany({
     include: {
-      applicantInfo: { select: { singpassData: true, data: true, documents: { where: { isDeleted: false } } } },
+      applicantInfo: { select: { data: true, documents: { where: { isDeleted: false } } } },
       grading: { select: { leadTier: true, mlcbGrade: true } },
       loanResponses: {
         select: {
