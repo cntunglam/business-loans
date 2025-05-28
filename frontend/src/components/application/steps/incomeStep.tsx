@@ -13,15 +13,18 @@ export const IncomeStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
+    if (!visitor) return;
     try {
       const stepData = ApplicationSteps[ApplicationStepsEnum.monthlyIncome].validation(
-        visitor?.stepData.find((step) => step.stepKey === ApplicationStepsEnum.monthlyIncome)?.data
+        visitor[ApplicationStepsEnum.monthlyIncome],
       );
-      setValue(stepData.toString());
+      if (stepData) {
+        setValue(`${stepData}`);
+      }
     } catch (e) {
       // do nothing
     }
-  }, [visitor?.stepData]);
+  }, [visitor]);
 
   useImperativeHandle(ref, () => ({
     getValue: () => {
@@ -38,10 +41,10 @@ export const IncomeStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
         <ApplicationStyledInput
           data-testid={TEST_IDS.monthlyIncomeInput}
           size="lg"
-          placeholder="Add income"
+          placeholder="Thu nhập"
           startDecorator={
             <Typography level="h4" color="secondary">
-              $
+              VND
             </Typography>
           }
           error={!!error}

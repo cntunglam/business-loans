@@ -45,12 +45,7 @@ export const RegisterStep: FC<Props> = ({ onFinish, setStep }) => {
         <>
           <Flex x yc xsb p={1} mx={3} sx={{ border: "1px solid #D9D9D9", borderRadius: 3 }}>
             <Flex x gap1 fontWeight={"700"}>
-              <Typography color="primary">+65</Typography>
-              <Typography textColor={"#52575C"}>
-                {
-                  // TODO handle phone number
-                }
-              </Typography>
+              <Typography color="primary">+84</Typography>
             </Flex>
             <Flex gap1>
               <Typography color="primary">VERIFIED</Typography>

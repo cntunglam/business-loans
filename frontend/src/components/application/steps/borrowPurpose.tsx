@@ -17,9 +17,10 @@ export const BorrowPurposeStep = forwardRef<{ getValue: () => unknown }>((_, ref
   const [otherValue, setOtherValue] = useState<string>();
 
   useEffect(() => {
+    if (!visitor) return;
     try {
       const stepData = ApplicationSteps[ApplicationStepsEnum.borrowPurpose].validation(
-        visitor?.stepData.find((step) => step.stepKey === ApplicationStepsEnum.borrowPurpose)?.data
+        visitor[ApplicationStepsEnum.borrowPurpose],
       );
       const isNotOtherValue = settings.options.includes(stepData);
       if (isNotOtherValue) setOption(stepData);
@@ -30,10 +31,7 @@ export const BorrowPurposeStep = forwardRef<{ getValue: () => unknown }>((_, ref
     } catch (e) {
       // do nothing
     }
-  }, [settings, visitor?.stepData]);
-
-  // Rethink on this logic of setting default option if you have
-  // different options for different application type
+  }, [settings, visitor]);
 
   useImperativeHandle(ref, () => ({
     getValue: () => {

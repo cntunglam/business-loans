@@ -6,22 +6,20 @@ import { RsSlider } from "../../shared/rsSlider";
 
 export const BorrowTermStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const { visitor, currentStepData } = useVisitorContext();
-
   const settings = useMemo(() => currentStepData?.settings as MinMaxSettings, [currentStepData]);
-
   const [value, setValue] = useState<number>(settings.min);
-
   useEffect(() => {
+    if (!visitor) return;
     try {
       const stepData = ApplicationSteps[ApplicationStepsEnum.borrowPeriod].validation(
-        visitor?.stepData.find((step) => step.stepKey === ApplicationStepsEnum.borrowPeriod)?.data,
+        visitor[ApplicationStepsEnum.borrowPeriod],
         settings
       );
       setValue(stepData);
     } catch (e) {
       // do nothing
     }
-  }, [settings, visitor?.stepData]);
+  }, [settings, visitor]);
 
   useImperativeHandle(ref, () => ({
     getValue: () => value,

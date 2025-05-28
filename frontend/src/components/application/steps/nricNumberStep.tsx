@@ -9,26 +9,27 @@ import { ApplicationStyledInput } from "../styled/applicationStyledInput";
 
 export const CccdNumberStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const { error, setError, visitor } = useVisitorContext();
-  const [cccd, setCccd] = useState<string>("");
+  const [value, setValue] = useState<string>("");
 
   useEffect(() => {
+    if (!visitor) return;
     try {
-      const stepData = ApplicationSteps[ApplicationStepsEnum.nricNumber].validation(
-        visitor?.stepData.find((step) => step.stepKey === ApplicationStepsEnum.nricNumber)?.data
+      const stepData = ApplicationSteps[ApplicationStepsEnum.cccdNumber].validation(
+        visitor[ApplicationStepsEnum.cccdNumber],
       );
-      setCccd(stepData);
+      setValue(stepData);
     } catch (e) {
       // do nothing
     }
-  }, [visitor?.stepData]);
+  }, [visitor]);
 
   useImperativeHandle(ref, () => ({
     getValue: () => {
-      if (!cccd) {
+      if (!value) {
         setError(VALIDATION_MESSAGES.CCCD.REQUIRED);
         return;
       }
-      return cccd;
+      return value;
     },
   }));
 
@@ -36,13 +37,12 @@ export const CccdNumberStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
     <Flex y gap2 px={{ xs: 3, sm: 2, md: 0 }}>
       <ApplicationStyledInput
         data-testid={TEST_IDS.nricInput}
-        value={cccd}
+        value={value}
         placeholder="Nhập số CCCD"
         error={!!error}
         onChange={(e) => {
-          // Only allow numbers and limit to 12 digits
           const value = e.target.value.replace(/\D/g, '').slice(0, 12);
-          setCccd(value);
+          setValue(value);
           setError("");
         }}
         sx={{ maxWidth: 400, mx: "auto" }}

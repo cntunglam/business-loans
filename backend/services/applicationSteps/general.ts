@@ -1,4 +1,10 @@
-import { ApplicationStepsEnum, ApplicationStepsImagesEnum, StepDetails } from '@roshi/shared';
+import {
+  ApplicationStepsEnum,
+  ApplicationStepsImagesEnum,
+  employmentTypeEnum,
+  loanPurposesEnum,
+  StepDetails,
+} from '@roshi/shared';
 
 export const ApplicationStepsLabels: Record<ApplicationStepsEnum, string> = {
   [ApplicationStepsEnum.borrowAmount]: 'Bạn muốn vay bao nhiêu?',
@@ -32,14 +38,21 @@ export const regularPersonalLoanSteps: StepDetails[] = [
     key: ApplicationStepsEnum.borrowPurpose,
     image: ApplicationStepsImagesEnum.loanOffers,
     title: ApplicationStepsLabels[ApplicationStepsEnum.borrowPurpose],
+    settings: { options: Object.values(loanPurposesEnum) },
   },
   {
     key: ApplicationStepsEnum.cccdNumber,
     title: ApplicationStepsLabels[ApplicationStepsEnum.cccdNumber],
   },
   {
+    key: ApplicationStepsEnum.jobTitle,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.jobTitle],
+    settings: { options: Object.values(employmentTypeEnum) },
+  },
+  {
     key: ApplicationStepsEnum.dateOfBirth,
     title: ApplicationStepsLabels[ApplicationStepsEnum.dateOfBirth],
+    settings: { min: 21, max: 65 },
   },
   {
     key: ApplicationStepsEnum.monthlyIncome,
@@ -49,27 +62,24 @@ export const regularPersonalLoanSteps: StepDetails[] = [
   {
     key: ApplicationStepsEnum.hasLaborContract,
     title: ApplicationStepsLabels[ApplicationStepsEnum.hasLaborContract],
-    settings: { options: ['Có', 'Không'] },
+    settings: { options: ['YES', 'NO'] },
   },
+
   {
-    key: ApplicationStepsEnum.fullName,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.fullName],
-    image: ApplicationStepsImagesEnum.bestOffers,
-  },
-  {
-    key: ApplicationStepsEnum.streetAddress,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.streetAddress],
+    key: ApplicationStepsEnum.province,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.province],
   },
   {
     key: ApplicationStepsEnum.city,
     title: ApplicationStepsLabels[ApplicationStepsEnum.city],
   },
   {
-    key: ApplicationStepsEnum.province,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.province],
+    key: ApplicationStepsEnum.streetAddress,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.streetAddress],
   },
   {
-    key: ApplicationStepsEnum.email,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.email],
+    key: ApplicationStepsEnum.fullName,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.fullName],
+    image: ApplicationStepsImagesEnum.bestOffers,
   },
 ];

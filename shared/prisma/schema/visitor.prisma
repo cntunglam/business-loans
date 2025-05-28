@@ -10,8 +10,8 @@ model VisitorData {
   referer         String?
   isCompleted     Boolean @default(false)
 
-  borrowAmount  String?
-  borrowPeriod  String?
+  borrowAmount  Float?
+  borrowPeriod  Int?
   borrowPurpose String?
 
   // Required fields only
@@ -26,16 +26,13 @@ model VisitorData {
   city          String?
   province      String?
 
-  monthlyIncome Float @default(0)
+  monthlyIncome Float? @default(0)
 
   jobTitle String?
 
   hasLaborContract Boolean?
 
   residencyStatus String?
-
-  lenderDebt Float @default(0)
-  bankDebt   Float @default(0)
 
   lastActiveAt DateTime @updatedAt
 

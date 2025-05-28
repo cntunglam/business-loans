@@ -43,10 +43,10 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
   }, [user, userIsLoading]);
 
   useEffect(() => {
-    if (visitor?.stepData && !isPhoneValid && !isLoaded.current) {
-      const data = visitor?.stepData?.find((step) => step.stepKey === ApplicationStepsEnum.phoneNumber);
+    if (visitor && !isPhoneValid && !isLoaded.current) {
+      const data = visitor[ApplicationStepsEnum.phoneNumber]
       if (data) {
-        const phone = (data.data as string).startsWith("65") ? (data.data as string).slice(2) : (data.data as string);
+        const phone = (data as string).startsWith("65") ? (data as string).slice(2) : (data as string);
         setPhoneValue(phone);
         setIsPhoneValid(true);
         isLoaded.current = true;

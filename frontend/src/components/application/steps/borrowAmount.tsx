@@ -13,16 +13,17 @@ export const BorrowAmountStep = forwardRef<{ getValue: () => unknown }>((_, ref)
   const [value, setValue] = useState<number>(settings.min);
 
   useEffect(() => {
+    if (!visitor) return;
     try {
-      const stepData = ApplicationSteps[ApplicationStepsEnum.borrowAmount].validation(
-        visitor?.stepData.find((step) => step.stepKey === ApplicationStepsEnum.borrowAmount)?.data,
+       const stepData = ApplicationSteps[ApplicationStepsEnum.borrowAmount].validation(
+        visitor[ApplicationStepsEnum.borrowAmount],
         settings
       );
       setValue(stepData);
-    } catch (e) {
+    } catch (error) {
       // do nothing
     }
-  }, [settings, visitor?.stepData]);
+  }, [settings, visitor]);
 
   useImperativeHandle(ref, () => ({
     getValue: () => value,

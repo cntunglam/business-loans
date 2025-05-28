@@ -1,6 +1,6 @@
 model ApplicantInfo {
-    borrowAmount  String?
-    borrowPeriod  String?
+    borrowAmount  Float?
+    borrowPeriod  Int?
     borrowPurpose String?
 
     // Required fields only

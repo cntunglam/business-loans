@@ -1,16 +1,16 @@
 import { ApplicationStepsEnum, ApplicationStepsImagesEnum } from "@roshi/shared";
+import { AddressStep } from '../components/application/steps/addressStep';
 import { AgeStep } from "../components/application/steps/ageStep";
 import { BorrowAmountStep } from "../components/application/steps/borrowAmount";
 import { BorrowPurposeStep } from "../components/application/steps/borrowPurpose";
 import { BorrowTermStep } from "../components/application/steps/borrowTerm";
-import { ExistingLoansStep } from "../components/application/steps/existingLoans";
+import { CityStep } from '../components/application/steps/cityStep';
+import { HasLaborContractStep } from '../components/application/steps/hasLaborContract';
 import { IncomeStep } from "../components/application/steps/incomeStep";
 import { NameStep } from "../components/application/steps/nameStep";
-import { NricNumberStep } from "../components/application/steps/nricNumberStep";
-import { OccupationStep } from "../components/application/steps/occupation";
-import { OccupationTime } from "../components/application/steps/occupationTime";
-import { PropertyOwnershipStep } from "../components/application/steps/propertyOwnership";
-import { ResidencyStatusStep } from "../components/application/steps/residencyStatus";
+import { CccdNumberStep } from "../components/application/steps/nricNumberStep";
+import { OccupationStep } from '../components/application/steps/occupation';
+import { ProvinceStep } from '../components/application/steps/provinceStep';
 import { ASSETS } from "./assets";
 
 export const ApplicationStepsImages = {
@@ -24,13 +24,13 @@ export const ApplicationStepsComponents = {
   [ApplicationStepsEnum.borrowAmount]: <BorrowAmountStep />,
   [ApplicationStepsEnum.borrowPeriod]: <BorrowTermStep />,
   [ApplicationStepsEnum.borrowPurpose]: <BorrowPurposeStep />,
-  [ApplicationStepsEnum.nricNumber]: <NricNumberStep />,
-  [ApplicationStepsEnum.residencyStatus]: <ResidencyStatusStep />,
-  [ApplicationStepsEnum.age]: <AgeStep />,
+  [ApplicationStepsEnum.cccdNumber]: <CccdNumberStep />,
+  [ApplicationStepsEnum.dateOfBirth]: <AgeStep />,
   [ApplicationStepsEnum.monthlyIncome]: <IncomeStep />,
-  [ApplicationStepsEnum.occupation]: <OccupationStep />,
-  [ApplicationStepsEnum.occupationTime]: <OccupationTime />,
-  [ApplicationStepsEnum.propertyOwnership]: <PropertyOwnershipStep />,
-  [ApplicationStepsEnum.existingLoans]: <ExistingLoansStep />,
+  [ApplicationStepsEnum.hasLaborContract]: <HasLaborContractStep />,
+  [ApplicationStepsEnum.jobTitle]: <OccupationStep />,
+  [ApplicationStepsEnum.city]: <CityStep />,
+  [ApplicationStepsEnum.province]: <ProvinceStep />,
+  [ApplicationStepsEnum.streetAddress]: <AddressStep />,
   [ApplicationStepsEnum.fullName]: <NameStep />,
 } as const;

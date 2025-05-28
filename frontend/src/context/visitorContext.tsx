@@ -8,9 +8,7 @@ import { KEYS, TIME_CONSTANTS } from "../data/constants";
 import { getErrorMessage, isErrorResponse } from "../utils/errorHandler";
 import { getFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
 
-type VisitorWithSteps = Prisma.VisitorDataGetPayload<{
-  include: { stepData: true };
-}>;
+type VisitorWithSteps = Prisma.VisitorDataGetPayload<null>;
 
 interface VisitorContextType {
   visitor?: VisitorWithSteps | null;
@@ -72,29 +70,23 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
         setIsLoading(true);
         setError(undefined);
         const visitorId = getFromLocalStorage<string>(KEYS.VISITOR_ID_KEY);
-
         if (visitorData?.id === visitorId && visitorData?.loanRequestType === type) {
           return visitorData;
         }
-
         let data = await initializeVisitor.mutateAsync({
           visitorId: visitorId || undefined,
           loanRequestType: type,
           referer,
         });
-
         if (data.visitor.isCompleted) {
-          //If the visitor has completed the application previously, we create a new visitorData
           data = await initializeVisitor.mutateAsync({
             loanRequestType: type,
             referer,
           });
         }
-
         if (data.visitor.id) {
           saveToLocalStorage(KEYS.VISITOR_ID_KEY, data.visitor.id, TIME_CONSTANTS.ONE_DAY);
         }
-
         setVisitorData(data.visitor);
         setSteps(data.steps);
         return data.visitor;

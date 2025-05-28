@@ -1,3 +1,37 @@
+export enum employmentTypeEnum {
+  FACTORY_WORKER = "FACTORY_WORKER",
+  BUSINESS_OWNER = "BUSINESS_OWNER",
+  DRIVER = "DRIVER",
+  EMPLOYED = "EMPLOYED",
+  FARMER = "FARMER",
+  FREELANCER = "FREELANCER",
+  MILITARY_PERSONNEL = "MILITARY_PERSONNEL",
+  POLICE_OFFICER = "POLICE_OFFICER",
+  RETIRED = "RETIRED",
+  SELF_EMPLOYED = "SELF_EMPLOYED",
+  UNEMPLOYED = "UNEMPLOYED",
+  OFFICE_WORKER = "OFFICE_WORKER",
+  STUDENT = "STUDENT",
+  OTHER = "OTHER",
+}
+
+export const employmentTypeLabels: Record<employmentTypeEnum, string> = {
+  [employmentTypeEnum.FACTORY_WORKER]: "Công nhân nhà máy",
+  [employmentTypeEnum.BUSINESS_OWNER]: "Chủ doanh nghiệp",
+  [employmentTypeEnum.DRIVER]: "Lái xe",
+  [employmentTypeEnum.EMPLOYED]: "Nhân viên",
+  [employmentTypeEnum.FARMER]: "Nông dân",
+  [employmentTypeEnum.FREELANCER]: "Làm nghề tự do",
+  [employmentTypeEnum.MILITARY_PERSONNEL]: "Bộ đội",
+  [employmentTypeEnum.POLICE_OFFICER]: "Công an",
+  [employmentTypeEnum.RETIRED]: "Nghỉ hưu",
+  [employmentTypeEnum.SELF_EMPLOYED]: "Tự kinh doanh",
+  [employmentTypeEnum.UNEMPLOYED]: "Thất nghiệp",
+  [employmentTypeEnum.OFFICE_WORKER]: "Nhân viên văn phòng",
+  [employmentTypeEnum.STUDENT]: "Sinh viên",
+  [employmentTypeEnum.OTHER]: "Khác",
+};
+
 export enum employmentStatusesEnum {
   EMPLOYED = "EMPLOYED",
   SELF_EMPLOYED = "SELF_EMPLOYED",

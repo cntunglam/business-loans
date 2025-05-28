@@ -1,6 +1,7 @@
 import { ApplicationStepsEnum, LoanRequestTypeEnum, MinMaxSettings } from '@roshi/shared';
 import { getPhoneSchema } from '@roshi/shared/models/common.model';
 import { z } from 'zod';
+import { getAgeFromDateOfBirth } from '../utils/age';
 import { regularPersonalLoanSteps } from './applicationSteps/general';
 import { zeroInterestLoanSteps } from './applicationSteps/zeroInterest';
 
@@ -30,7 +31,19 @@ export const ApplicationSteps = {
     validation: (data: unknown) => z.string().email().parse(data),
   },
   [ApplicationStepsEnum.dateOfBirth]: {
-    validation: (data: unknown) => z.coerce.date({ invalid_type_error: 'Must be a valid date' }).parse(data),
+    validation: (data: unknown, settings: MinMaxSettings) =>
+      z.coerce
+        .date({ invalid_type_error: 'Must be a valid date' })
+        .refine(
+          (dob) => {
+            const age = getAgeFromDateOfBirth(dob);
+            return age >= settings.min && age <= settings.max;
+          },
+          {
+            message: `Tuổi phải nằm trong khoảng từ ${settings.min} đến ${settings.max}`,
+          },
+        )
+        .parse(data),
   },
   [ApplicationStepsEnum.monthlyIncome]: {
     validation: (data: unknown) => z.coerce.number().nonnegative().parse(data),

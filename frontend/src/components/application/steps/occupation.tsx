@@ -1,6 +1,6 @@
 import { Option } from "@mui/joy";
 import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
-import { ApplicationStepsEnum, employmentStatusesEnum, employmentStatusesLabels, OptionsSettings } from "@roshi/shared";
+import { ApplicationStepsEnum, employmentTypeEnum, employmentTypeLabels, OptionsSettings } from "@roshi/shared";
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import { useVisitorContext } from "../../../context/visitorContext";
 import { Flex } from "../../shared/flex";
@@ -9,40 +9,43 @@ import { ApplicationStyledSelect } from "../styled/applicationStyledSelect";
 
 export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const { setError, error, visitor, currentStepData } = useVisitorContext();
-  const [option, setOption] = useState<employmentStatusesEnum | undefined>();
-  const [employment, setEmployment] = useState<string>("");
+  const [option, setOption] = useState<string | undefined>();
+  const [value, setValue] = useState<string>("");
 
   const settings = useMemo(() => currentStepData?.settings as OptionsSettings, [currentStepData]);
 
   useEffect(() => {
+    if (!visitor) return;
     try {
-      const stepData = ApplicationSteps[ApplicationStepsEnum.occupation].validation(
-        visitor?.stepData.find((step) => step.stepKey === ApplicationStepsEnum.occupation)?.data
-      ) as { employmentStatus: employmentStatusesEnum; jobTitle?: string };
-      setOption(stepData.employmentStatus);
-      setEmployment(stepData.jobTitle || "");
+      const stepData = ApplicationSteps[ApplicationStepsEnum.jobTitle].validation(
+        visitor[ApplicationStepsEnum.jobTitle],
+      );
+      if (stepData)
+        if (Object.values(employmentTypeEnum).includes(stepData as employmentTypeEnum)) {
+          setOption(stepData);
+        } else {
+          setOption(employmentTypeEnum.OTHER);
+          setValue(stepData);
+        }
     } catch (e) {
       // do nothing
     }
-  }, [visitor?.stepData]);
+  }, [visitor]);
 
   useImperativeHandle(ref, () => ({
     getValue: () => {
       if (!option) {
-        setError("Please select your occupation");
+        setError("Please select your career");
         return;
       }
       if (
-        (option === employmentStatusesEnum.EMPLOYED || option === employmentStatusesEnum.SELF_EMPLOYED) &&
-        !employment
+        option === employmentTypeEnum.OTHER &&
+        !value
       ) {
         setError("Please enter your job title");
         return;
       }
-      return {
-        employmentStatus: option,
-        jobTitle: employment || undefined,
-      };
+      return option === employmentTypeEnum.OTHER ? value : option;
     },
   }));
 
@@ -59,19 +62,19 @@ export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
       >
         {settings.options.map((option) => (
           <Option key={option} value={option}>
-            {employmentStatusesLabels[option as employmentStatusesEnum]}
+            {employmentTypeLabels[option as employmentTypeEnum]}
           </Option>
         ))}
       </ApplicationStyledSelect>
-      {(option === employmentStatusesEnum.EMPLOYED || option === employmentStatusesEnum.SELF_EMPLOYED) && (
+      {option === employmentTypeEnum.OTHER && (
         <ApplicationStyledInput
           error={error?.toLowerCase().includes("job title") || false}
           data-testid="job-title-input"
           onChange={(e) => {
             setError("");
-            setEmployment(e.target.value);
+            setValue(e.target.value);
           }}
-          value={employment}
+          value={value}
           placeholder="Add your job title"
         />
       )}

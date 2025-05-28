@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { IconButton, Typography } from "@mui/joy";
+import { IconButton, Option, Select, Typography } from "@mui/joy";
 import { FC } from "react";
 import DatePicker, { DatePickerProps } from "react-datepicker";
 import { Flex } from "./flex";
@@ -59,10 +59,10 @@ export const RsDatePicker: FC<RsDatePickerProps> = ({ isTimeSelected, ...props }
           borderBottom: "none",
         },
         ".react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected, .react-datepicker__year-text--keyboard-selected":
-          {
-            backgroundColor: "secondary.500",
-            color: "white",
-          },
+        {
+          backgroundColor: "secondary.500",
+          color: "white",
+        },
         ".react-datepicker__day--selected": {
           backgroundColor: "secondary.500",
           color: "white",
@@ -104,27 +104,27 @@ export const RsDatePicker: FC<RsDatePickerProps> = ({ isTimeSelected, ...props }
           display: "none",
         },
         ".react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item":
-          {
-            borderRadius: "md",
-            fontSize: "16px",
-            px: 4,
-            py: 1,
-            my: 2,
-            height: "auto !important",
-            width: "inset !important",
-          },
+        {
+          borderRadius: "md",
+          fontSize: "16px",
+          px: 4,
+          py: 1,
+          my: 2,
+          height: "auto !important",
+          width: "inset !important",
+        },
         ".react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item:hover":
-          {
-            backgroundColor: "secondary.500",
-            color: "white",
-          },
+        {
+          backgroundColor: "secondary.500",
+          color: "white",
+        },
         ".react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected":
-          {
-            color: "white",
-            backgroundColor: "secondary.500",
-            borderRadius: "md !important",
-            width: "auto !important",
-          },
+        {
+          color: "white",
+          backgroundColor: "secondary.500",
+          borderRadius: "md !important",
+          width: "auto !important",
+        },
         // ".react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--disabled":
         //   {
         //     display: "none",
@@ -135,19 +135,35 @@ export const RsDatePicker: FC<RsDatePickerProps> = ({ isTimeSelected, ...props }
         timeFormat="HH:mm"
         {...props}
         showDateSelect={true}
-        renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
-          <Flex x xc yc gap2 fullwidth py={1}>
-            <IconButton size="sm" onClick={decreaseMonth}>
-              <ChevronLeft fontSize="small" />
-            </IconButton>
-            <Typography level="h4" color="neutral" fontWeight={"700"}>
-              {date.toLocaleDateString("en-GB", { year: "numeric", month: "long" })}
-            </Typography>
-            <IconButton size="sm" onClick={increaseMonth}>
-              <ChevronRight fontSize="small" />
-            </IconButton>
-          </Flex>
-        )}
+        renderCustomHeader={({ date, decreaseMonth, increaseMonth, changeYear }) => {
+          const currentYear = date.getFullYear();
+          const years = Array.from({ length: props.yearDropdownItemNumber || 100 }, (_, i) => new Date().getFullYear() - i);
+          return (
+            <Flex x xc yc gap2 fullwidth py={1}>
+              <IconButton size="sm" onClick={decreaseMonth}>
+                <ChevronLeft fontSize="small" />
+              </IconButton>
+              <Typography level="h4" color="neutral" fontWeight={"700"}>
+                {date.toLocaleDateString("en-GB", { year: "numeric", month: "long" })}
+              </Typography>
+
+              {props.showYearDropdown && <Select
+                value={currentYear}
+                onChange={(_, val) => changeYear(val || currentYear)}
+              >
+                {years.map((year) => (
+                  <Option key={year} value={year}>
+                    {year}
+                  </Option>
+                ))}
+              </Select>}
+
+              <IconButton size="sm" onClick={increaseMonth}>
+                <ChevronRight fontSize="small" />
+              </IconButton>
+            </Flex>
+          )
+        }}
       />
     </Flex>
   );

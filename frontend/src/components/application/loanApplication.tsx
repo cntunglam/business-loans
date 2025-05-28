@@ -95,7 +95,7 @@ export const LoanApplication = () => {
 
   const onNext = async () => {
     const val = currentStepRef.current?.getValue();
-    if (val && currentStepData) {
+    if (val !== null && currentStepData) {
       await saveStep(currentStepData.key, val);
     }
 

@@ -13,9 +13,9 @@ export enum ApplicationStepsEnum {
   email = "email",
   dateOfBirth = "dateOfBirth",
 
-  streetAddress = "streetAddress",
   city = "city",
   province = "province",
+  streetAddress = "streetAddress",
 
   residencyStatus = "residencyStatus",
 }
