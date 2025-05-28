@@ -12,13 +12,13 @@ model User {
 
   isAssignableToLoanRequest Boolean @default(false)
 
-  status        String          @default("ACTIVE")
+  status        String         @default("ACTIVE")
   refreshTokens RefreshToken[]
   apiTokens     APIToken[]
   waUser        WaUser?
   nric          String?
   shortUrls     ShortUrl[]
-  visitorData   VisitorDataV2[]
+  visitorData   VisitorData[]
 
   sentMessages WaMessage[]
 

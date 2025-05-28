@@ -19,7 +19,6 @@ import { updateUserLastLogin } from '../../services/account.service';
 import { createActivityLog } from '../../services/activityLog.service';
 import { formatApplicantInfoForLender } from '../../services/applicantInfo.service';
 import { getCompanyFromUserId } from '../../services/company.service';
-import { applyCompanyLeadSettings } from '../../services/leadFilters.service';
 import {
   formatLoanRequestForBorrower,
   formatLoanRequestForLender,
@@ -27,6 +26,7 @@ import {
   getWhereClause,
   verifyLenderAccess,
 } from '../../services/loanRequest.service';
+import { getAgeFromDateOfBirth } from '../../utils/age';
 import { errorResponse } from '../../utils/errorResponse';
 import { getLoanRequestPrismaQuery } from '../../utils/prismaUtils';
 import { RoshiError } from '../../utils/roshiError';
@@ -100,19 +100,16 @@ export const getPartnerOffers = async (req: Request, res: Response) => {
 
   if (!application) return successResponse(res, []);
 
-  const appData = SgManualFormSchema.parse(application.applicantInfo?.data);
-  if (appData.age === undefined) throw new Error('Invalid age');
+  const appData = application.applicantInfo;
+  if (!appData) throw new Error('Invalid age');
   const matchingOffers = bankLoanCriteria.filter(
     (bankCriteria) =>
       !bankCriteria.disabled &&
       bankCriteria.loan_purpose.includes(application.purpose as any) &&
       appData.monthlyIncome &&
       appData.monthlyIncome * 12 >= bankCriteria.min_income &&
-      appData.age >= bankCriteria.min_age &&
-      appData.age <= bankCriteria.max_age &&
-      bankCriteria.property_ownership_status.includes(appData.propertyOwnership as any) &&
-      bankCriteria.occupational_status.includes(appData.employmentStatus as any) &&
-      bankCriteria.residency_status.includes(appData.residencyStatus as any) &&
+      getAgeFromDateOfBirth(appData.dateOfBirth!) >= bankCriteria.min_age &&
+      getAgeFromDateOfBirth(appData.dateOfBirth!) <= bankCriteria.max_age &&
       bankCriteria.min_loan_tenure <= application.term &&
       application.term <= bankCriteria.max_loan_tenure &&
       bankCriteria.min_amount <= application.amount &&
@@ -170,8 +167,9 @@ export const getLoanRequests = async (req: Request, res: Response) => {
 
   let whereClause = getWhereClause(company, tab);
 
-  if (tab === 'new' && company.companyLeadSettings)
-    whereClause = await applyCompanyLeadSettings(whereClause, company.companyLeadSettings);
+  // if (tab === 'new' && company.companyLeadSettings) {
+  //   whereClause = await applyCompanyLeadSettings(whereClause, company.companyLeadSettings);
+  // }
 
   const query = getLoanRequestPrismaQuery({
     where: {
@@ -191,7 +189,7 @@ export const getLoanRequests = async (req: Request, res: Response) => {
         tab === 'rejected'
           ? undefined
           : {
-              select: { data: true, documents: { where: { isDeleted: false } } },
+              select: { documents: { where: { isDeleted: false } } },
             },
       loanResponses: {
         where: { lenderId: company.id },
@@ -334,11 +332,11 @@ export const createGuarantor = async (req: Request, res: Response) => {
   }
 
   const { applicantInfo } = createGuarantorSchema.parse(req.body);
+
   const newGuarantor = await prismaClient.loanRequest.update({
     where: { id: loanRequest.id },
-    data: { guarantorInfo: { create: { data: applicantInfo, dataFormat: ApplicationTypesEnum.SG_MANUAL } } },
+    data: { guarantorInfo: { create: { ...applicantInfo, dataFormat: ApplicationTypesEnum.SG_MANUAL } } },
   });
-
   return successResponse(res, newGuarantor);
 };
 

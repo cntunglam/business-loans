@@ -1,19 +1,15 @@
 import {
   ERROR_KEYS,
   JobsEnum,
-  LogLevel,
-  LogSource,
   NotificationTransportEnum,
   NotificationTypeEnum,
+  SgManualFormSchema,
   UserRoleEnum,
 } from '@roshi/shared';
 import { prismaClient } from '../../clients/prismaClient';
 import { CONFIG } from '../../config';
-import { getIPAForBEST, getIPAForCreditXtra, getIPAForEzLoan, getIpaForMoneyplus } from '../../data/autoIpa';
 import { getLoanRequest } from '../../services/loanRequest.service';
-import { createLoanResponse } from '../../services/loanResponse.service';
 import { sendNotification } from '../../services/notification.service';
-import logger from '../../utils/logger';
 import { RoshiError } from '../../utils/roshiError';
 import { boss, createJob } from '../boss';
 import { JobPayload } from '../jobsData';
@@ -44,9 +40,10 @@ export const initReApplyJob = () => {
     }
 
     const newLoanRequest = await prismaClient.$transaction(async (tx) => {
+      const { data } = SgManualFormSchema.safeParse(loanRequest.applicantInfo);
       const applicantInfo = await tx.applicantInfo.create({
         data: {
-          data: loanRequest.applicantInfo!.data!,
+          ...data,
           dataFormat: loanRequest.applicantInfo!.dataFormat,
         },
       });
@@ -70,31 +67,6 @@ export const initReApplyJob = () => {
     });
 
     // Check for auto-approvals
-    const offers = [
-      getIPAForBEST(newLoanRequest),
-      getIPAForEzLoan(newLoanRequest),
-      getIPAForCreditXtra(newLoanRequest),
-      getIpaForMoneyplus(newLoanRequest),
-    ];
-    for (const offer of offers) {
-      if (offer && offer.companyId) {
-        try {
-          await createLoanResponse(
-            offer.companyId,
-            { status: offer.status, loanRequestId: newLoanRequest.id, offer: offer.offer },
-            true,
-          );
-        } catch (e) {
-          console.error('Error creating loan response', e);
-          logger({
-            error: e,
-            errorType: ERROR_KEYS.INTERNAL_ERROR,
-            source: LogSource.JOB_QUEUE,
-            level: LogLevel.ERROR,
-          });
-        }
-      }
-    }
 
     // This will notify lenders
     createJob(JobsEnum.CHECK_LENDER_FILTERS, { loanRequestId: newLoanRequest.id });

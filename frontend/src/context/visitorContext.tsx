@@ -8,7 +8,7 @@ import { KEYS, TIME_CONSTANTS } from "../data/constants";
 import { getErrorMessage, isErrorResponse } from "../utils/errorHandler";
 import { getFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
 
-type VisitorWithSteps = Prisma.VisitorDataV2GetPayload<{
+type VisitorWithSteps = Prisma.VisitorDataGetPayload<{
   include: { stepData: true };
 }>;
 

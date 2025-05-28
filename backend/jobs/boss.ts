@@ -5,14 +5,13 @@ import { initActivateReapplyLoanRequestJob } from './jobHandlers/activateReapply
 import { initCheckLendersFiltersJob } from './jobHandlers/checkLenderFiltersJob';
 import { initEmailNotificationJob } from './jobHandlers/emailNotificationJob';
 import { initFetchMLCBReportJob } from './jobHandlers/fetchMlcbReportJob';
-import { initLeadGradingJob } from './jobHandlers/leadGradingJob';
+// import { initLeadGradingJob } from './jobHandlers/leadGradingJob';
 import { initLoanRequestJob } from './jobHandlers/loanRequestJob';
 import { initReApplyJob } from './jobHandlers/reApplyJob';
 import { initTelegramNotificationJob } from './jobHandlers/telegramNotificationJob';
 import { initWaMessageReceivedJob } from './jobHandlers/waMessageReceivedJob';
 import { initWebhookNotificationJob } from './jobHandlers/webhookNotificationJob';
 import { initWhatsappNotificationJob } from './jobHandlers/whatsappNotificationJob';
-import { initZeroInterestLoanRequestJob } from './jobHandlers/zeroInterestLoanRequestJob';
 import { JobPayload } from './jobsData';
 
 export const JobQueuesOptions: Partial<Record<JobsEnum, PgBoss.Queue>> = {
@@ -68,13 +67,12 @@ process.on('SIGINT', async () => {
     initCheckLendersFiltersJob();
     initEmailNotificationJob();
     initTelegramNotificationJob();
-    initZeroInterestLoanRequestJob();
     initWebhookNotificationJob();
     initWhatsappNotificationJob();
     initWaMessageReceivedJob();
     //initValidateDocumentJob();
     initFetchMLCBReportJob();
-    initLeadGradingJob();
+    // initLeadGradingJob();
 
     initReApplyJob();
     initActivateReapplyLoanRequestJob(); // triggered when users go to dashboard or click email link (to go to dashboard)

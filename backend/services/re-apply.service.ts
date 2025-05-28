@@ -140,7 +140,7 @@ export const computeReapplyLoanRequests = async (day = new Date()) => {
   const eligibleUsers = potentialUsers.filter((user) => {
     if (user.userSettings?.autoReapplyDisabled) return false;
     for (const request of user.loanRequests) {
-      const applicantInfo = SgManualFormSchema.safeParse(request.applicantInfo?.data);
+      const applicantInfo = SgManualFormSchema.safeParse(request.applicantInfo);
       if (applicantInfo.success && applicantInfo.data.monthlyIncome <= 1250) return false;
       if (applicantInfo.data && isForeigner(applicantInfo.data) && applicantInfo.data.monthlyIncome < 2500)
         return false;

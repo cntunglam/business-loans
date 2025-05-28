@@ -1,23 +1,18 @@
-import { JobsEnum, LeadTierEnum, MlcbGradeEnum, Prisma, SgManualFormSchema } from '@roshi/shared';
+import { JobsEnum, LeadTierEnum, MlcbGradeEnum, Prisma } from '@roshi/shared';
+import { differenceInDays } from 'date-fns';
 import { z } from 'zod';
-import { iBooksClient } from '../clients/ibooksClient';
 import { prismaClient } from '../clients/prismaClient';
-import { CONFIG } from '../config';
 import { createJob } from '../jobs/boss';
 import { MLCBReportSchema } from '../models/mlcbReport.model';
-import { convertToThreeLetterCode } from '../utils/countryCodes';
 import { getMlcbRatio, isForeigner } from '../utils/roshiUtils';
 import { getLoanRequest } from './loanRequest.service';
 
 const isEmpty = (obj: any) => typeof obj === 'object' && Object.keys(obj).length === 0;
 
 export const checkGradingEligibility = (applicantInfo: Prisma.ApplicantInfoGetPayload<{}>) => {
-  const appInfo = SgManualFormSchema.parse(applicantInfo.data);
-
-  if (isForeigner(appInfo)) return false;
-  if (appInfo.monthlyIncome < 2000) return false;
-  if (getMlcbRatio(appInfo) > 6) return false;
-
+  if (isForeigner(applicantInfo)) return false;
+  if (applicantInfo.monthlyIncome < 2000) return false;
+  if (getMlcbRatio(applicantInfo) > 6) return false;
   return true;
 };
 
@@ -46,128 +41,103 @@ export const getGrade = (report: z.infer<typeof MLCBReportSchema>, monthlyIncome
   let normalRecords = 0;
   let goodRecords = 0;
 
-  formatted.forEach((loan) => {
-    loan.cycle.forEach((cycle) => {
-      const status = cycle.STATUS?._text;
-      if (status === '1') goodRecords++;
-      else if (status === '2') normalRecords++;
-      else if (status === '3') subRecords++;
-    });
-  });
+  for (const item of formatted) {
+    const isLowAmount = item.amount < monthlyIncome * 0.1;
+    const [firstCycle, secondCycle] = item.cycle;
+    const statuses = [firstCycle?.STATUS, secondCycle?.STATUS];
 
-  if (subRecords > 0) return MlcbGradeEnum.SUBSTANDARD;
-  if (normalRecords > 0) return MlcbGradeEnum.NORMAL;
-  if (goodRecords > 0) return MlcbGradeEnum.GOOD;
+    // Bad grade conditions
+    if (
+      !isLowAmount &&
+      (statuses.includes('120+') ||
+        statuses.includes('BD') ||
+        (isEmpty(firstCycle.STATUS) && isEmpty(secondCycle.STATUS)))
+    ) {
+      return MlcbGradeEnum.BAD;
+    }
 
+    // Good records conditions
+    if (
+      statuses.includes('OK') ||
+      statuses.includes('30') ||
+      (firstCycle.STATUS === '60' && ['60', '90', '120'].includes(secondCycle.STATUS as string))
+    ) {
+      goodRecords++;
+      continue;
+    }
+
+    // Sub records conditions
+    if (firstCycle.STATUS === '120' || (firstCycle.STATUS === '90' && secondCycle.STATUS === '60')) {
+      subRecords++;
+      continue;
+    }
+
+    // Normal records conditions
+    if (
+      (firstCycle.STATUS === '90' && secondCycle.STATUS === '90') ||
+      (firstCycle.STATUS === '60' && secondCycle.STATUS === '30')
+    ) {
+      normalRecords++;
+    }
+  }
+
+  if (subRecords) return MlcbGradeEnum.SUB;
+  if (normalRecords) return MlcbGradeEnum.NORMAL;
+  if (goodRecords) return MlcbGradeEnum.GOOD;
   return MlcbGradeEnum.NORMAL;
 };
 
 export const getLeadTier = (mlcbGrade: MlcbGradeEnum, monthlyIncome: number, mlDebt: number) => {
-  if (mlcbGrade === MlcbGradeEnum.SUBSTANDARD) return LeadTierEnum.D;
-  if (monthlyIncome < 3000) return LeadTierEnum.C;
-  if (mlDebt > 0) return LeadTierEnum.B;
-  return LeadTierEnum.A;
+  const mlcbRatio = mlDebt / monthlyIncome;
+  if (mlcbGrade === MlcbGradeEnum.BAD || mlcbRatio > 6 || monthlyIncome < 1800) return LeadTierEnum.REJECT;
+  if (mlcbRatio < 3 && monthlyIncome > 4000 && mlcbGrade === MlcbGradeEnum.GOOD) return LeadTierEnum.PREMIUM;
+  if (
+    mlcbRatio < 4 &&
+    monthlyIncome > 2500 &&
+    (mlcbGrade === MlcbGradeEnum.GOOD || mlcbGrade === MlcbGradeEnum.NORMAL || mlcbGrade === MlcbGradeEnum.UNKNOWN)
+  )
+    return LeadTierEnum.DELUXE;
+
+  return LeadTierEnum.BASIC;
 };
 
 export const getMlcbReport = async (applicantInfo: Prisma.ApplicantInfoGetPayload<{}> & { email: string }) => {
-  const appInfo = SgManualFormSchema.parse(applicantInfo.data);
-
-  // Get data from manual form
-  const nric = appInfo.nric;
-  const nationality = appInfo.nationality;
-  const gender = appInfo.gender;
-  const name = appInfo.fullname;
-  const dob = appInfo.dateOfBirth;
-  const marital = appInfo.maritalStatus;
-  const email = applicantInfo.email;
-  const postalcode = appInfo.postalCode;
-  const contact = appInfo.phoneNumber?.replace(/\D/g, '') || '';
-  const employer_name = appInfo.employerName;
-  const job_title = appInfo.employmentType;
-
-  // Format request payload
-  const payload = {
-    request_report: {
-      MESSAGE: {
-        HEADER: {
-          SOURCE: CONFIG.MLCB_SOURCE,
-          USERID: CONFIG.MLCB_USER_ID,
-          PASSWORD: CONFIG.MLCB_PASSWORD,
-          REQUEST_ID: `ROSHI_${Date.now()}`,
-          TIMESTAMP: new Date().toISOString(),
-        },
-        ITEM: {
-          ID_TYPE: 'N',
-          ID_NUMBER: nric,
-          NATIONALITY: convertToThreeLetterCode(nationality),
-          GENDER: gender === 'MALE' ? 'M' : 'F',
-          NAME: name,
-          DOB: dob,
-          MARITAL: marital === 'SINGLE' ? 'S' : 'M',
-          EMAIL: email,
-          ADDRESS: {
-            POSTAL_CODE: postalcode,
-          },
-          CONTACT: {
-            CONTACT: contact,
-          },
-          EMPLOYMENT: {
-            EMPLOYER_NAME: employer_name,
-            JOB_TITLE: job_title,
-          },
-        },
-      },
-    },
-  };
-
-  const response = await iBooksClient.post('/mlsb/creditbureau/creditreport', payload);
-  const report = MLCBReportSchema.parse(response.data);
-
-  return report;
+  return {};
 };
 
 export const getMLCBReportByLoanRequestId = async (loanRequestId: string) => {
-  const loanRequest = await getLoanRequest(loanRequestId);
-
-  if (!loanRequest.applicantInfo) {
-    throw new Error('Applicant info not found');
+  const existingReportForCurrentLoanRequest = await prismaClient.loanRequestGrading.findUnique({
+    where: { loanRequestId: loanRequestId },
+  });
+  if (existingReportForCurrentLoanRequest && existingReportForCurrentLoanRequest.mlcbReport) {
+    return existingReportForCurrentLoanRequest;
   }
 
-  const user = await prismaClient.user.findUniqueOrThrow({
-    where: { id: loanRequest.userId },
-    select: { email: true },
-  });
+  const loanRequest = await getLoanRequest(loanRequestId);
 
-  const report = await getMlcbReport({
-    ...loanRequest.applicantInfo,
-    email: user.email,
-  });
-
-  const appInfo = SgManualFormSchema.parse(loanRequest.applicantInfo.data);
-  const mlcbGrade = getGrade(report, appInfo.monthlyIncome);
-  const leadTier = getLeadTier(mlcbGrade, appInfo.monthlyIncome, appInfo.lenderDebt);
-
-  await prismaClient.loanRequest.update({
-    where: { id: loanRequestId },
-    data: {
-      grading: {
-        upsert: {
-          create: {
-            mlcbGrade,
-            leadTier,
-          },
-          update: {
-            mlcbGrade,
-            leadTier,
-          },
-        },
-      },
+  //We check other loan requests for same lead in case he withdrew his application
+  const loanRequests = await prismaClient.loanRequest.findMany({ where: { userId: loanRequest.userId } });
+  const existingMlcbReport = await prismaClient.loanRequestGrading.findFirst({
+    where: {
+      loanRequestId: { in: loanRequests.map((lr) => lr.id) },
+      mlcbReport: { not: Prisma.JsonNull },
+    },
+    orderBy: {
+      createdAt: 'desc',
     },
   });
 
-  await createJob(JobsEnum.PROCESS_LEAD_GRADE, {
-    loanRequestId,
-  });
+  //If a report exists for a previous loan request, and it's under 2 months
+  if (
+    existingMlcbReport &&
+    existingMlcbReport.mlcbReport &&
+    differenceInDays(new Date(), existingMlcbReport.createdAt) < 60
+  ) {
+    createJob(JobsEnum.LEAD_GRADING, { loanRequestId });
+    return existingMlcbReport;
+  }
 
-  return report;
+  if (!loanRequest.applicantInfo) throw new Error('ApplicantInfo not found');
+  const mlcbReport = await getMlcbReport({ ...loanRequest.applicantInfo, email: loanRequest.user.email });
+  return mlcbReport;
 };

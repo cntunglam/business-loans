@@ -5,7 +5,6 @@ import {
   loanPurposesLabels,
   LoanResponseStatusEnum,
   NotificationTypeEnum,
-  residencyStatusesLabels,
   UserRoleEnum,
 } from '@roshi/shared';
 import { addHours } from 'date-fns';
@@ -126,9 +125,7 @@ export const handleEmailNotification = async <T extends NotificationTypeEnum>(
         purpose: loanPurposesLabels[formatted.purpose as loanPurposesEnum],
         term: formatted.term.toString(),
         monthlyIncome: (formatted.applicantInfo?.monthlyIncome || '').toString(),
-        recidencyStatus: formatted.applicantInfo?.residencyStatus
-          ? residencyStatusesLabels[formatted.applicantInfo?.residencyStatus]
-          : '',
+        residencyStatus: formatted.applicantInfo?.residencyStatus || '',
         loanRequestLink: getClientLink(params.targetUser, params.loanRequestId),
       });
     }

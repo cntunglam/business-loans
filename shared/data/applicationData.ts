@@ -91,5 +91,5 @@ export const employmentTimeLabels = {
 };
 
 export enum ApplicationTypesEnum {
-  SG_MANUAL = "SG_MANUAL",
+  SG_MANUAL = "MANUAL",
 }

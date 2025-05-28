@@ -1,61 +1,75 @@
-import {
-  ApplicationStepsEnum,
-  ApplicationStepsImagesEnum,
-  employmentStatusesEnum,
-  loanPurposesEnum,
-  propertyOwnershipsEnum,
-  residencyStatusesEnum,
-  StepDetails,
-} from '@roshi/shared';
+import { ApplicationStepsEnum, ApplicationStepsImagesEnum, StepDetails } from '@roshi/shared';
 
+export const ApplicationStepsLabels: Record<ApplicationStepsEnum, string> = {
+  [ApplicationStepsEnum.borrowAmount]: 'Bạn muốn vay bao nhiêu?',
+  [ApplicationStepsEnum.borrowPeriod]: 'Bạn muốn trả trong bao lâu?',
+  [ApplicationStepsEnum.borrowPurpose]: 'Mục đích vay là gì?',
+  [ApplicationStepsEnum.fullName]: 'Tên đầy đủ của bạn là gì?',
+  [ApplicationStepsEnum.cccdNumber]: 'Số CCCD/CMND của bạn là gì?',
+  [ApplicationStepsEnum.phoneNumber]: 'Số điện thoại của bạn là gì?',
+  [ApplicationStepsEnum.email]: 'Địa chỉ email của bạn là gì?',
+  [ApplicationStepsEnum.dateOfBirth]: 'Ngày sinh của bạn là gì?',
+  [ApplicationStepsEnum.monthlyIncome]: 'Thu nhập hàng tháng của bạn là bao nhiêu?',
+  [ApplicationStepsEnum.hasLaborContract]: 'Bạn có hợp đồng lao động không?',
+  [ApplicationStepsEnum.streetAddress]: 'Địa chỉ hiện tại của bạn?',
+  [ApplicationStepsEnum.city]: 'Thành phố bạn đang sinh sống?',
+  [ApplicationStepsEnum.province]: 'Tỉnh/thành phố nơi bạn cư trú?',
+  [ApplicationStepsEnum.residencyStatus]: 'Giá trị công dân?',
+  [ApplicationStepsEnum.jobTitle]: 'Công việc của bạn là gì?',
+};
 export const regularPersonalLoanSteps: StepDetails[] = [
   {
     key: ApplicationStepsEnum.borrowAmount,
-    title: 'How much do you want to borrow?',
-    settings: { min: 1000, max: 200000 },
+    title: ApplicationStepsLabels[ApplicationStepsEnum.borrowAmount],
+    settings: { min: 1_000_000, max: 1_000_000_000 },
   },
   {
     key: ApplicationStepsEnum.borrowPeriod,
-    title: 'Over what period would you like to pay?',
+    title: ApplicationStepsLabels[ApplicationStepsEnum.borrowPeriod],
     settings: { min: 3, max: 72 },
   },
   {
     key: ApplicationStepsEnum.borrowPurpose,
     image: ApplicationStepsImagesEnum.loanOffers,
-    title: 'What is the purpose of the loan?',
-    settings: { options: Object.values(loanPurposesEnum) },
+    title: ApplicationStepsLabels[ApplicationStepsEnum.borrowPurpose],
   },
-  { key: ApplicationStepsEnum.nricNumber, title: "What's your NRIC/FIN number?" },
   {
-    key: ApplicationStepsEnum.residencyStatus,
-    title: 'What is your residency status?',
-    image: ApplicationStepsImagesEnum.free,
-    settings: { options: Object.values(residencyStatusesEnum) },
+    key: ApplicationStepsEnum.cccdNumber,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.cccdNumber],
   },
-  { key: ApplicationStepsEnum.age, title: 'What is your age?', settings: { min: 21, max: 65 } },
+  {
+    key: ApplicationStepsEnum.dateOfBirth,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.dateOfBirth],
+  },
   {
     key: ApplicationStepsEnum.monthlyIncome,
-    title: 'What is your monthly income?',
+    title: ApplicationStepsLabels[ApplicationStepsEnum.monthlyIncome],
     image: ApplicationStepsImagesEnum.cashback,
   },
   {
-    key: ApplicationStepsEnum.occupation,
-    title: 'What is your occupational status?',
-    settings: { options: Object.values(employmentStatusesEnum) },
-  },
-  { key: ApplicationStepsEnum.occupationTime, title: 'How long have you been employed?' },
-  {
-    key: ApplicationStepsEnum.propertyOwnership,
-    title: 'What is your property ownership status and address?',
-    settings: { options: Object.values(propertyOwnershipsEnum) },
-  },
-  {
-    key: ApplicationStepsEnum.existingLoans,
-    title: 'Do you have any existing unsecured loans, credit card debt, or overdrafts?',
+    key: ApplicationStepsEnum.hasLaborContract,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.hasLaborContract],
+    settings: { options: ['Có', 'Không'] },
   },
   {
     key: ApplicationStepsEnum.fullName,
-    title: 'One more thing, what is your full name?',
+    title: ApplicationStepsLabels[ApplicationStepsEnum.fullName],
     image: ApplicationStepsImagesEnum.bestOffers,
   },
-] as const;
+  {
+    key: ApplicationStepsEnum.streetAddress,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.streetAddress],
+  },
+  {
+    key: ApplicationStepsEnum.city,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.city],
+  },
+  {
+    key: ApplicationStepsEnum.province,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.province],
+  },
+  {
+    key: ApplicationStepsEnum.email,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.email],
+  },
+];

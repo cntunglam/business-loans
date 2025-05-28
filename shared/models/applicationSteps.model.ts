@@ -2,16 +2,22 @@ export enum ApplicationStepsEnum {
   borrowAmount = "borrowAmount",
   borrowPeriod = "borrowPeriod",
   borrowPurpose = "borrowPurpose",
-  nricNumber = "nricNumber",
-  residencyStatus = "residencyStatus",
-  age = "age",
+
   monthlyIncome = "monthlyIncome",
-  occupation = "occupation",
-  occupationTime = "occupationTime",
-  propertyOwnership = "propertyOwnership",
-  existingLoans = "existingLoans",
+  jobTitle = "jobTitle",
+  hasLaborContract = "hasLaborContract",
+
   fullName = "fullName",
+  cccdNumber = "cccdNumber",
   phoneNumber = "phoneNumber",
+  email = "email",
+  dateOfBirth = "dateOfBirth",
+
+  streetAddress = "streetAddress",
+  city = "city",
+  province = "province",
+
+  residencyStatus = "residencyStatus",
 }
 
 export enum ApplicationStepsImagesEnum {

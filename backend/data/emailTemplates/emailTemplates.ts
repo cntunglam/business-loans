@@ -37,7 +37,7 @@ export const emailTemplates = {
       purpose: string;
       term: string;
       monthlyIncome: string;
-      recidencyStatus: string;
+      residencyStatus: string;
       loanRequestLink: string;
     }) => data,
     withoutContainerLogo: true,

@@ -1,4 +1,4 @@
-import { ActivityLogEnum, SgManualFormSchema, TargetTypeEnum } from '@roshi/shared';
+import { ActivityLogEnum, ApplicantInfo, TargetTypeEnum } from '@roshi/shared';
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { prismaClient } from '../../clients/prismaClient';
@@ -10,7 +10,7 @@ export const contactBorrower = async (req: Request, res: Response) => {
 
   const loanResponse = await prismaClient.loanResponse.findUniqueOrThrow({
     where: { id: id, lender: { users: { some: { id: req.user?.sub } } }, acceptedAt: { not: null } },
-    include: { loanRequest: { include: { applicantInfo: { select: { data: true } } } } },
+    include: { loanRequest: { include: { applicantInfo: true } } },
   });
 
   if (!loanResponse.contactedByLenderAt) {
@@ -27,10 +27,9 @@ export const contactBorrower = async (req: Request, res: Response) => {
     });
   }
 
-  const applicantInfo = SgManualFormSchema.parse(loanResponse.loanRequest.applicantInfo?.data);
-
+  const applicantInfo: ApplicantInfo = loanResponse.loanRequest.applicantInfo!;
   return successResponse(res, {
-    fullname: applicantInfo.fullname,
+    fullname: applicantInfo.fullName,
     phoneNumber: applicantInfo.phoneNumber,
   });
 };

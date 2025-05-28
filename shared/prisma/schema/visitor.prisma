@@ -1,15 +1,5 @@
-model VisitorData {
-  referer      String?
-
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@schema("public")
-}
-
 // Enhanced visitor tracking system for multi-step loan applications
-model VisitorDataV2 {
+model VisitorData {
   id     String  @id @default(uuid())
   userId String? // Optional - for logged in users
   user   User?   @relation(fields: [userId], references: [id])
@@ -20,29 +10,37 @@ model VisitorDataV2 {
   referer         String?
   isCompleted     Boolean @default(false)
 
-  // Application data
-  stepData     StepData[]
+  borrowAmount  String?
+  borrowPeriod  String?
+  borrowPurpose String?
+
+  // Required fields only
+  fullName    String?
+  cccdNumber  String?
+  phoneNumber String?
+  email       String?
+  dateOfBirth DateTime?
+
+  // Current Address
+  streetAddress String?
+  city          String?
+  province      String?
+
+  monthlyIncome Float @default(0)
+
+  jobTitle String?
+
+  hasLaborContract Boolean?
+
+  residencyStatus String?
+
+  lenderDebt Float @default(0)
+  bankDebt   Float @default(0)
 
   lastActiveAt DateTime @updatedAt
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@schema("public")
-}
-
-// Enhanced step data tracking with validation status
-model StepData {
-  id          String        @id @default(uuid())
-  visitorId   String
-  visitor     VisitorDataV2 @relation(fields: [visitorId], references: [id])
-  stepKey     String // Matches step key from applicationSteps
-  data        Json // Validated step data
-  isValid     Boolean       @default(true)
-  validatedAt DateTime      @default(now())
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-
-  @@unique([visitorId, stepKey])
   @@schema("public")
 }

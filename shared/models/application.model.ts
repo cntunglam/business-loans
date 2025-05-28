@@ -1,12 +1,5 @@
-import { StepData } from "@prisma/client";
 import { z, ZodSchema } from "zod";
-import {
-  ApplicationTypesEnum,
-  employmentStatusesEnum,
-  EmploymentTimeEnum,
-  propertyOwnershipsEnum,
-  residencyStatusesEnum,
-} from "../data/applicationData";
+import { ApplicationTypesEnum } from "../data/applicationData";
 import { getPhoneSchema } from "./common.model";
 
 // Error types
@@ -25,70 +18,58 @@ export interface ApplicationError extends ValidationError {
 export interface VisitorState {
   currentStep: string;
   completedSteps: string[];
-  data: Partial<StepData>;
   errors: ApplicationError[];
 }
-
 export const SgManualFormSchema = z.object({
-  age: z
-    .number()
-    .int()
-    .min(16, { message: "Must be at least 21 years old" })
-    .max(100, { message: "Must be at most 65 years old" }),
-  bankDebt: z.coerce.number().int().nonnegative().optional().default(0),
-  lenderDebt: z.coerce.number().int().nonnegative().optional().default(0),
-  monthlyIncome: z.coerce.number().nonnegative().optional().default(0),
-  fullname: z
+  fullName: z
     .string()
-    .min(3, { message: "Must be at least 3 characters" })
-    .max(255, { message: "Must be at most 255 characters" })
-    .optional()
-    .nullable(),
-  employmentStatus: z.nativeEnum(employmentStatusesEnum),
-  jobTitle: z.string().max(255).optional(),
-  //TODO verify real NRIC length
-  //Optional because this was added later. So some applications will not have this
-  nric: z.string().optional(),
-  currentEmploymentTime: z.nativeEnum(EmploymentTimeEnum),
-  previousEmploymentTime: z.nativeEnum(EmploymentTimeEnum),
-  propertyOwnership: z.nativeEnum(propertyOwnershipsEnum),
-  residencyStatus: z.nativeEnum(residencyStatusesEnum),
-  postalCode: z.coerce.string({ message: "Invalid postal code" }).optional(),
+    .min(3, { message: "Tên phải có ít nhất 3 ký tự" })
+    .max(255, { message: "Tên không được vượt quá 255 ký tự" }),
   phoneNumber: getPhoneSchema().nullable().optional(),
+  cccdNumber: z
+    .string()
+    .min(9, { message: "Số CCCD phải có ít nhất 9 ký tự" })
+    .max(12, { message: "Số CCCD không được vượt quá 12 ký tự" }),
+  email: z.string().email({ message: "Email không hợp lệ" }),
+  dateOfBirth: z.coerce.date({
+    invalid_type_error: "Ngày sinh không hợp lệ",
+  }),
+  monthlyIncome: z.coerce.number().nonnegative({ message: "Thu nhập hàng tháng không được âm" }),
+  hasLaborContract: z.boolean({ invalid_type_error: "Giá trị phải là true hoặc false" }).optional(),
+  streetAddress: z.string().max(255, { message: "Địa chỉ quá dài" }),
+  city: z.string().max(255, { message: "Tên thành phố quá dài" }),
+  province: z.string().max(255, { message: "Tên tỉnh/thành phố quá dài" }),
+
+  residencyStatus: z.string().optional().nullable(),
 });
 
 export const formTypeToSchema: Record<ApplicationTypesEnum, ZodSchema> = {
   [ApplicationTypesEnum.SG_MANUAL]: SgManualFormSchema,
 };
 
-export const SgManualFormSchemaKeys: (Partial<keyof typeof SgManualFormSchema.shape> | "mlcbRatio")[] = [
-  "age",
+export const SgManualFormSchemaKeys: (keyof typeof SgManualFormSchema.shape)[] = [
+  "fullName",
+  "cccdNumber",
+  "phoneNumber",
+  "email",
+  "dateOfBirth",
   "monthlyIncome",
-  "bankDebt",
-  "lenderDebt",
-  "mlcbRatio",
-  "employmentStatus",
-  "jobTitle",
-  "currentEmploymentTime",
-  "previousEmploymentTime",
-  "residencyStatus",
-  "propertyOwnership",
+  "hasLaborContract",
+  "streetAddress",
+  "city",
+  "province",
 ];
 
 export const ApplicationKeysLabels: Record<(typeof SgManualFormSchemaKeys)[number], string> = {
-  fullname: "Full Name",
-  phoneNumber: "Phone Number",
-  monthlyIncome: "Monthly Income",
-  employmentStatus: "Employment",
-  jobTitle: "Job Title",
-  currentEmploymentTime: "Curr. Emp. Time",
-  previousEmploymentTime: "Prev. Emp. Time",
-  propertyOwnership: "Prop. Ownership",
-  residencyStatus: "Res. Status",
-  postalCode: "Postal Code",
-  age: "Age",
-  bankDebt: "Unsec. Bank Debt",
-  lenderDebt: "Unsec. ML Debt",
-  mlcbRatio: "ML Debt to income",
-  nric: "NRIC/FIN",
-} as const;
+  fullName: "Full Name (Tên đầy đủ)",
+  cccdNumber: "ID Card Number (CCCD/CMND)",
+  phoneNumber: "Phone Number (Số điện thoại)",
+  email: "Email",
+  dateOfBirth: "Date of Birth (Ngày sinh)",
+  monthlyIncome: "Monthly Income (Thu nhập hàng tháng)",
+  hasLaborContract: "Has Labor Contract? (Có hợp đồng lao động?)",
+  streetAddress: "Street Address (Tên đường)",
+  city: "City (Thành phố)",
+  province: "Province (Tỉnh thành)",
+  residencyStatus: "Residency Status (Giá trị công dân)",
+};

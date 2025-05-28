@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { mailChimpClient } from '../clients/mailChimpClient';
 import { prismaClient } from '../clients/prismaClient';
 import { CONFIG } from '../config';
-import { formatApplicantForAdmin } from './applicantInfo.service';
+import { getAgeFromDateOfBirth } from '../utils/age';
 
 export const addBorrowersToMailChimpList = async () => {
   const borrowers = await prismaClient.user.findMany({
@@ -32,8 +32,7 @@ export const addBorrowersToMailChimpList = async () => {
     const response = await mailChimpClient.lists.batchListMembers(CONFIG.MAIL_CHIMP_AUDIENCE_ID /* Unique List ID */, {
       members: batch.map((user) => {
         const loanReq = user.loanRequests.length > 0 ? user.loanRequests[0] : undefined;
-        const applicantInfo =
-          loanReq && loanReq.applicantInfo ? formatApplicantForAdmin(loanReq.applicantInfo) : undefined;
+        const applicantInfo = loanReq?.applicantInfo;
         const data = {
           email_address: user.email,
           status: 'subscribed',
@@ -41,10 +40,9 @@ export const addBorrowersToMailChimpList = async () => {
             EMAIL: user.email,
             USER_ID: user.id,
             NAME: user.name || '',
-            POSTCODE: applicantInfo?.postalCode,
             CREATED_AT: format(user.createdAt, 'MM/dd/yyyy'),
-            AGE: applicantInfo?.age,
-            JOB: applicantInfo?.jobTitle,
+            AGE: getAgeFromDateOfBirth(applicantInfo?.dateOfBirth),
+            JOB: applicantInfo?.province,
             INCOME: applicantInfo?.monthlyIncome,
           },
         };

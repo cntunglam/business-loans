@@ -23,12 +23,10 @@ export const initializeVisitorSchema = z.object({
 export const initializeVisitor = async (req: Request, res: Response) => {
   let { visitorId, loanRequestType, referer } = initializeVisitorSchema.parse(req.body);
   const userId = req.user?.sub;
-
   if (!visitorId) {
     visitorId = randomUUID();
   }
-
-  const newVisitor = await prismaClient.visitorDataV2.upsert({
+  const newVisitor = await prismaClient.visitorData.upsert({
     where: { id: visitorId, loanRequestType },
     update: {
       lastActiveAt: new Date(),
@@ -41,72 +39,44 @@ export const initializeVisitor = async (req: Request, res: Response) => {
       loanRequestType,
       referer,
     },
-    include: { stepData: true },
   });
-
-  const steps = loanRequestTypeToSteps[loanRequestType as LoanRequestTypeEnum].filter((s) => !s.fixedValue);
-
+  let steps = loanRequestTypeToSteps[loanRequestType as LoanRequestTypeEnum];
   return successResponse(res, { steps, visitor: newVisitor });
 };
 
 export const saveStepProgressHandler = async (req: Request, res: Response) => {
   const { visitorId, stepKey, data } = saveStepSchema.parse(req.body);
-
-  const visitor = await prismaClient.visitorDataV2.findUnique({ where: { id: visitorId } });
-
+  const visitor = await prismaClient.visitorData.findUnique({ where: { id: visitorId } });
+  if (!visitor) {
+    throw new Error('Visitor not found');
+  }
   const stepValidator = ApplicationSteps[stepKey];
   const stepSettings = loanRequestTypeToSteps[visitor?.loanRequestType as LoanRequestTypeEnum].find(
     (step) => step.key === stepKey,
   )?.settings;
   const validation = stepValidator.validation(data, stepSettings as any);
 
-  await prismaClient.$transaction(async (tx) => {
-    // Save step data with proper typing
-    await tx.stepData.upsert({
-      where: {
-        visitorId_stepKey: {
-          visitorId,
-          stepKey,
-        },
-      },
-      update: {
-        data: validation,
-        isValid: true,
-        validatedAt: new Date(),
-      },
-      create: {
-        visitorId,
-        stepKey,
-        data: validation,
-        isValid: true,
-        validatedAt: new Date(),
-      },
-    });
-
-    // Update visitor progress
-    await tx.visitorDataV2.update({
-      where: { id: visitorId },
-      data: {
-        currentStep: stepKey,
-        lastActiveAt: new Date(),
-      },
-    });
-  });
-
-  // Return updated visitor data with steps
-  const visitorWithSteps = await prismaClient.visitorDataV2.findUnique({
+  if (!visitor.hasOwnProperty(stepKey)) {
+    throw new Error('Step not found');
+  }
+  await prismaClient.visitorData.update({
     where: { id: visitorId },
-    include: { stepData: true },
+    data: {
+      [stepKey]: validation,
+      currentStep: stepKey,
+      lastActiveAt: new Date(),
+    },
   });
-
-  return successResponse(res, visitorWithSteps);
+  const updatedVisitor = await prismaClient.visitorData.findUnique({
+    where: { id: visitorId },
+  });
+  return successResponse(res, updatedVisitor);
 };
 
 export const handleSubmitPhoneSchema = z.object({
   phone: getPhoneSchema(),
   visitorId: z.string(),
 });
-
 export const handleSubmitPhone = async (req: Request, res: Response) => {
   const { phone, visitorId } = handleSubmitPhoneSchema.parse(req.body);
 
@@ -120,22 +90,11 @@ export const handleSubmitPhone = async (req: Request, res: Response) => {
     return successResponse(res, { exists: true });
   }
 
-  await prismaClient.stepData.upsert({
-    where: {
-      visitorId_stepKey: {
-        visitorId,
-        stepKey: ApplicationStepsEnum.phoneNumber,
-      },
-    },
-    create: {
-      data: phone,
-      isValid: true,
-      visitorId,
-      stepKey: ApplicationStepsEnum.phoneNumber,
-    },
-    update: {
-      data: phone,
-      isValid: true,
+  await prismaClient.visitorData.update({
+    where: { id: visitorId },
+    data: {
+      phoneNumber: phone,
+      currentStep: ApplicationStepsEnum.phoneNumber,
     },
   });
 
@@ -147,21 +106,15 @@ export const handleFinalizeSchema = z.object({
   override: z.coerce.boolean().optional(),
   affiliateVisitorId: z.coerce.string().optional(),
 });
-
 export const finalizeLoanRequestHandler = async (req: Request, res: Response) => {
   const { visitorId, override, affiliateVisitorId } = handleFinalizeSchema.parse(req.body);
-
-  const visitor = await prismaClient.visitorDataV2.findUniqueOrThrow({
+  const visitor = await prismaClient.visitorData.findUniqueOrThrow({
     where: { id: visitorId },
-    include: { stepData: true },
   });
-
-  if (visitor.stepData.length === 0) {
+  if (!visitor.currentStep) {
     throw new Error('No step data found');
   }
-
   const requiredSteps = loanRequestTypeToSteps[visitor.loanRequestType as LoanRequestTypeEnum];
-
   const stepDataMap: Record<string, any> = {};
   requiredSteps.forEach((data) => {
     const stepKey = data.key;
@@ -169,26 +122,39 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
       stepDataMap[data.key] = data.fixedValue;
       return;
     }
-    const value = visitor.stepData.find((sd) => sd.stepKey === stepKey);
-    if (value) stepDataMap[stepKey] = value.data;
+    if (visitor)
+      stepDataMap[stepKey] = visitor.hasOwnProperty(stepKey) ? visitor[stepKey as keyof typeof visitor] : undefined;
   });
-
   const user = await prismaClient.user.findFirstOrThrow({ where: { id: req.user!.sub } });
 
-  const phoneNumber =
-    (visitor.stepData.find((sd) => sd.stepKey === ApplicationStepsEnum.phoneNumber)?.data as string) || user.phone;
+  const {
+    phoneNumber,
+    fullName,
+    cccdNumber,
+    email,
+    dateOfBirth,
+    monthlyIncome,
+    hasLaborContract,
+    jobTitle,
+    streetAddress,
+    city,
+    province,
+    residencyStatus,
+  } = visitor;
 
   const applicantInfo = {
-    ...stepDataMap[ApplicationStepsEnum.existingLoans],
-    ...stepDataMap[ApplicationStepsEnum.occupation],
-    ...stepDataMap[ApplicationStepsEnum.occupationTime],
-    ...stepDataMap[ApplicationStepsEnum.propertyOwnership],
-    age: stepDataMap[ApplicationStepsEnum.age],
-    nric: stepDataMap[ApplicationStepsEnum.nricNumber],
-    residencyStatus: stepDataMap[ApplicationStepsEnum.residencyStatus],
-    monthlyIncome: stepDataMap[ApplicationStepsEnum.monthlyIncome],
-    fullname: stepDataMap[ApplicationStepsEnum.fullName],
-    phoneNumber: phoneNumber,
+    fullName: fullName!,
+    phoneNumber: phoneNumber!,
+    cccdNumber: cccdNumber!,
+    email: email!,
+    dateOfBirth: dateOfBirth!,
+    monthlyIncome: monthlyIncome!,
+    hasLaborContract: hasLaborContract!,
+    jobTitle: jobTitle!,
+    streetAddress: streetAddress!,
+    city: city!,
+    province: province!,
+    residencyStatus: residencyStatus,
   };
 
   const combinedData: z.infer<typeof createLoanRequestSchema> = {
@@ -201,8 +167,7 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
   };
 
   const createdLoanRequest = await createNewLoanRequest(combinedData, req.user!.sub, override);
-
-  await prismaClient.visitorDataV2.update({
+  await prismaClient.visitorData.update({
     where: { id: visitorId },
     data: {
       isCompleted: true,
@@ -214,7 +179,7 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
     where: { id: user.id },
     data: {
       phone: phoneNumber,
-      name: combinedData.applicantInfo.fullname,
+      name: combinedData.applicantInfo.fullName,
     },
   });
 

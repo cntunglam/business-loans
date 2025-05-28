@@ -278,7 +278,7 @@ export const formatLoanRequestForAdmin = (
           closedDealOffer: true;
         };
       };
-      applicantInfo: { select: { data: true; documents: { where: { isDeleted: false } } } };
+      applicantInfo: { include: { documents: { where: { isDeleted: false } } } };
       customerSupport: { select: { id: true; name: true } };
     };
   }>,
@@ -415,9 +415,10 @@ export const createLoanRequestSchema = z.object({
   amount: z.coerce.number().int().positive(),
   term: z.coerce.number().int().positive(),
   type: z.nativeEnum(LoanRequestTypeEnum),
-  applicantInfo: SgManualFormSchema,
   referer: z.string().optional(),
   override: z.boolean().optional(),
+
+  applicantInfo: SgManualFormSchema,
 });
 
 export const createNewLoanRequest = async (
@@ -428,9 +429,7 @@ export const createNewLoanRequest = async (
   const existingApplication = await getUserLastLoanRequest(userId);
   if (existingApplication) {
     const formatted = formatLoanRequestForBorrower(existingApplication);
-
     const isApplicationActive = !formatted.isExpired && !formatted.isFullfilled && !formatted.isWithdrawn;
-
     if (isApplicationActive) {
       const isSubmittedRecently = differenceInHours(new Date(), new Date(existingApplication.createdAt)) < 24;
       if (isSubmittedRecently) {
@@ -443,15 +442,14 @@ export const createNewLoanRequest = async (
   }
 
   const newApplication = await prismaClient.$transaction(async (tx) => {
-    const applInfo = await tx.applicantInfo.create({
+    const applicantInfo = await tx.applicantInfo.create({
       data: {
+        ...data.applicantInfo,
         dataFormat: ApplicationTypesEnum.SG_MANUAL,
-        data: data.applicantInfo,
       },
     });
-
     const now = new Date();
-    // Create a new loan application
+
     const newLr = await tx.loanRequest.create({
       data: {
         amount: data.amount,
@@ -460,7 +458,7 @@ export const createNewLoanRequest = async (
         country: CountriesEnum.SG,
         status: LoanRequestStatusEnum.ACTIVE,
         userId: userId,
-        applicantInfoId: applInfo.id,
+        applicantInfoId: applicantInfo.id,
         type: data.type,
         referer: data.referer,
         approvedAt: now,
@@ -469,12 +467,10 @@ export const createNewLoanRequest = async (
     });
 
     if (existingApplication) {
-      // Delete existing one
       await tx.loanRequest.update({
         where: { id: existingApplication.id },
         data: { status: LoanRequestStatusEnum.DELETED },
       });
-
       await createActivityLog({
         userId: existingApplication.userId,
         loanRequestId: existingApplication.id,
@@ -483,7 +479,6 @@ export const createNewLoanRequest = async (
         targetId: existingApplication.id,
       });
     }
-
     return newLr;
   });
 

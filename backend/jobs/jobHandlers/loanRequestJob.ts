@@ -8,12 +8,10 @@ import {
   UserRoleEnum,
 } from '@roshi/shared';
 import { CONFIG } from '../../config';
-import { getIPAForBEST, getIPAForCreditXtra, getIPAForEzLoan, getIpaForMoneyplus } from '../../data/autoIpa';
 import { formatApplicantForAdmin } from '../../services/applicantInfo.service';
 import { EmailTypeEnum, sendEmail } from '../../services/email.service';
 import { checkGradingEligibility } from '../../services/leadGrading.service';
 import { getLoanRequest } from '../../services/loanRequest.service';
-import { createLoanResponse } from '../../services/loanResponse.service';
 import { sendNotification } from '../../services/notification.service';
 import logger from '../../utils/logger';
 import { RoshiError } from '../../utils/roshiError';
@@ -29,7 +27,7 @@ export const initLoanRequestJob = () => {
     const applicantInfo = formatApplicantForAdmin(loanRequest.applicantInfo);
 
     try {
-      await sendEmail(loanRequest.user.email, EmailTypeEnum.WELCOME, { fullname: applicantInfo.fullname ?? 'Name' });
+      await sendEmail(loanRequest.user.email, EmailTypeEnum.WELCOME, { fullname: applicantInfo.fullName ?? 'Name' });
     } catch (e) {
       console.error('Error sending welcome email', e);
       logger({
@@ -50,25 +48,6 @@ export const initLoanRequestJob = () => {
     });
 
     //Check for auto-approvals (only on creation)
-    const offers = [
-      getIPAForBEST(loanRequest),
-      getIPAForEzLoan(loanRequest),
-      getIPAForCreditXtra(loanRequest),
-      getIpaForMoneyplus(loanRequest),
-    ];
-    for (const offer of offers) {
-      if (offer && offer.companyId) {
-        try {
-          await createLoanResponse(
-            offer.companyId,
-            { status: offer.status, loanRequestId: loanRequest.id, offer: offer.offer },
-            true,
-          );
-        } catch (e) {
-          console.error('Error creating loan response', e);
-        }
-      }
-    }
 
     //This shouldn't fail the main job. We should log it and continue
     try {

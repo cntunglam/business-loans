@@ -31,7 +31,7 @@ export const testEmails = async (loanRequestId?: string) => {
   //   purpose: 'Personal Loan',
   //   term: '12',
   //   monthlyIncome: '5000',
-  //   recidencyStatus: 'Resident',
+  //   residencyStatus: 'Resident',
   //   loanRequestLink: 'https://roshi.sg',
   // });
   // sendEmail('example@example.com', EmailTypeEnum.OTP, { otp: '12345' });

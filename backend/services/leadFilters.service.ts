@@ -1,128 +1,125 @@
-import { CompanyLeadSettings, Prisma, residencyStatusesEnum, SgManualFormSchema } from '@roshi/shared';
-import { z } from 'zod';
+import { ApplicantInfo, CompanyLeadSettings, Prisma, residencyStatusesEnum } from '@roshi/shared';
 import { prismaClient } from '../clients/prismaClient';
+
+// Define local types for better type safety
+type ResidencyStatus = keyof typeof residencyStatusesEnum;
+
+// Helper function to create a filter condition for a single field
+const createFilterCondition = <T>(
+  field: string,
+  values: T[] | undefined,
+  path: string[] = [field],
+): Prisma.ApplicantInfoWhereInput | null => {
+  return null;
+  //   if (!values || values.length === 0) return null;
+  //   return {
+  //     OR: values.map((value) => ({
+  //       data: {
+  //         path,
+  //         equals: value,
+  //       },
+  //     })),
+  //   };
+};
 
 export const mappLeadFilters = (
   whereClause: Prisma.LoanRequestWhereInput,
-  companyLeadSettings: CompanyLeadSettings,
-) => {
+  companyLeadSettings: Partial<CompanyLeadSettings> | null | undefined,
+): void => {
+  // Initialize AND array
   const AND: Prisma.ApplicantInfoWhereInput[] = [];
-  // residencyStatus
-  if (companyLeadSettings.residencyStatus?.length > 0) {
-    AND.push({
-      OR: companyLeadSettings.residencyStatus.map((residencyStatus) => ({
-        data: {
-          path: ['residencyStatus'],
-          equals: residencyStatus,
-        },
-      })),
+
+  // Return early if no settings provided
+  if (!companyLeadSettings) {
+    whereClause.applicantInfo = { AND };
+    return;
+  }
+
+  // Process residency status filter
+  const residencyStatusFilter = createFilterCondition<ResidencyStatus>(
+    'residencyStatus',
+    companyLeadSettings.residencyStatus as ResidencyStatus[],
+  );
+  if (residencyStatusFilter) AND.push(residencyStatusFilter);
+
+  // Process employment status filter
+  const employmentStatusFilter = createFilterCondition('employmentStatus', companyLeadSettings.employmentStatus);
+  if (employmentStatusFilter) AND.push(employmentStatusFilter);
+
+  // Process employment time filter (both current and previous)
+  if (companyLeadSettings.employmentTime?.length) {
+    const employmentTimeFields = ['currentEmploymentTime', 'previousEmploymentTime'];
+
+    employmentTimeFields.forEach((field) => {
+      const filter = createFilterCondition(field, companyLeadSettings.employmentTime, [field]);
+      if (filter) AND.push(filter);
     });
   }
 
-  // employmentStatus
-  if (companyLeadSettings.employmentStatus?.length > 0) {
+  // Process property ownership filter
+  const propertyOwnershipFilter = createFilterCondition('propertyOwnership', companyLeadSettings.propertyOwnerships);
+  if (propertyOwnershipFilter) AND.push(propertyOwnershipFilter);
+
+  // Process income filters based on residency status
+  const localResidencyStatuses: ResidencyStatus[] = [
+    residencyStatusesEnum.SINGAPOREAN,
+    residencyStatusesEnum.PERMANANT_RESIDENT,
+  ];
+
+  const foreignerResidencyStatuses: ResidencyStatus[] = [
+    residencyStatusesEnum.EMPLOYMENT_PASS,
+    residencyStatusesEnum.FOREIGNER,
+    residencyStatusesEnum.LONG_TERM_VISIT,
+    residencyStatusesEnum.S_PASS_WORK_PERMIT,
+  ];
+
+  const incomeFilters: Prisma.ApplicantInfoWhereInput[] = [];
+
+  // Add local income filter if applicable
+  if (companyLeadSettings.minMonthlyIncomeLocal !== undefined && companyLeadSettings.minMonthlyIncomeLocal !== null) {
+    // incomeFilters.push({
+    //   data: {
+    //     path: ['monthlyIncome'],
+    //     gte: companyLeadSettings.minMonthlyIncomeLocal,
+    //   },
+    //   OR: localResidencyStatuses.map((status) => ({
+    //     data: {
+    //       path: ['residencyStatus'],
+    //       equals: status,
+    //     },
+    //   })),
+    // });
+  }
+
+  // Add foreigner income filter if applicable
+  if (
+    companyLeadSettings.minMonthlyIncomeForeigner !== undefined &&
+    companyLeadSettings.minMonthlyIncomeForeigner !== null
+  ) {
+    // incomeFilters.push({
+    //   data: {
+    //     path: ['monthlyIncome'],
+    //     gte: companyLeadSettings.minMonthlyIncomeForeigner,
+    //   },
+    //   OR: foreignerResidencyStatuses.map((status) => ({
+    //     data: {
+    //       path: ['residencyStatus'],
+    //       equals: status,
+    //     },
+    //   })),
+    // });
+  }
+
+  // Add income filters to AND array if any exist
+  if (incomeFilters.length > 0) {
     AND.push({
-      OR: companyLeadSettings.employmentStatus.map((employmentStatus) => ({
-        data: {
-          path: ['employmentStatus'],
-          equals: employmentStatus,
-        },
-      })),
+      OR: incomeFilters,
     });
   }
 
-  // employmentTime
-  if (companyLeadSettings.employmentTime?.length > 0) {
-    AND.push({
-      OR: companyLeadSettings.employmentTime.map((employmentTime) => ({
-        data: {
-          path: ['currentEmploymentTime'],
-          equals: employmentTime,
-        },
-      })),
-    });
-    AND.push({
-      OR: companyLeadSettings.employmentTime.map((employmentTime) => ({
-        data: {
-          path: ['previousEmploymentTime'],
-          equals: employmentTime,
-        },
-      })),
-    });
-  }
-
-  // propertyOwnerships
-  if (companyLeadSettings.propertyOwnerships?.length > 0) {
-    AND.push({
-      OR: companyLeadSettings.propertyOwnerships.map((propertyOwnership) => ({
-        data: {
-          path: ['propertyOwnership'],
-          equals: propertyOwnership,
-        },
-      })),
-    });
-  }
-
-  // minMonthlyIncomeLocal & minMonthlyIncomeForeigner
-  AND.push({
-    OR: [
-      {
-        data: {
-          path: ['monthlyIncome'],
-          gte: companyLeadSettings.minMonthlyIncomeLocal || 0,
-        },
-        OR: [
-          {
-            data: {
-              path: ['residencyStatus'],
-              equals: residencyStatusesEnum.SINGAPOREAN,
-            },
-          },
-          {
-            data: {
-              path: ['residencyStatus'],
-              equals: residencyStatusesEnum.PERMANANT_RESIDENT,
-            },
-          },
-        ],
-      },
-      {
-        data: {
-          path: ['monthlyIncome'],
-          gte: companyLeadSettings.minMonthlyIncomeForeigner || 0,
-        },
-        OR: [
-          {
-            data: {
-              path: ['residencyStatus'],
-              equals: residencyStatusesEnum.EMPLOYMENT_PASS,
-            },
-          },
-          {
-            data: {
-              path: ['residencyStatus'],
-              equals: residencyStatusesEnum.FOREIGNER,
-            },
-          },
-          {
-            data: {
-              path: ['residencyStatus'],
-              equals: residencyStatusesEnum.LONG_TERM_VISIT,
-            },
-          },
-          {
-            data: {
-              path: ['residencyStatus'],
-              equals: residencyStatusesEnum.S_PASS_WORK_PERMIT,
-            },
-          },
-        ],
-      },
-    ],
-  });
-
+  // Apply all filters to the where clause
   whereClause.applicantInfo = {
-    AND: [...AND],
+    AND: AND.length > 0 ? AND : undefined,
   };
 };
 
@@ -147,7 +144,7 @@ export const mappApplicantToLeadFilters = (
     }>
   >,
 ) => {
-  const applicantInfo = SgManualFormSchema.parse(loanRequest.applicantInfo?.data);
+  const applicantInfo: ApplicantInfo = loanRequest.applicantInfo!;
 
   const AND: Prisma.CompanyLeadSettingsWhereInput[] = [];
 
@@ -182,8 +179,9 @@ export const mappApplicantToLeadFilters = (
   });
   // monthlyIncome
   if (
+    applicantInfo.residencyStatus &&
     [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT].includes(
-      applicantInfo.residencyStatus,
+      applicantInfo.residencyStatus as residencyStatusesEnum,
     )
   ) {
     addCondition('minMonthlyIncomeLocal', { lte: applicantInfo.monthlyIncome });
@@ -191,29 +189,24 @@ export const mappApplicantToLeadFilters = (
     addCondition('minMonthlyIncomeForeigner', { lte: applicantInfo.monthlyIncome });
   }
   addCondition('minLoanAmount', { lte: loanRequest.amount });
-  // maxDebtIncomeRatio
   addCondition('maxDebtIncomeRatio', {
     gte: applicantInfo.monthlyIncome > 0 ? applicantInfo.lenderDebt / applicantInfo.monthlyIncome : 0,
   });
-  // employeeTime
-  addConditionArr('employmentTime', {
-    has: applicantInfo.currentEmploymentTime,
-  });
-  addConditionArr('employmentTime', {
-    has: applicantInfo.previousEmploymentTime,
-  });
-  // employmentStatus
-  addConditionArr('employmentStatus', {
-    has: applicantInfo.employmentStatus,
-  });
-  // residencyStatus
+  //   addConditionArr('employmentTime', {
+  //     has: applicantInfo.currentEmploymentTime,
+  //   });
+  //   addConditionArr('employmentTime', {
+  //     has: applicantInfo.previousEmploymentTime,
+  //   });
+  //   addConditionArr('employmentStatus', {
+  //     has: applicantInfo.employmentStatus,
+  //   });
   addConditionArr('residencyStatus', {
     has: applicantInfo.residencyStatus,
   });
-  // propertyOwnerships
-  addConditionArr('propertyOwnerships', {
-    has: applicantInfo.propertyOwnership,
-  });
+  //   addConditionArr('propertyOwnerships', {
+  //     has: applicantInfo.propertyOwnership,
+  //   });
 
   whereClause.OR = [
     {
@@ -306,7 +299,7 @@ export async function applyCompanyLeadSettings(
       .filter((item) => {
         const maxDebtIncomeRatio = leadSettings?.maxDebtIncomeRatio;
         if (!maxDebtIncomeRatio) return true;
-        const applicantData = item.applicantInfo?.data as z.infer<typeof SgManualFormSchema> | undefined;
+        const applicantData = item.applicantInfo;
         let hasValidDebtIncomeRatio = false;
         if (
           applicantData &&

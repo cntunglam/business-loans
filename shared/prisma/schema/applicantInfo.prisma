@@ -1,0 +1,44 @@
+model ApplicantInfo {
+    borrowAmount  String?
+    borrowPeriod  String?
+    borrowPurpose String?
+
+    // Required fields only
+    fullName    String?
+    cccdNumber  String?
+    phoneNumber String?
+    email       String?
+    dateOfBirth DateTime?
+
+    // Current Address
+    streetAddress String?
+    city          String?
+    province      String?
+
+    monthlyIncome Float @default(0)
+
+    jobTitle String?
+
+    hasLaborContract Boolean?
+
+    residencyStatus String?
+
+    postalCode String?
+
+    lenderDebt Float @default(0)
+    bankDebt   Float @default(0)
+
+    dataFormat  String?
+    documents   Document[]
+    applicantOf LoanRequest? @relation(name: "applicantInfo")
+    guarantorOf LoanRequest? @relation(name: "guarantorInfo")
+
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([cccdNumber])
+    @@index([phoneNumber])
+    @@index([email])
+    @@schema("public")
+}

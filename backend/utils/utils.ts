@@ -82,3 +82,17 @@ export function addProp<T extends object, K extends PropertyKey, V>(
 ): asserts obj is T & { [P in K]: V } {
   Object.assign(obj, { [key]: value });
 }
+
+export function safeDivide(numerator?: number, denominator?: number): number {
+  if (
+    typeof numerator !== 'number' ||
+    typeof denominator !== 'number' ||
+    isNaN(numerator) ||
+    isNaN(denominator) ||
+    denominator === 0
+  ) {
+    return 0;
+  }
+
+  return numerator / denominator;
+}
