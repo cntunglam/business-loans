@@ -1,11 +1,11 @@
 import {
-  employmentTypeEnum,
-  employmentTypeLabels,
-  loanPurposesEnum,
-  loanPurposesLabels,
-  residencyStatusesEnum,
-  residencyStatusesLabels,
-  SgManualFormSchemaKeys
+    employmentTypeEnum,
+    employmentTypeLabels,
+    loanPurposesEnum,
+    loanPurposesLabels,
+    residencyStatusesEnum,
+    residencyStatusesLabels,
+    SgManualFormSchemaKeys
 } from "@roshi/shared";
 import { format } from "date-fns";
 import { formatToDisplayString, getDifference } from "../../utils/utils";
@@ -26,7 +26,7 @@ export const formatApplicationData = ({ property, value }: Props) => {
   switch (property) {
     case "residencyStatus":
       return residencyStatusesLabels[value as residencyStatusesEnum];
-    case "jobTitle":
+    case "employmentType":
       return `${value}` in employmentTypeLabels ? employmentTypeLabels[value as employmentTypeEnum] : `${value}`;
     case "purpose":
       return (value as string) in loanPurposesLabels

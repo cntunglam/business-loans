@@ -1,7 +1,7 @@
 import { Button, Divider, Typography } from "@mui/joy";
 import { formatApplicantForAdmin, formatApplicantForBorrower, formatApplicantInfoForLender } from "@roshi/backend";
-import { getAgeFromDateOfBirth } from '@roshi/backend/utils/age';
 import { DocumentTypeEnum } from "@roshi/shared";
+import { format } from 'date-fns';
 import { FC } from "react";
 import { useGetApplicantInfo } from "../../api/useApplicantInfoApi";
 import { useGetMyLoanRequest } from "../../api/useLoanRequestApi";
@@ -71,10 +71,10 @@ export const ApplicationDetailsModal: FC<Props> = ({
           })
         )}
         {renderTitleAndValue(
-          "Age",
+          "DOB",
           formatApplicationData({
             property: "dateOfBirth",
-            value: getAgeFromDateOfBirth(applicantInfo.dateOfBirth),
+            value: format(applicantInfo.dateOfBirth!, "dd/MM/yyyy"),
           })
         )}
         {renderTitleAndValue(
@@ -92,8 +92,8 @@ export const ApplicationDetailsModal: FC<Props> = ({
          {renderTitleAndValue(
           "Job Title",
           formatApplicationData({
-            property: "jobTitle",
-            value: applicantInfo.jobTitle,
+            property: "employmentType",
+            value: applicantInfo.employmentType,
           })
         )}
         <Divider />

@@ -16,7 +16,7 @@ model User {
   refreshTokens RefreshToken[]
   apiTokens     APIToken[]
   waUser        WaUser?
-  nric          String?
+  cccd          String?
   shortUrls     ShortUrl[]
   visitorData   VisitorData[]
 

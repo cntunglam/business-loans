@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker/locale/vi';
+import { uniqueId } from 'lodash';
 import { prismaClient } from '../clients/prismaClient';
 
 // Generate Vietnamese company names
@@ -143,7 +144,7 @@ async function createCompany(index: number) {
   for (let i = 0; i < numLenders; i++) {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
-    const email = `user${i + 1}@${companyEmail.split('@')[1]}`;
+    const email = `lender+${uniqueId()}@example.com`;
 
     await prismaClient.user.create({
       data: {

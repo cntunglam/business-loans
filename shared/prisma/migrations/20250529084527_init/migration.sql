@@ -57,13 +57,9 @@ CREATE TABLE "public"."ApplicantInfo" (
     "city" TEXT,
     "province" TEXT,
     "monthlyIncome" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "jobTitle" TEXT,
+    "employmentType" TEXT,
     "hasLaborContract" BOOLEAN,
     "residencyStatus" TEXT,
-    "postalCode" TEXT,
-    "lenderDebt" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "bankDebt" DOUBLE PRECISION NOT NULL DEFAULT 0,
-    "dataFormat" TEXT,
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -185,19 +181,6 @@ CREATE TABLE "public"."LoanRequest" (
     "isAutoReapply" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "LoanRequest_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "public"."LoanRequestGrading" (
-    "loanRequestId" TEXT NOT NULL,
-    "mlcbGrade" TEXT,
-    "leadTier" TEXT,
-    "mlcbReport" JSONB,
-    "id" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "LoanRequestGrading_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -392,7 +375,7 @@ CREATE TABLE "public"."User" (
     "companyId" TEXT,
     "isAssignableToLoanRequest" BOOLEAN NOT NULL DEFAULT false,
     "status" TEXT NOT NULL DEFAULT 'ACTIVE',
-    "nric" TEXT,
+    "cccd" TEXT,
     "lastLoginAt" TIMESTAMP(3),
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -486,7 +469,7 @@ CREATE TABLE "public"."VisitorData" (
     "city" TEXT,
     "province" TEXT,
     "monthlyIncome" DOUBLE PRECISION DEFAULT 0,
-    "jobTitle" TEXT,
+    "employmentType" TEXT,
     "hasLaborContract" BOOLEAN,
     "residencyStatus" TEXT,
     "lastActiveAt" TIMESTAMP(3) NOT NULL,
@@ -522,9 +505,6 @@ CREATE UNIQUE INDEX "LoanRequest_applicantInfoId_key" ON "public"."LoanRequest"(
 
 -- CreateIndex
 CREATE UNIQUE INDEX "LoanRequest_guarantorInfoId_key" ON "public"."LoanRequest"("guarantorInfoId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "LoanRequestGrading_loanRequestId_key" ON "public"."LoanRequestGrading"("loanRequestId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "LoanResponse_lenderId_loanRequestId_key" ON "public"."LoanResponse"("lenderId", "loanRequestId");
@@ -648,9 +628,6 @@ ALTER TABLE "public"."LoanRequest" ADD CONSTRAINT "LoanRequest_userId_fkey" FORE
 
 -- AddForeignKey
 ALTER TABLE "public"."LoanRequest" ADD CONSTRAINT "LoanRequest_customerSupportId_fkey" FOREIGN KEY ("customerSupportId") REFERENCES "public"."User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "public"."LoanRequestGrading" ADD CONSTRAINT "LoanRequestGrading_loanRequestId_fkey" FOREIGN KEY ("loanRequestId") REFERENCES "public"."LoanRequest"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."LoanResponse" ADD CONSTRAINT "LoanResponse_loanRequestId_fkey" FOREIGN KEY ("loanRequestId") REFERENCES "public"."LoanRequest"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -17,8 +17,8 @@ export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
   useEffect(() => {
     if (!visitor) return;
     try {
-      const stepData = ApplicationSteps[ApplicationStepsEnum.jobTitle].validation(
-        visitor[ApplicationStepsEnum.jobTitle],
+      const stepData = ApplicationSteps[ApplicationStepsEnum.employmentType].validation(
+        visitor[ApplicationStepsEnum.employmentType],
       );
       if (stepData)
         if (Object.values(employmentTypeEnum).includes(stepData as employmentTypeEnum)) {

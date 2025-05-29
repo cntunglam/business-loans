@@ -28,7 +28,7 @@ export const ApplicationStepsComponents = {
   [ApplicationStepsEnum.dateOfBirth]: <AgeStep />,
   [ApplicationStepsEnum.monthlyIncome]: <IncomeStep />,
   [ApplicationStepsEnum.hasLaborContract]: <HasLaborContractStep />,
-  [ApplicationStepsEnum.jobTitle]: <OccupationStep />,
+  [ApplicationStepsEnum.employmentType]: <OccupationStep />,
   [ApplicationStepsEnum.city]: <CityStep />,
   [ApplicationStepsEnum.province]: <ProvinceStep />,
   [ApplicationStepsEnum.streetAddress]: <AddressStep />,

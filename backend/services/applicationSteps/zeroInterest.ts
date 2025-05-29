@@ -29,8 +29,8 @@ export const zeroInterestLoanSteps: StepDetails[] = [
     title: ApplicationStepsLabels[ApplicationStepsEnum.cccdNumber],
   },
   {
-    key: ApplicationStepsEnum.jobTitle,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.jobTitle],
+    key: ApplicationStepsEnum.employmentType,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.employmentType],
     settings: { options: Object.values(employmentTypeEnum) },
   },
   {

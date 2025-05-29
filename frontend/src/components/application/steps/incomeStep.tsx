@@ -1,30 +1,28 @@
-import { FormControl, Typography } from "@mui/joy";
 import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
-import { ApplicationStepsEnum } from "@roshi/shared";
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { ApplicationStepsEnum, MinMaxSettings } from "@roshi/shared";
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import { useVisitorContext } from "../../../context/visitorContext";
 import { TEST_IDS } from "../../../utils/testUtils";
 import { Flex } from "../../shared/flex";
-import { NumericFormatAdapter } from "../../shared/numericFormatAdapter";
-import { ApplicationStyledInput } from "../styled/applicationStyledInput";
+import { RsSlider } from '../../shared/rsSlider';
 
 export const IncomeStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
-  const { error, setError, visitor } = useVisitorContext();
-  const [value, setValue] = useState<string>("");
+  const { setError, visitor, currentStepData } = useVisitorContext();
+  const settings = useMemo(() => currentStepData?.settings as MinMaxSettings, [currentStepData]);
+  const [value, setValue] = useState<number>(settings.min);
 
   useEffect(() => {
     if (!visitor) return;
     try {
       const stepData = ApplicationSteps[ApplicationStepsEnum.monthlyIncome].validation(
         visitor[ApplicationStepsEnum.monthlyIncome],
+        settings,
       );
-      if (stepData) {
-        setValue(`${stepData}`);
-      }
+      setValue(stepData);
     } catch (e) {
       // do nothing
     }
-  }, [visitor]);
+  }, [visitor, settings]);
 
   useImperativeHandle(ref, () => ({
     getValue: () => {
@@ -32,36 +30,20 @@ export const IncomeStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
         setError("Please enter your monthly income");
         return;
       }
-      return parseInt(value);
+      return value
     },
   }));
   return (
     <Flex y px={{ xs: 3, sm: 2, md: 0 }}>
-      <FormControl>
-        <ApplicationStyledInput
-          data-testid={TEST_IDS.monthlyIncomeInput}
-          size="lg"
-          placeholder="Thu nhập"
-          startDecorator={
-            <Typography level="h4" color="secondary">
-              VND
-            </Typography>
-          }
-          error={!!error}
-          value={value}
-          className="income-input"
-          slotProps={{
-            input: {
-              component: NumericFormatAdapter,
-            },
-          }}
-          onChange={(e) => {
-            setValue(e.target.value);
-            setError("");
-          }}
-          color="secondary"
-        />
-      </FormControl>
+      <RsSlider
+        step={100000}
+        suffix={"₫" + (value === settings.max ? "+" : "")}
+        min={settings.min}
+        max={settings.max}
+        value={value}
+        setValue={setValue}
+        data-testid={TEST_IDS.borrowAmountSlider}
+      />
     </Flex>
   );
 });

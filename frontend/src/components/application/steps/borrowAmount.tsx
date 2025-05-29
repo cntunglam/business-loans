@@ -7,7 +7,6 @@ import { RsSlider } from "../../shared/rsSlider";
 
 export const BorrowAmountStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const { visitor, currentStepData } = useVisitorContext();
-
   const settings = useMemo(() => currentStepData?.settings as MinMaxSettings, [currentStepData]);
 
   const [value, setValue] = useState<number>(settings.min);

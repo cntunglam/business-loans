@@ -3,7 +3,6 @@ import { format } from 'date-fns';
 import { mailChimpClient } from '../clients/mailChimpClient';
 import { prismaClient } from '../clients/prismaClient';
 import { CONFIG } from '../config';
-import { getAgeFromDateOfBirth } from '../utils/age';
 
 export const addBorrowersToMailChimpList = async () => {
   const borrowers = await prismaClient.user.findMany({
@@ -41,7 +40,7 @@ export const addBorrowersToMailChimpList = async () => {
             USER_ID: user.id,
             NAME: user.name || '',
             CREATED_AT: format(user.createdAt, 'MM/dd/yyyy'),
-            AGE: getAgeFromDateOfBirth(applicantInfo?.dateOfBirth),
+            DOB: applicantInfo?.dateOfBirth,
             JOB: applicantInfo?.province,
             INCOME: applicantInfo?.monthlyIncome,
           },

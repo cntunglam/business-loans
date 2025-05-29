@@ -1,11 +1,4 @@
-import {
-  ApplicationTypesEnum,
-  bankLoanCriteria,
-  ERROR_KEYS,
-  JobsEnum,
-  SgManualFormSchema,
-  zodPageNumber,
-} from '@roshi/shared';
+import { bankLoanCriteria, ERROR_KEYS, JobsEnum, SgManualFormSchema, zodPageNumber } from '@roshi/shared';
 import { ActivityLogEnum, LoanRequestStatusEnum, StatusEnum, TargetTypeEnum } from '@roshi/shared/models/databaseEnums';
 import { randomUUID } from 'crypto';
 import { endOfMonth, startOfMonth, subMonths } from 'date-fns';
@@ -26,7 +19,6 @@ import {
   getWhereClause,
   verifyLenderAccess,
 } from '../../services/loanRequest.service';
-import { getAgeFromDateOfBirth } from '../../utils/age';
 import { errorResponse } from '../../utils/errorResponse';
 import { getLoanRequestPrismaQuery } from '../../utils/prismaUtils';
 import { RoshiError } from '../../utils/roshiError';
@@ -100,15 +92,13 @@ export const getPartnerOffers = async (req: Request, res: Response) => {
 
   if (!application) return successResponse(res, []);
   const appData = application.applicantInfo;
-  if (!appData) throw new Error('Invalid age');
+  if (!appData) throw new Error('Invalid application data');
   const matchingOffers = bankLoanCriteria.filter(
     (bankCriteria) =>
       !bankCriteria.disabled &&
       bankCriteria.loan_purpose.includes(application.purpose as any) &&
       appData.monthlyIncome &&
       appData.monthlyIncome * 12 >= bankCriteria.min_income &&
-      getAgeFromDateOfBirth(appData.dateOfBirth!) >= bankCriteria.min_age &&
-      getAgeFromDateOfBirth(appData.dateOfBirth!) <= bankCriteria.max_age &&
       bankCriteria.min_loan_tenure <= application.term &&
       application.term <= bankCriteria.max_loan_tenure &&
       bankCriteria.min_amount <= application.amount &&
@@ -327,10 +317,9 @@ export const createGuarantor = async (req: Request, res: Response) => {
   }
 
   const { applicantInfo } = createGuarantorSchema.parse(req.body);
-
   const newGuarantor = await prismaClient.loanRequest.update({
     where: { id: loanRequest.id },
-    data: { guarantorInfo: { create: { ...applicantInfo, dataFormat: ApplicationTypesEnum.SG_MANUAL } } },
+    data: { guarantorInfo: { create: applicantInfo } },
   });
   return successResponse(res, newGuarantor);
 };

@@ -20,7 +20,7 @@ const TEST_DATA = {
   monthlyIncome: "3000",
   expectedMonthlyIncome: "3,000",
   occupationalStatus: "Employed",
-  jobTitle: "Software Engineer",
+  employmentType: "Software Engineer",
   currentEmploymentTime: "3 months to 1 year",
   previousEmploymentTime: "1 year to 3 years",
   propertyOwnership: "Private Property",
@@ -145,8 +145,8 @@ test("Set MUI Slider to specific value", async ({ page }) => {
   await expect(occupationalStatusDropdown).toHaveText(TEST_DATA.occupationalStatus);
   const jobTitleInput = page.locator(`${getTestId(TEST_IDS.jobTitleInput)} > input`);
   await expect(jobTitleInput).toBeVisible();
-  await jobTitleInput.fill(TEST_DATA.jobTitle);
-  await expect(jobTitleInput).toHaveValue(TEST_DATA.jobTitle);
+  await jobTitleInput.fill(TEST_DATA.employmentType);
+  await expect(jobTitleInput).toHaveValue(TEST_DATA.employmentType);
   await page.click(getTestId(TEST_IDS.nextStepButton));
 
   // STEP 8: ApplicationStepsEnum.occupationTime

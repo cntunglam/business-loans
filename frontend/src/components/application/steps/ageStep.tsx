@@ -1,13 +1,11 @@
 import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
-import { ApplicationStepsEnum, MinMaxSettings } from "@roshi/shared";
-import { addYears } from 'date-fns';
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { ApplicationStepsEnum } from "@roshi/shared";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { useVisitorContext } from "../../../context/visitorContext";
 import { RsDatePicker } from '../../shared/rsDatePicker';
 
 export const AgeStep = forwardRef((_, ref) => {
-  const { currentStepData, visitor } = useVisitorContext();
-  const settings = useMemo(() => currentStepData?.settings as MinMaxSettings, [currentStepData]);
+  const { visitor } = useVisitorContext();
   const [value, setValue] = useState<Date | null>(null);
 
   useEffect(() => {
@@ -15,17 +13,21 @@ export const AgeStep = forwardRef((_, ref) => {
     try {
       const stepData = ApplicationSteps[ApplicationStepsEnum.dateOfBirth].validation(
         visitor[ApplicationStepsEnum.dateOfBirth],
-        settings
       );
       setValue(stepData);
     } catch (e) {
       // do nothing
+      setValue(new Date());
     }
-  }, [settings, visitor]);
+  }, [visitor]);
 
   useImperativeHandle(ref, () => ({
     getValue: () => value,
   }));
+
+  if (!value) {
+    return null
+  }
 
   return (
     <RsDatePicker
@@ -34,10 +36,8 @@ export const AgeStep = forwardRef((_, ref) => {
       selected={value}
       onChange={(date: Date | null) => setValue(date)}
       calendarStartDay={1}
-      minDate={addYears(new Date(), -settings.max)}
-      maxDate={addYears(new Date(), -settings.min)}
+      maxDate={new Date()}
       showYearDropdown
-      yearDropdownItemNumber={settings.max}
     />
   );
 });

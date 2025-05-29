@@ -1,3 +1,4 @@
+import { ApplicationStepsEnum } from "../models/applicationSteps.model";
 import {
   ActivityLogEnum,
   AppointmentStatusEnum,
@@ -72,4 +73,16 @@ export const LeadComputedStatusLabels = {
   [LeadComputedStatus.NO_RESPONSE]: "No response",
   [LeadComputedStatus.WAITING_OUTCOME]: "Waiting outcome",
   [LeadComputedStatus.NO_ACTIVITY]: "No activity",
+};
+
+export const ApplyingStepRequireErrorLabels = {
+  [ApplicationStepsEnum.fullName]: "Vui lòng nhập tên của bạn",
+  [ApplicationStepsEnum.employmentType]: "Vui lòng chọn một công việc",
+  [ApplicationStepsEnum.cccdNumber]: "Vui lòng nhập số CCCD",
+  [ApplicationStepsEnum.borrowPurpose]: "Vui lòng chọn mục đích vay",
+};
+
+export const ApplyingStepErrorLabels = {
+  [ApplicationStepsEnum.cccdNumber]: "Số CCCD không hợp lệ",
+  [ApplicationStepsEnum.fullName]: "Tên quá ngắn, vui lòng nhập đầy đủ họ tên",
 };

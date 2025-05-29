@@ -1,6 +1,5 @@
 import {
   ActivityLogEnum,
-  ApplicationTypesEnum,
   Company,
   CountriesEnum,
   ERROR_KEYS,
@@ -442,10 +441,7 @@ export const createNewLoanRequest = async (
 
   const newApplication = await prismaClient.$transaction(async (tx) => {
     const applicantInfo = await tx.applicantInfo.create({
-      data: {
-        ...data.applicantInfo,
-        dataFormat: ApplicationTypesEnum.SG_MANUAL,
-      },
+      data: data.applicantInfo,
     });
     const now = new Date();
 

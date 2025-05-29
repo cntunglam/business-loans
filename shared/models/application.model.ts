@@ -39,7 +39,7 @@ export const SgManualFormSchema = z.object({
   streetAddress: z.string().max(255, { message: "Địa chỉ quá dài" }),
   city: z.string().max(255, { message: "Tên thành phố quá dài" }),
   province: z.string().max(255, { message: "Tên tỉnh/thành phố quá dài" }),
-  jobTitle: z.string().min(2, { message: "Công việc phải có ít nhất 1 ký tự" }),
+  employmentType: z.string().min(2, { message: "Công việc phải có ít nhất 1 ký tự" }),
   residencyStatus: z.string().optional().nullable(),
 });
 
@@ -59,20 +59,5 @@ export const SgManualFormSchemaKeys: (keyof typeof SgManualFormSchema.shape)[] =
   "city",
   "province",
   "residencyStatus",
-  "jobTitle",
+  "employmentType",
 ];
-
-export const ApplicationKeysLabels: Record<(typeof SgManualFormSchemaKeys)[number], string> = {
-  fullName: "Full Name (Tên đầy đủ)",
-  cccdNumber: "ID Card Number (CCCD/CMND)",
-  phoneNumber: "Phone Number (Số điện thoại)",
-  email: "Email",
-  dateOfBirth: "Date of Birth (Ngày sinh)",
-  monthlyIncome: "Monthly Income (Thu nhập hàng tháng)",
-  hasLaborContract: "Has Labor Contract? (Có hợp đồng lao động?)",
-  streetAddress: "Street Address (Tên đường)",
-  city: "City (Thành phố)",
-  province: "Province (Tỉnh thành)",
-  residencyStatus: "Residency Status (Giá trị công dân)",
-  jobTitle: "Job Title (Công việc)",
-};

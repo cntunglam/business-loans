@@ -44,7 +44,6 @@ export const initReApplyJob = () => {
       const applicantInfo = await tx.applicantInfo.create({
         data: {
           ...data,
-          dataFormat: loanRequest.applicantInfo!.dataFormat,
         },
       });
 

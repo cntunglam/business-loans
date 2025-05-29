@@ -272,7 +272,9 @@ export const LoanApplication = () => {
           rowGap={6}
         >
           {currentStepIndex >= steps.length && (!user || !user.phone) ? (
-            <RegisterStep onSuccess={() => tryFinalize()} isLoading={isLoading || isLoanRequestFetching} />
+            <>
+              <RegisterStep onSuccess={() => tryFinalize()} isLoading={isLoading || isLoanRequestFetching} />
+            </>
           ) : (
             <>
               <Flex y>

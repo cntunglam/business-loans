@@ -96,16 +96,16 @@ export enum loanPurposesEnum {
 }
 
 export const loanPurposesLabels = {
-  [loanPurposesEnum.CREDIT_CARD_DEBT]: "Credit card debt",
-  [loanPurposesEnum.REPAY_FAMILY_OR_FRIENDS]: "Repay family or friends",
-  [loanPurposesEnum.EDUCATION]: "Education",
-  [loanPurposesEnum.HOME]: "Home",
-  [loanPurposesEnum.DEBT_CONSOLIDATION]: "Debt Consolidation",
-  [loanPurposesEnum.HOBBIES]: "Hobbies",
-  [loanPurposesEnum.INVESTMENTS]: "Investments",
-  [loanPurposesEnum.LINE_OF_CREDIT]: "Line of credit",
-  [loanPurposesEnum.BUSINESS_EXPANSION]: "Business expansion",
-  [loanPurposesEnum.OTHER]: "Other",
+  [loanPurposesEnum.CREDIT_CARD_DEBT]: "Nợ thẻ tín dụng",
+  [loanPurposesEnum.REPAY_FAMILY_OR_FRIENDS]: "Trả nợ cho gia đình hoặc bạn bè",
+  [loanPurposesEnum.EDUCATION]: "Giáo dục",
+  [loanPurposesEnum.HOME]: "Nhà ở",
+  [loanPurposesEnum.DEBT_CONSOLIDATION]: "Hợp nhất nợ",
+  [loanPurposesEnum.HOBBIES]: "Sở thích",
+  [loanPurposesEnum.INVESTMENTS]: "Đầu tư",
+  [loanPurposesEnum.LINE_OF_CREDIT]: "Hạn mức tín dụng",
+  [loanPurposesEnum.BUSINESS_EXPANSION]: "Mở rộng kinh doanh",
+  [loanPurposesEnum.OTHER]: "Khác",
 };
 
 export enum EmploymentTimeEnum {

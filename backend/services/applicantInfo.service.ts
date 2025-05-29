@@ -7,14 +7,13 @@ export const formatApplicantInfoForLender = (
   >,
   options?: { allowPersonalInformation?: boolean; isReapply?: boolean },
 ) => {
-  const { phoneNumber, fullName, postalCode, cccdNumber, ...rest } = applicantInfo;
+  const { phoneNumber, fullName, cccdNumber, ...rest } = applicantInfo;
 
   return {
     ...rest,
     phoneNumber: null,
     cccdNumber: options?.allowPersonalInformation ? cccdNumber : null,
     fullName: options?.allowPersonalInformation ? fullName : null,
-    postalCode: options?.allowPersonalInformation ? postalCode : null,
     id: applicantInfo.id!,
     documents: applicantInfo.documents?.map((doc) => formatDocumentForLenderOrBorrower(doc)),
     loanRequest: applicantInfo.applicantOf || applicantInfo.guarantorOf,

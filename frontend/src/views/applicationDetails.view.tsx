@@ -105,8 +105,8 @@ export const ApplicationDetailsView = () => {
         {renderTitleAndValue(
             "Job Tile",
             formatApplicationData({
-              property: "jobTitle",
-              value: applicantInfo!.jobTitle,
+              property: "employmentType",
+              value: applicantInfo!.employmentType,
             })
           )}
       </Flex>

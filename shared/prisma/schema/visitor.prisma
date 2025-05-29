@@ -28,7 +28,7 @@ model VisitorData {
 
   monthlyIncome Float? @default(0)
 
-  jobTitle String?
+  employmentType String?
 
   hasLaborContract Boolean?
 

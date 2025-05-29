@@ -17,15 +17,12 @@ model ApplicantInfo {
 
     monthlyIncome Float @default(0)
 
-    jobTitle String?
+    employmentType String?
 
     hasLaborContract Boolean?
 
     residencyStatus String?
 
-    postalCode String?
-
-    dataFormat  String?
     documents   Document[]
     applicantOf LoanRequest? @relation(name: "applicantInfo")
     guarantorOf LoanRequest? @relation(name: "guarantorInfo")

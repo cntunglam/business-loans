@@ -36,7 +36,7 @@ export const generateWebhookPayload = async <T extends NotificationTypeEnum>(
           id: loanRequest.user?.id,
           name: loanRequest.user?.name,
           phone: loanRequest.user?.phone,
-          nric: loanRequest.user?.nric,
+          cccd: loanRequest.user?.cccd,
         },
       };
     }

@@ -21,7 +21,7 @@ export const ApplicationStepsLabels: Record<ApplicationStepsEnum, string> = {
   [ApplicationStepsEnum.city]: 'Thành phố bạn đang sinh sống?',
   [ApplicationStepsEnum.province]: 'Tỉnh/thành phố nơi bạn cư trú?',
   [ApplicationStepsEnum.residencyStatus]: 'Giá trị công dân?',
-  [ApplicationStepsEnum.jobTitle]: 'Công việc của bạn là gì?',
+  [ApplicationStepsEnum.employmentType]: 'Công việc của bạn là gì?',
 };
 export const regularPersonalLoanSteps: StepDetails[] = [
   {
@@ -45,8 +45,8 @@ export const regularPersonalLoanSteps: StepDetails[] = [
     title: ApplicationStepsLabels[ApplicationStepsEnum.cccdNumber],
   },
   {
-    key: ApplicationStepsEnum.jobTitle,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.jobTitle],
+    key: ApplicationStepsEnum.employmentType,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.employmentType],
     settings: { options: Object.values(employmentTypeEnum) },
   },
   {
@@ -58,6 +58,7 @@ export const regularPersonalLoanSteps: StepDetails[] = [
     key: ApplicationStepsEnum.monthlyIncome,
     title: ApplicationStepsLabels[ApplicationStepsEnum.monthlyIncome],
     image: ApplicationStepsImagesEnum.cashback,
+    settings: { min: 1_000_000, max: 100_000_000 },
   },
   {
     key: ApplicationStepsEnum.hasLaborContract,

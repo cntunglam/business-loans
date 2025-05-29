@@ -4,7 +4,7 @@ export enum ApplicationStepsEnum {
   borrowPurpose = "borrowPurpose",
 
   monthlyIncome = "monthlyIncome",
-  jobTitle = "jobTitle",
+  employmentType = "employmentType",
   hasLaborContract = "hasLaborContract",
 
   fullName = "fullName",
