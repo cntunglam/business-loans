@@ -17,8 +17,6 @@ export const formatToDisplayString = (value?: string | number, significantDigits
   const nbr = typeof value === "string" ? parseFloat(value) : value;
   if (isNaN(nbr)) return "";
   return nbr.toLocaleString("vi-VN", {
-    style: "currency",
-    currency: "VND",
     maximumFractionDigits: significantDigits });
 };
 

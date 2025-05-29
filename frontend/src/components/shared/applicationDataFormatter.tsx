@@ -39,7 +39,7 @@ export const formatApplicationData = ({ property, value }: Props) => {
       return `${value} months`;
     case "amount":
     case "monthlyIncome":
-      return value === undefined || value === null ? "" : `${formatToDisplayString(value as number, 2)}`;
+      return value === undefined || value === null ? "" : `${formatToDisplayString(value as number, 2)}₫`;
     case "interestRate":
       return `${value}%`;
     default:

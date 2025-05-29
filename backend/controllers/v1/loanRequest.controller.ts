@@ -99,7 +99,6 @@ export const getPartnerOffers = async (req: Request, res: Response) => {
   });
 
   if (!application) return successResponse(res, []);
-
   const appData = application.applicantInfo;
   if (!appData) throw new Error('Invalid age');
   const matchingOffers = bankLoanCriteria.filter(

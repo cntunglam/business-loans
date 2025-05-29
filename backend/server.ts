@@ -134,6 +134,8 @@ setupCronJobs();
 
 const server = app.listen(CONFIG.PORT, () => {
   console.log(`App listening on port ${CONFIG.PORT}`);
+
+  // seedData();
 });
 
 // Graceful shutdown

@@ -31,8 +31,8 @@ export const BorrowAmountStep = forwardRef<{ getValue: () => unknown }>((_, ref)
 
   return (
     <RsSlider
-      step={1000}
-      prefix="$"
+      step={100000}
+      suffix="₫"
       min={settings.min}
       max={settings.max}
       value={value}
