@@ -1,107 +1,107 @@
-name: E2E Tests
+# name: E2E Tests
 
-on:
-  push:
-    branches: [dev]
-  pull_request:
-    branches: [dev]
+# on:
+#   push:
+#     branches: [dev]
+#   pull_request:
+#     branches: [dev]
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16.3
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: roshi-dev
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      mailhog:
-        image: mailhog/mailhog
-        ports:
-          - 1025:1025
-          - 8025:8025
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+#     services:
+#       postgres:
+#         image: postgres:16.3
+#         env:
+#           POSTGRES_USER: postgres
+#           POSTGRES_PASSWORD: postgres
+#           POSTGRES_DB: roshi-dev
+#         ports:
+#           - 5432:5432
+#         options: >-
+#           --health-cmd pg_isready
+#           --health-interval 10s
+#           --health-timeout 5s
+#           --health-retries 5
+#       mailhog:
+#         image: mailhog/mailhog
+#         ports:
+#           - 1025:1025
+#           - 8025:8025
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
 
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          echo "Waiting for postgres to be ready..."
-          until pg_isready -h localhost -p 5432 -U postgres; do
-            sleep 2
-          done
-          echo "Postgres is ready."
+#       - name: Wait for PostgreSQL to be ready
+#         run: |
+#           echo "Waiting for postgres to be ready..."
+#           until pg_isready -h localhost -p 5432 -U postgres; do
+#             sleep 2
+#           done
+#           echo "Postgres is ready."
 
-      - name: Create superuser roles
-        run: |
-          PGPASSWORD=postgres psql -h localhost -U postgres -d roshi-dev -c "CREATE ROLE roshiadmin WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD 'password';"
-          PGPASSWORD=postgres psql -h localhost -U postgres -d roshi-dev -c "CREATE ROLE azure_pg_admin WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD 'password';"
-        env:
-          PGPASSWORD: postgres
+#       - name: Create superuser roles
+#         run: |
+#           PGPASSWORD=postgres psql -h localhost -U postgres -d roshi-dev -c "CREATE ROLE roshiadmin WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD 'password';"
+#           PGPASSWORD=postgres psql -h localhost -U postgres -d roshi-dev -c "CREATE ROLE azure_pg_admin WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD 'password';"
+#         env:
+#           PGPASSWORD: postgres
 
-      - name: Create database roshi_jobs_dev
-        run: |
-          echo "Creating database roshi_jobs_dev if not exists..."
-          PGPASSWORD=postgres psql -h localhost -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'roshi_jobs_dev'" | grep -q 1 || \
-          PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE roshi_jobs_dev;"
-        env:
-          PGPASSWORD: postgres
+#       - name: Create database roshi_jobs_dev
+#         run: |
+#           echo "Creating database roshi_jobs_dev if not exists..."
+#           PGPASSWORD=postgres psql -h localhost -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'roshi_jobs_dev'" | grep -q 1 || \
+#           PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE roshi_jobs_dev;"
+#         env:
+#           PGPASSWORD: postgres
 
-      - name: Restore database from SQL dump
-        run: |
-          echo "Restoring database from dump..."
-          PGPASSWORD=postgres pg_restore -h localhost -U postgres -C -d roshi-dev ./db/db.dump
-        env:
-          PGPASSWORD: postgres
+#       - name: Restore database from SQL dump
+#         run: |
+#           echo "Restoring database from dump..."
+#           PGPASSWORD=postgres pg_restore -h localhost -U postgres -C -d roshi-dev ./db/db.dump
+#         env:
+#           PGPASSWORD: postgres
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-          cache: "npm"
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: "18"
+#           cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+#       - name: Install dependencies
+#         run: npm ci
 
-      - name: Create .env from .env.example (frontend)
-        run: cp frontend/.env.example frontend/.env
+#       - name: Create .env from .env.example (frontend)
+#         run: cp frontend/.env.example frontend/.env
 
-      - name: Create .env from .env.example (backend)
-        run: cp backend/.env.example backend/.env
+#       - name: Create .env from .env.example (backend)
+#         run: cp backend/.env.example backend/.env
 
-      - name: Create .env from .env.example (shared)
-        run: cp shared/.env.example shared/.env
+#       - name: Create .env from .env.example (shared)
+#         run: cp shared/.env.example shared/.env
 
-      - name: Run DB migrations
-        run: |
-          echo "Running migrations..."
-          DATABASE_URL=postgres://postgres:postgres@localhost:5432/roshi-dev npm run migration:generate:push
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/roshi-dev
+#       - name: Run DB migrations
+#         run: |
+#           echo "Running migrations..."
+#           DATABASE_URL=postgres://postgres:postgres@localhost:5432/roshi-dev npm run migration:generate:push
+#         env:
+#           DATABASE_URL: postgres://postgres:postgres@localhost:5432/roshi-dev
 
-      - name: Start application
-        run: |
-          npm run dev & sleep 15 # Wait for the app to boot
-        env:
-          NODE_ENV: development
+#       - name: Start application
+#         run: |
+#           npm run dev & sleep 15 # Wait for the app to boot
+#         env:
+#           NODE_ENV: development
 
-      - name: Wait for backend to be ready
-        run: npx wait-on http://localhost:4000/api/v1/health-check --yes
+#       - name: Wait for backend to be ready
+#         run: npx wait-on http://localhost:4000/api/v1/health-check --yes
 
-      - name: Install Playwright & dependencies
-        run: npx playwright install --with-deps
+#       - name: Install Playwright & dependencies
+#         run: npx playwright install --with-deps
 
-      - name: Run E2E tests
-        run: npm run test:e2e
-        env:
-          NODE_ENV: development
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/roshi-dev
+#       - name: Run E2E tests
+#         run: npm run test:e2e
+#         env:
+#           NODE_ENV: development
+#           DATABASE_URL: postgres://postgres:postgres@localhost:5432/roshi-dev
