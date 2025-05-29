@@ -16,6 +16,7 @@ import {
 } from "@mui/joy";
 import { calculateEMI, formatWithoutTz, NonNullRT } from "@roshi/shared";
 import { FC, useMemo, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useDeleteAppointment } from "../../api/useAppointmentApi";
 import { useGetMyLoanRequest } from "../../api/useLoanRequestApi";
 import StarIcon from "../../components/icons/starIcon.tsx";
@@ -42,6 +43,7 @@ export const OfferCard: FC<Props> = ({
   hasOfferLowestInterestRate,
 }) => {
   const [isShowingDetails, setIsShowingDetails] = useState(false);
+  const { t } = useTranslation();
 
   const deleteAppointment = useDeleteAppointment();
   const theme = useTheme();
@@ -95,7 +97,7 @@ export const OfferCard: FC<Props> = ({
                 "--Chip-radius": "4px",
               }}
             >
-              Lowest interest rate
+              {t("form:offer-card.interest-rate")}
             </Chip>
           )}
           {hasOfferLongestTenure && (
@@ -106,7 +108,7 @@ export const OfferCard: FC<Props> = ({
                 "--Chip-radius": "4px",
               }}
             >
-              Longest tenure
+               {t("form:offer-card.tenure")}
             </Chip>
           )}
           {hasOfferedHighestAmount && (
@@ -117,7 +119,7 @@ export const OfferCard: FC<Props> = ({
                 "--Chip-radius": "4px",
               }}
             >
-              Highest amount
+               {t("form:offer-card.amount")}
             </Chip>
           )}
         </Flex>
@@ -126,7 +128,7 @@ export const OfferCard: FC<Props> = ({
         <Flex fullwidth x xsb>
           <Flex y xst>
             <Typography fontWeight="600" fontSize="xs" textColor="neutral.500">
-              UP TO
+             {t("form:offer-card.up-to")}
             </Typography>
             <Typography fontWeight={"500"} level="h4">
               {formatApplicationData({ property: "amount", value: loanResponse?.loanOffer?.amount })}
@@ -134,7 +136,7 @@ export const OfferCard: FC<Props> = ({
           </Flex>
           <Flex y xe>
             <Typography fontWeight="600" fontSize="xs" textColor="neutral.500">
-              INTEREST RATE (MONHTLY)
+               {t("form:offer-card.monthly")}
             </Typography>
             <Typography fontWeight={"500"} level="h4">
               {formatApplicationData({ property: "interestRate", value: loanResponse?.loanOffer?.monthlyInterestRate })}
@@ -153,12 +155,12 @@ export const OfferCard: FC<Props> = ({
               },
             }}
           >
-            {isShowingDetails ? "Show less" : "Show more"}
+           {isShowingDetails ? t("form:offer-card.show-less") : t("form:offer-card.show-more")}
           </AccordionSummary>
           <AccordionDetails>
             <Flex y gap1 px={2}>
               <Typography textColor="neutral.700" level="title-md">
-                Key features
+                 {t("form:offer-card.features")}
               </Typography>
               <Typography level="body-lg">
                 <List
@@ -172,21 +174,21 @@ export const OfferCard: FC<Props> = ({
                 >
                   <ListItem>
                     <CheckCircle sx={{ color: "success.400" }} />
-                    Amount: {formatApplicationData({ property: "amount", value: loanResponse?.loanOffer?.amount })}
+                     {t("form:offer-card.amount_1")} {formatApplicationData({ property: "amount", value: loanResponse?.loanOffer?.amount })}
                   </ListItem>
                   <ListItem>
                     {" "}
                     <CheckCircle sx={{ color: "success.400" }} />
-                    Interest Rate (Monthly): {loanResponse?.loanOffer?.monthlyInterestRate}%
+                    {t("form:offer-card.interest")} {loanResponse?.loanOffer?.monthlyInterestRate}%
                   </ListItem>
                   <ListItem>
                     {" "}
                     <CheckCircle sx={{ color: "success.400" }} />
-                    Loan Duration: {loanResponse?.loanOffer?.term} months
+                    {t("form:offer-card.duration")} {loanResponse?.loanOffer?.term} months
                   </ListItem>
                   <ListItem>
                     <CheckCircle sx={{ color: "success.400" }} />
-                    Upfront Fees:{" "}
+                     {t("form:offer-card.fees")}
                     {formatApplicationData({
                       property: "amount",
                       value:
@@ -196,7 +198,7 @@ export const OfferCard: FC<Props> = ({
                   </ListItem>
                   <ListItem>
                     <CheckCircle sx={{ color: "success.400" }} />
-                    Monthly Installment:{" "}
+                     {t("form:offer-card.installment")}
                     {formatApplicationData({
                       property: "amount",
                       value: calculateEMI(
@@ -250,10 +252,10 @@ export const OfferCard: FC<Props> = ({
         ) : (
           <Flex fullwidth x xsb yc>
             <Typography color={loanResponse.acceptedAt ? "primary" : "neutral"} level="title-md">
-              {loanResponse?.acceptedAt ? "Offer selected" : "Pre-approved"}
+              {loanResponse?.acceptedAt ? t("offer-card.offer-selected") : t("form:offer-card.pre-approved")}
             </Typography>
             <Button onClick={() => openModal(loanResponse.id, loanResponse.acceptedAt ? "schedule" : "details")}>
-              {loanResponse?.acceptedAt ? "Book Appointment" : "Select Offer"}
+              {loanResponse?.acceptedAt ? t("offer-card.book-appointment") : t("form:offer-card.select-offer")}
             </Button>
           </Flex>
         )}

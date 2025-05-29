@@ -2,13 +2,14 @@ import { Option } from "@mui/joy";
 import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
 import { ApplicationStepsEnum, employmentTypeEnum, employmentTypeLabels, OptionsSettings } from "@roshi/shared";
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useVisitorContext } from "../../../context/visitorContext";
-import { TEST_IDS } from "../../../utils/testUtils";
 import { Flex } from "../../shared/flex";
 import { ApplicationStyledInput } from "../styled/applicationStyledInput";
 import { ApplicationStyledSelect } from "../styled/applicationStyledSelect";
 
 export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
+  const { t } = useTranslation('form');
   const { setError, error, visitor, currentStepData } = useVisitorContext();
   const [option, setOption] = useState<string | undefined>();
   const [value, setValue] = useState<string>("");
@@ -53,8 +54,8 @@ export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
   return (
     <Flex y gap2 px={{ xs: 3, sm: 2, md: 0 }}>
       <ApplicationStyledSelect
-        data-testid={TEST_IDS.employmentTypeSelect}
-        placeholder="Choose one"
+        data-testid="occupational-status-select"
+        placeholder={t("form:applying.choose_one")}
         value={option}
         onChange={(_, val) => {
           setError("");
@@ -70,7 +71,7 @@ export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
       {option === employmentTypeEnum.OTHER && (
         <ApplicationStyledInput
           error={error?.toLowerCase().includes("job title") || false}
-          data-testid={TEST_IDS.jobTitleInput}
+          data-testid="job-title-input"
           onChange={(e) => {
             setError("");
             setValue(e.target.value);

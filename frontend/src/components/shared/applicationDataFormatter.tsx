@@ -1,13 +1,14 @@
 import {
-    employmentTypeEnum,
-    employmentTypeLabels,
-    loanPurposesEnum,
-    loanPurposesLabels,
-    residencyStatusesEnum,
-    residencyStatusesLabels,
-    SgManualFormSchemaKeys
+  employmentTypeEnum,
+  employmentTypeLabels,
+  loanPurposesEnum,
+  loanPurposesLabels,
+  residencyStatusesEnum,
+  residencyStatusesLabels,
+  SgManualFormSchemaKeys
 } from "@roshi/shared";
 import { format } from "date-fns";
+import { useTranslation } from 'react-i18next';
 import { formatToDisplayString, getDifference } from "../../utils/utils";
 
 interface Props {
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export const formatApplicationData = ({ property, value }: Props) => {
+  const { t } = useTranslation();
   switch (property) {
     case "residencyStatus":
       return residencyStatusesLabels[value as residencyStatusesEnum];
@@ -36,7 +38,7 @@ export const formatApplicationData = ({ property, value }: Props) => {
     case "updatedAt":
       return `${format(value as Date, "dd MMM yy HH:mm")} (${getDifference(value as Date)} ago)`;
     case "term":
-      return `${value} months`;
+      return `${value} ${t("month")}`;
     case "amount":
     case "monthlyIncome":
       return value === undefined || value === null ? "" : `${formatToDisplayString(value as number, 2)}₫`;

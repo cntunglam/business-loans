@@ -3,6 +3,7 @@ import { Button, Typography } from "@mui/joy";
 import { hasCustomerSupportPermissions, Prisma, SHARED_CONSTANTS } from "@roshi/shared";
 import { addDays, format, getDay, isBefore, isSameDay } from "date-fns";
 import { FC, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useCreateAppointment } from "../../../api/useAppointmentApi";
 import { useGetCompanyStores } from "../../../api/useCompanyApi";
 import { useUserContext } from "../../../context/userContext";
@@ -21,6 +22,7 @@ interface Props {
 const minDate = new Date(Date.now() + SHARED_CONSTANTS.APPOINTMENT_RESERVE_MINUTES * 60 * 1000);
 
 export const ScheduleAppointmentModal: FC<Props> = ({ loanResponse, onClose }) => {
+  const { t } = useTranslation();
   const { data, isLoading } = useGetCompanyStores(loanResponse.lenderId);
   const { user } = useUserContext();
   // Typing state correctly
@@ -59,7 +61,7 @@ export const ScheduleAppointmentModal: FC<Props> = ({ loanResponse, onClose }) =
   };
 
   const mobileHeader = () => {
-    if (!selected || sm) return "Schedule an appointment";
+    if (!selected || sm) return t("form:scheduleAppointment.appointment");
     return step === "date" ? "Select Date" : "Set Appointment Time";
   };
 
@@ -94,7 +96,7 @@ export const ScheduleAppointmentModal: FC<Props> = ({ loanResponse, onClose }) =
         {selected && sm && (
           <>
             <ChevronRight sx={{ my: "auto", cursor: "pointer" }} />
-            <Typography sx={{ fontWeight: "700", fontSize: "18px" }}>Select Time and Date</Typography>
+            <Typography sx={{ fontWeight: "700", fontSize: "18px" }}>{t("form:scheduleAppointment.selectTimeAndDate")}</Typography>
           </>
         )}
       </Flex>
@@ -186,7 +188,7 @@ export const ScheduleAppointmentModal: FC<Props> = ({ loanResponse, onClose }) =
                   borderRadius: "6px",
                 }}
               >
-                <Typography sx={{ display: { xs: "none", md: "block" } }}>Selected Date And Time</Typography>{" "}
+                <Typography sx={{ display: { xs: "none", md: "block" } }}>{t("form:scheduleAppointment.selectTimeAndDate")}</Typography>{" "}
                 <Typography level="body-md" sx={{ display: { xs: "block", md: "none" } }}>
                   {selected.name}
                 </Typography>
@@ -224,7 +226,7 @@ export const ScheduleAppointmentModal: FC<Props> = ({ loanResponse, onClose }) =
                     disabled={!selectedDate || !isWithinOpeningHours(selectedDate)}
                     sx={{ width: "fit-content", marginX: { xs: "auto", md: 0 } }}
                   >
-                    {"Confirm Appointment"}
+                    {t("form:scheduleAppointment.confirmAppointment")}
                   </Button>
                 )}
               </Flex>

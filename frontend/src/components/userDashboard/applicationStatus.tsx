@@ -2,6 +2,7 @@ import { Box, Step, stepClasses, Stepper, Typography } from "@mui/joy";
 
 import { formatWithoutTz, LoanResponseStatusEnum } from "@roshi/shared";
 import { FC } from "react";
+import { useTranslation } from 'react-i18next';
 import { useSearchParams } from "react-router-dom";
 import { useDeleteMyLoanRequest, useGetMyLoanRequest } from "../../api/useLoanRequestApi";
 import { OpenDialog } from "../../context/DialogContainer";
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export const ApplicationStatus: FC<Props> = ({ application, openModal, highlightOffers }) => {
+  const { t } = useTranslation();
   const deleteApplication = useDeleteMyLoanRequest();
   const [params, setParams] = useSearchParams();
 
@@ -30,7 +32,7 @@ export const ApplicationStatus: FC<Props> = ({ application, openModal, highlight
         deleteApplication.mutateAsync().then(() => window.location.reload());
       },
       type: "delete",
-      title: "Are you sure you want to withdraw your loan application?",
+      title: "Are you sure you want to withdraw your loan application? aaaaa",
       body: "Withdrawing your loan application means you will lose all progress. Are you sure you want to proceed?",
     });
   };
@@ -89,7 +91,7 @@ export const ApplicationStatus: FC<Props> = ({ application, openModal, highlight
             >
               <Flex gap1 yc sx={{ justifyContent: { xs: "space-between" } }}>
                 <Typography level="body-sm" fontWeight={"normal"}>
-                  Offers
+                {t("form:applicationStatus.offers")}
                 </Typography>
 
                 <Typography
@@ -98,7 +100,10 @@ export const ApplicationStatus: FC<Props> = ({ application, openModal, highlight
                   fontWeight={"bold"}
                   sx={{ top: 25, position: { sm: "absolute" }, whiteSpace: "nowrap" }}
                 >
-                  {!offersFound ? "Searching" : `${offersFound} Offers Found`}
+                  {!offersFound 
+                    ? t("form:applicationStatus.searching") 
+                    : `${offersFound} ${t("form:applicationStatus.offers-found")}`
+                  }
                 </Typography>
               </Flex>
             </Step>
@@ -112,7 +117,7 @@ export const ApplicationStatus: FC<Props> = ({ application, openModal, highlight
             >
               <Flex gap1 sx={{ justifyContent: { xs: "space-between" } }}>
                 <Typography level="body-sm" fontWeight={"normal"}>
-                  Appointment
+                  {t("form:applicationStatus.appointment")}
                 </Typography>
                 <Flex y xe sx={{ top: 25, position: { sm: "absolute" } }}>
                   {offersFound ? (
@@ -133,7 +138,7 @@ export const ApplicationStatus: FC<Props> = ({ application, openModal, highlight
                           color="primary"
                           fontWeight={"bold"}
                         >
-                          Book now
+                          {t("form:applicationStatus.booking")}
                         </Typography>
                         <img
                           onClick={highlightOffers}
@@ -144,7 +149,7 @@ export const ApplicationStatus: FC<Props> = ({ application, openModal, highlight
                     )
                   ) : (
                     <Typography level="body-xs" color="neutral" sx={{ whiteSpace: "nowrap" }}>
-                      Waiting for offers
+                        {t("form:applicationStatus.waitingforoffers")}
                     </Typography>
                   )}
                 </Flex>

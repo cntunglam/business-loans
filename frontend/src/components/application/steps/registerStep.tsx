@@ -1,6 +1,7 @@
 import { Button, FormControl, Link, Typography } from "@mui/material";
 import { ApplicationStepsEnum } from "@roshi/shared";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useSendOTP } from "../../../api/useAccountApi";
 import { useCheckPhoneExistence } from "../../../api/useVisitorApi";
 import { useUserContext } from "../../../context/userContext";
@@ -33,6 +34,7 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
   const checkPhoneExistence = useCheckPhoneExistence();
   const sendOtp = useSendOTP();
   const isLoaded = useRef(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (userIsLoading) return;
@@ -132,7 +134,7 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
               data-testid={TEST_IDS.phoneNumberInput}
               disabled={isPhoneValid}
               fullWidth
-              placeholder="Add your phone number"
+              placeholder={t("phone-number")}
               startDecorator={
                 <Typography textColor="primary.500" level="title-lg">
                   +{CONSTANTS.PHONE_PREFIX}
@@ -195,11 +197,11 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
           }}
           size="lg"
         >
-          {isPhoneValid && isEmailValid ? "Submit" : "Next"}
+          {isPhoneValid && isEmailValid ? t("submit") : t("next")}
         </Button>
         {!isLoading && !sendOtp.isPending && (
           <Link textColor={"neutral.400"} onClick={handleBack}>
-            Back
+            {t("back")}
           </Link>
         )}
       </Flex>

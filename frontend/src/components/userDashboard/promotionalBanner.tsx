@@ -1,8 +1,10 @@
 import { Box, Typography } from "@mui/joy";
+import { useTranslation } from 'react-i18next';
 import { ASSETS } from "../../data/assets";
 import { Flex } from "../shared/flex";
 
 export const PromotionalBanners = () => {
+  const { t } = useTranslation();
   return (
     <Flex x>
       <Flex
@@ -24,12 +26,11 @@ export const PromotionalBanners = () => {
                 <img src={ASSETS.ZERO_FEE} height="24px" width="24px" />
               </Flex>
               <Typography fontWeight={800} textColor={"secondary.500"} level="title-sm">
-                ROSHI Charges Zero Fees
+                {t("form:promotionalbanners.title")}
               </Typography>
             </Flex>
             <Typography level="body-xs" display={{ xs: "none", sm: "block" }}>
-              Our service is always free - no platform fees, no hidden charges. Only your chosen bank or licensed
-              moneylender may apply their standard processing fees after approval.
+                {t("form:promotionalbanners.description")}
             </Typography>
           </Flex>
         </Flex>

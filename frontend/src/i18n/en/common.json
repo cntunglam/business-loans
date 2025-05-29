@@ -6,5 +6,15 @@
   "signin": "Sign In",
   "email": "Email",
   "invalid_email": "Invalid email",
-  "finalize": "Finalize"
+  "finalize": "Finalize",
+  "city": "City",
+  "add-full-name":"Add Full Name",
+  "welcome": "Welcome ",
+  "phone-number": "Add your phone number",
+  "select": "Select",
+  "month": "months",
+  "login": "Login",
+  "logout": "Logout",
+  "cancel": "Cancel",
+  "delete": "Delete"
 }

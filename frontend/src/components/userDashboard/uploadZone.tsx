@@ -1,9 +1,10 @@
 import { Card, CircularProgress, Typography } from "@mui/joy";
 import { FC, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { useTranslation } from 'react-i18next';
 import { ASSETS } from "../../data/assets";
-import { Flex } from "../shared/flex";
 import useMediaQueries from "../../hooks/useMediaQueries";
+import { Flex } from "../shared/flex";
 
 interface Props {
   onSuccess: (file: File) => void;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export const UploadZone: FC<Props> = ({ onSuccess, isLoading }) => {
+  const { t } = useTranslation();
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       onSuccess(acceptedFiles[0]);
@@ -43,7 +45,7 @@ export const UploadZone: FC<Props> = ({ onSuccess, isLoading }) => {
         <>
           <input {...getInputProps()} />
           <Typography level="body-lg" gap={1} startDecorator={<img src={ASSETS.UPLOAD} />}>
-            {!isMobile.sm ? "Upload files" : "Select or drop files"}
+            {!isMobile.sm ? "Upload files" : t("form:documentlist.select")}
           </Typography>
         </>
       )}

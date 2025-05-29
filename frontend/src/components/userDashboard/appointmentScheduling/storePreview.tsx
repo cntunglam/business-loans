@@ -1,6 +1,7 @@
 import { Button, Typography } from "@mui/joy";
 import { NonNullRT } from "@roshi/shared";
 import { FC } from "react";
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { useGetCompanyStores } from "../../../api/useCompanyApi";
 import { numberToDayOfWeek } from "../../../utils/utils";
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const StorePreview: FC<Props> = ({ store, selectLocation }) => {
+  const { t } = useTranslation("common");
   return (
     <FlexGrid
       xs={12}
@@ -42,7 +44,7 @@ export const StorePreview: FC<Props> = ({ store, selectLocation }) => {
           </Typography>
         </Flex>
         <Button onClick={() => selectLocation()} sx={{ mt: 2 }}>
-          Select
+          {t("select")}
         </Button>
       </Flex>
       {store.mapsEmbedUrl ? (
@@ -65,7 +67,7 @@ export const StorePreview: FC<Props> = ({ store, selectLocation }) => {
               {numberToDayOfWeek(hour.dayOfWeek)}
             </Typography>
             <Typography level="title-sm" fontWeight={"700"}>
-              {hour.isOpen ? `${hour.openHour} - ${hour.closeHour}` : "Closed"}
+              {hour.isOpen ? `${hour.openHour} - ${hour.closeHour}` :  t("closed")}
             </Typography>
           </Flex>
         ))}

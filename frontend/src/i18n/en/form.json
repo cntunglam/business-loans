@@ -24,6 +24,122 @@
     "emailInput": {
       "placeholder": "Add Email",
       "error": "Please enter a valid email address"
-    }
+    } 
+  },
+  "layout": {
+      "overview": "Overview",
+      "documents": "Documents",
+      "details": "Details",
+      "paymentTracker": "Payment tracker",
+      "rewards": "Rewards",
+      "logout": "Logout"
+    },
+    "applicationStatus": {
+      "offers": "Offers",
+      "searching": "Searching",
+      "appointment": "Appointment",
+      "waitingforoffers": "Waiting for offers",
+      "offers-found": "Offers Found",
+      "booking": "Book now"
+    },
+  "promotionalbanners" :{
+    "title": "ROSHI Charges Zero Fees",
+    "description": "Our service is always free - no platform fees, no hidden charges. Only your chosen bank or licensedmoneylender may apply their standard processing fees after approval."
+  },
+  "useroverview": {
+    "title_1": "Pre-approved Partner Offers",
+    "description_1": "No pre-approved offers yet",
+    "title_2": "Latest Bank Rates",
+    "description_2": "No bank offers"
+  },
+  "beatoffer": {
+    "title": " Found a Better Rate? We'll Beat it!",
+    "description": " We're so confident in our competitive rates that if you bring us a valid loan offer from another platform,we won't just match it – we'll beat it! That's our Price Beat Guarantee.",
+    "share-offers": "Share offer"
+  },
+  "documentview": {
+    "supporting": "Supporting Documents",
+    "upload": "Upload",
+    "text": "Complete uploading all required documents below"
+  },
+  "documentlist": {
+    "income": "Income",
+    "payslip_1": "Payslip - Latest Month",
+    "payslip_2": "Payslip - Second Latest Month",
+    "payslip_3": "Payslip - Third Latest Month",
+    "credit_report": "Credit Report",
+    "text_1": "Credit Bureau Singapore (CBS)",
+    "text_2": "Moneylenders Credit Bureau (MLCB)",
+    "select":"Select or drop files",
+    "title_1": "Identification & Residence",
+    "title_2": "Proof of Living Expenses / Residency",
+    "title_3": "Employment & Income Verification"
+  },
+  "applicationdetails": {
+    "review": "Application Review",
+    "information": "Basic information",
+    "phone-number": "Phone number",
+    "amount": "Loan Amount",
+    "period": "Loan Period",
+    "purpose": "Loan Purpose",
+    "residency": "Residency Status",
+    "age": "Age",
+    "monthly": "Monthly Income",
+    "employment": "Employment Period",
+    "job": "Job Tile",
+    "remove": "Remove",
+    "title": "Are you sure you want to withdraw your loan application?",
+    "description": "Withdrawing your loan application means you will lose all progress. Are you sure you want to proceed?"
+  },
+  "applying" :{
+    "choose_one": "Choose one"
+  }, 
+  "step_7": {
+    "yes": "Yes",
+    "no": "No"
+  },
+  "offer-card": {
+    "interest-rate": "Lowest interest rate",
+    "amount": "Highest amount",
+    "tenure": "Longest tenure",
+    "up-to": "UP TO",
+    "monthly": "INTEREST RATE (MONHTLY)",
+    "show-more": "Show more",
+    "show-less": "Show less",
+    "pre-approved": "Pre-approved",
+    "select-offer": "Select Offer",
+    "offer-selected": "Offer selected",
+    "book-appointment": "Book Appointment",
+    "features": "Key features",
+    "amount_1": "Amount:",
+    "interest":"Interest Rate (Monthly):",
+    "duration":"Loan Duration:",
+    "fees": "Upfront Fees:",
+    "installment":"Monthly Installment:",
+    "partner-offers": "Partner offers",
+    "proceed": "Proceed"
+  },
+  "offer-proceed": {
+    "apply": "Apply for up to",
+    "monthly":"Monthly Rate",
+    "tenure": "Tenure",
+    "instalment":"Monthly instalment",
+    "processing": "Processing fee",
+    "appointment": " Book appointment",
+    "go-back": " Go Back"
+  },
+  "scheduleAppointment": {
+    "appointment": "Schedule an appointment",
+    "selectTimeAndDate": "Select Time and Date",
+    "confirmAppointment": "Confirm Appointment"
+  },
+  "day": {
+    "sunday": "Sunday",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday"
   }
 }

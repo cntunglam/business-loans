@@ -3,13 +3,15 @@ import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.servi
 import { ApplicationStepsEnum } from "@roshi/shared";
 import { isBoolean } from 'lodash';
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useVisitorContext } from "../../../context/visitorContext";
 import { TEST_IDS } from "../../../utils/testUtils";
 import { Flex } from "../../shared/flex";
 
-const options = ["Yes", "No"];
 
 export const HasLaborContractStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
+  const { t } = useTranslation();
+  const options = [t("form:step_7.yes"), t("form:step_7.no")];
   const { visitor } = useVisitorContext();
   const [value, setValue] = useState<string | null>(null);
 
