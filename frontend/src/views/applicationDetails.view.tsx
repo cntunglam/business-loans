@@ -1,7 +1,7 @@
-import { formatApplicationData } from "../components/shared/applicationDataFormatter";
-
 import { Box, Button, Divider, Typography } from "@mui/material";
+import { getAgeFromDateOfBirth } from '@roshi/backend/utils/age';
 import { useDeleteMyLoanRequest, useGetMyLoanRequest } from "../api/useLoanRequestApi";
+import { formatApplicationData } from "../components/shared/applicationDataFormatter";
 import { Flex } from "../components/shared/flex";
 import { OpenDialog } from "../context/DialogContainer";
 import { ASSETS } from "../data/assets";
@@ -45,7 +45,7 @@ export const ApplicationDetailsView = () => {
       </Box>
 
       <Typography startDecorator={<img src={ASSETS.GUARANTOR_ICON} />} level="title-md">
-        {applicantInfo?.fullname}
+        {applicantInfo?.fullName}
       </Typography>
 
       <Box sx={{ my: 2 }}>
@@ -78,8 +78,8 @@ export const ApplicationDetailsView = () => {
           {renderTitleAndValue(
             "Age",
             formatApplicationData({
-              property: "age",
-              value: applicantInfo!.age,
+              property: "dateOfBirth",
+              value: getAgeFromDateOfBirth(applicantInfo!.dateOfBirth),
             })
           )}
         </Flex>
@@ -91,27 +91,7 @@ export const ApplicationDetailsView = () => {
               value: applicantInfo!.monthlyIncome,
             })
           )}
-          {renderTitleAndValue(
-            "Occupation Status ",
-            formatApplicationData({
-              property: "employmentStatus",
-              value: applicantInfo!.employmentStatus,
-            })
-          )}
-        </Flex>
-        <Flex x xst fullwidth pr={1} cols={queryMedia.md ? 3 : 2}>
-          {renderTitleAndValue(
-            "Existing loans with banks",
-            applicantInfo!.bankDebt + applicantInfo!.lenderDebt > 0
-              ? formatApplicationData({ property: "amount", value: applicantInfo!.bankDebt })
-              : "No"
-          )}
-          {renderTitleAndValue(
-            "Existing loans with lenders",
-            applicantInfo!.bankDebt + applicantInfo!.lenderDebt > 0
-              ? formatApplicationData({ property: "amount", value: applicantInfo!.lenderDebt })
-              : "No"
-          )}
+          
         </Flex>
       </Flex>
 
@@ -123,40 +103,14 @@ export const ApplicationDetailsView = () => {
 
       <Flex x fullwidth gap1 pr={1} cols={2}>
         {renderTitleAndValue(
-          "Current Company",
-          formatApplicationData({
-            property: "currentEmploymentTime",
-            value: applicantInfo!.currentEmploymentTime,
-          })
-        )}
-        {renderTitleAndValue(
-          "Previous Company ",
-          formatApplicationData({
-            property: "previousEmploymentTime",
-            value: applicantInfo!.previousEmploymentTime,
-          })
-        )}
+            "Job Tile",
+            formatApplicationData({
+              property: "jobTitle",
+              value: applicantInfo!.jobTitle,
+            })
+          )}
       </Flex>
 
-      <Divider sx={{ my: 2 }} />
-      <Typography textColor="neutral.400">Property Status</Typography>
-
-      <Flex x fullwidth gap1 pr={1} cols={2}>
-        {renderTitleAndValue(
-          "Ownership",
-          formatApplicationData({
-            property: "propertyOwnership",
-            value: applicantInfo!.propertyOwnership,
-          })
-        )}
-        {renderTitleAndValue(
-          "Postal Code",
-          formatApplicationData({
-            property: "postalCode",
-            value: applicantInfo!.postalCode,
-          })
-        )}
-      </Flex>
       <Button
         variant="soft"
         color="neutral"

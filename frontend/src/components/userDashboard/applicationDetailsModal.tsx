@@ -1,5 +1,6 @@
 import { Button, Divider, Typography } from "@mui/joy";
 import { formatApplicantForAdmin, formatApplicantForBorrower, formatApplicantInfoForLender } from "@roshi/backend";
+import { getAgeFromDateOfBirth } from '@roshi/backend/utils/age';
 import { DocumentTypeEnum } from "@roshi/shared";
 import { FC } from "react";
 import { useGetApplicantInfo } from "../../api/useApplicantInfoApi";
@@ -43,7 +44,7 @@ export const ApplicationDetailsModal: FC<Props> = ({
   return (
     <RsModal title={title} onClose={onClose} fullscreenOnMobile>
       <Typography startDecorator={<img src={ASSETS.GUARANTOR_ICON} />} level="title-md">
-        {applicantInfo?.fullname}
+        {applicantInfo?.fullName}
       </Typography>
       <Flex y fullwidth gap1 pr={1}>
         <Divider />
@@ -72,8 +73,8 @@ export const ApplicationDetailsModal: FC<Props> = ({
         {renderTitleAndValue(
           "Age",
           formatApplicationData({
-            property: "age",
-            value: applicantInfo.age,
+            property: "dateOfBirth",
+            value: getAgeFromDateOfBirth(applicantInfo.dateOfBirth),
           })
         )}
         {renderTitleAndValue(
@@ -83,60 +84,19 @@ export const ApplicationDetailsModal: FC<Props> = ({
             value: applicantInfo.monthlyIncome,
           })
         )}
-        {renderTitleAndValue(
-          "Occupation Status ",
-          formatApplicationData({
-            property: "employmentStatus",
-            value: applicantInfo.employmentStatus,
-          })
-        )}
-        {renderTitleAndValue(
-          "Existing loans with banks",
-          applicantInfo.bankDebt + applicantInfo.lenderDebt > 0
-            ? formatApplicationData({ property: "amount", value: applicantInfo.bankDebt })
-            : "No"
-        )}
-        {renderTitleAndValue(
-          "Existing loans with lenders",
-          applicantInfo.bankDebt + applicantInfo.lenderDebt > 0
-            ? formatApplicationData({ property: "amount", value: applicantInfo.lenderDebt })
-            : "No"
-        )}
+       
 
         <Divider />
         <Typography textColor="neutral.400">Employment Period</Typography>
 
-        {renderTitleAndValue(
-          "Current Company",
+         {renderTitleAndValue(
+          "Job Title",
           formatApplicationData({
-            property: "currentEmploymentTime",
-            value: applicantInfo.currentEmploymentTime,
-          })
-        )}
-        {renderTitleAndValue(
-          "Previous Company ",
-          formatApplicationData({
-            property: "previousEmploymentTime",
-            value: applicantInfo.currentEmploymentTime,
+            property: "jobTitle",
+            value: applicantInfo.jobTitle,
           })
         )}
         <Divider />
-        <Typography textColor="neutral.400">Property Status</Typography>
-
-        {renderTitleAndValue(
-          "Ownership",
-          formatApplicationData({
-            property: "propertyOwnership",
-            value: applicantInfo.propertyOwnership,
-          })
-        )}
-        {renderTitleAndValue(
-          "Postal Code",
-          formatApplicationData({
-            property: "postalCode",
-            value: applicantInfo.postalCode,
-          })
-        )}
         {documents && (
           <>
             <Divider />

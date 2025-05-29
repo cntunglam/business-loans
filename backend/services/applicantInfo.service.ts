@@ -14,7 +14,7 @@ export const formatApplicantInfoForLender = (
     ...rest,
     phoneNumber: null,
     cccdNumber: options?.allowPersonalInformation ? cccdNumber : null,
-    fullname: options?.allowPersonalInformation ? fullName : null,
+    fullName: options?.allowPersonalInformation ? fullName : null,
     postalCode: options?.allowPersonalInformation ? postalCode : null,
     id: applicantInfo.id!,
     documents: applicantInfo.documents?.map((doc) => formatDocumentForLenderOrBorrower(doc)),

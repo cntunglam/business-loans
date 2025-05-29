@@ -17,7 +17,7 @@ const commonVariables = {
 export const emailTemplates = {
   welcome: {
     html: getFile('welcome'),
-    variables: (data: { fullname: string }) => data,
+    variables: (data: { fullName: string }) => data,
     withoutContainerLogo: true,
   },
   otp: {

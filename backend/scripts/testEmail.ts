@@ -35,7 +35,7 @@ export const testEmails = async (loanRequestId?: string) => {
   //   loanRequestLink: 'https://roshi.sg',
   // });
   // sendEmail('example@example.com', EmailTypeEnum.OTP, { otp: '12345' });
-  // sendEmail('example@example.com', EmailTypeEnum.WELCOME, { fullname: 'Joe' });
+  // sendEmail('example@example.com', EmailTypeEnum.WELCOME, { fullName: 'Joe' });
 };
 
 if (require.main === module) {

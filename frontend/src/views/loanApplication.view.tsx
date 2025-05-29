@@ -11,7 +11,7 @@ interface Props {
 
 export const LoanApplicationView = ({ loanRequestType }: Props) => {
   const [params] = useSearchParams();
-  const { init, currentStepIndex } = useVisitorContext();
+  const { init } = useVisitorContext();
   const referer = params.get("referer");
 
   useEffect(() => {

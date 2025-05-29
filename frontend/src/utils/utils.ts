@@ -16,7 +16,10 @@ export const formatToDisplayString = (value?: string | number, significantDigits
   if (value === undefined) return "";
   const nbr = typeof value === "string" ? parseFloat(value) : value;
   if (isNaN(nbr)) return "";
-  return nbr.toLocaleString("en-us", { maximumFractionDigits: significantDigits });
+  return nbr.toLocaleString("vi-VN", {
+    style: "currency",
+    currency: "VND",
+    maximumFractionDigits: significantDigits });
 };
 
 export const formatError = (error: unknown) => {

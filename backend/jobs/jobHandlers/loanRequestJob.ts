@@ -27,7 +27,7 @@ export const initLoanRequestJob = () => {
     const applicantInfo = formatApplicantForAdmin(loanRequest.applicantInfo);
 
     try {
-      await sendEmail(loanRequest.user.email, EmailTypeEnum.WELCOME, { fullname: applicantInfo.fullName ?? 'Name' });
+      await sendEmail(loanRequest.user.email, EmailTypeEnum.WELCOME, { fullName: applicantInfo.fullName ?? 'Name' });
     } catch (e) {
       console.error('Error sending welcome email', e);
       logger({

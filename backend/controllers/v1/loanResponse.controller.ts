@@ -29,7 +29,7 @@ export const contactBorrower = async (req: Request, res: Response) => {
 
   const applicantInfo: ApplicantInfo = loanResponse.loanRequest.applicantInfo!;
   return successResponse(res, {
-    fullname: applicantInfo.fullName,
+    fullName: applicantInfo.fullName,
     phoneNumber: applicantInfo.phoneNumber,
   });
 };

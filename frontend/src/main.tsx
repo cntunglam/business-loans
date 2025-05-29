@@ -7,7 +7,6 @@ import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AppRouter } from "./app.tsx";
-import AffiliateWrapper from "./components/affiliateTracker/affiliateProvider.tsx";
 import { DialogContainer } from "./context/DialogContainer.tsx";
 import { UserProvider } from "./context/userContext.tsx";
 import { VisitorProvider } from "./context/visitorContext.tsx";
@@ -24,13 +23,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <UserProvider>
           <CssBaseline />
           <BrowserRouter>
-            <AffiliateWrapper>
               <VisitorProvider>
                 <AppRouter />
                 <ToastContainer />
                 <DialogContainer />
               </VisitorProvider>
-            </AffiliateWrapper>
             <ToastContainer />
           </BrowserRouter>
         </UserProvider>
