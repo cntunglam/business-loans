@@ -64,7 +64,6 @@ export const CONFIG = {
   ZOHO_BOOKS_URL: 'https://www.zohoapis.com/books/v3',
   ZOHO_ACCOUNTS_URL: 'https://accounts.zoho.com',
   IBOOKS_API_URL: 'https://api.ibooks-sg.com',
-  MLCB_REPORT_REQUEST_AMOUNT: 1000,
   SEND_REVIEW_LINK_AFTER_MINUTES: 5,
   APPOINTMENT_REMINDER_HOURS_BEFORE: 1,
   LEAD_EXPIRATION_DAYS: 15,

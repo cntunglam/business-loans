@@ -4,8 +4,6 @@ import { CONFIG } from '../config';
 import { initActivateReapplyLoanRequestJob } from './jobHandlers/activateReapplyLoanRequestJob';
 import { initCheckLendersFiltersJob } from './jobHandlers/checkLenderFiltersJob';
 import { initEmailNotificationJob } from './jobHandlers/emailNotificationJob';
-import { initFetchMLCBReportJob } from './jobHandlers/fetchMlcbReportJob';
-import { initLeadGradingJob } from './jobHandlers/leadGradingJob';
 import { initLoanRequestJob } from './jobHandlers/loanRequestJob';
 import { initReApplyJob } from './jobHandlers/reApplyJob';
 import { initTelegramNotificationJob } from './jobHandlers/telegramNotificationJob';
@@ -18,15 +16,6 @@ export const JobQueuesOptions: Partial<Record<JobsEnum, PgBoss.Queue>> = {
     retryLimit: 10,
     retryDelay: 120,
     retryBackoff: true,
-  },
-  //In case there is a failure, we don't want to query the endpoint too much
-  [JobsEnum.FETCH_MLCB_REPORT]: {
-    name: JobsEnum.FETCH_MLCB_REPORT,
-    retryLimit: 0,
-  },
-  [JobsEnum.LEAD_GRADING]: {
-    name: JobsEnum.LEAD_GRADING,
-    retryLimit: 0,
   },
 };
 
@@ -69,8 +58,6 @@ process.on('SIGINT', async () => {
     // initWhatsappNotificationJob();
     // initWaMessageReceivedJob();
     // initValidateDocumentJob();
-    initFetchMLCBReportJob();
-    initLeadGradingJob();
 
     initReApplyJob();
     initActivateReapplyLoanRequestJob(); // triggered when users go to dashboard or click email link (to go to dashboard)

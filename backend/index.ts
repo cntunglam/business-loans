@@ -14,5 +14,4 @@ export * from './controllers/v1/token.controller';
 export * from './controllers/v1/visitor.controller';
 export * from './controllers/v1/whatsapp.controller';
 export * from './models/customs';
-export * from './models/mlcbReport.model';
 export * from './services/applicantInfo.service';

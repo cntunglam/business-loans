@@ -207,14 +207,6 @@ export enum ShortUrlTypeEnum {
   API_ACCESS = "API_ACCESS",
 }
 
-export enum MlcbGradeEnum {
-  GOOD = "GOOD",
-  NORMAL = "NORMAL",
-  SUB = "SUB",
-  BAD = "BAD",
-  UNKNOWN = "UNKNOWN",
-}
-
 export enum LeadTierEnum {
   PREMIUM = "PREMIUM",
   DELUXE = "DELUXE",

@@ -177,7 +177,7 @@ export const mappApplicantToLeadFilters = (
   AND.push({
     isApprovedByRoshi: false,
   });
-  // monthlyIncome
+
   if (
     applicantInfo.residencyStatus &&
     [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT].includes(
@@ -189,25 +189,10 @@ export const mappApplicantToLeadFilters = (
     addCondition('minMonthlyIncomeForeigner', { lte: applicantInfo.monthlyIncome });
   }
   addCondition('minLoanAmount', { lte: loanRequest.amount });
-  addCondition('maxDebtIncomeRatio', {
-    gte: applicantInfo.monthlyIncome > 0 ? applicantInfo.lenderDebt / applicantInfo.monthlyIncome : 0,
-  });
-  //   addConditionArr('employmentTime', {
-  //     has: applicantInfo.currentEmploymentTime,
-  //   });
-  //   addConditionArr('employmentTime', {
-  //     has: applicantInfo.previousEmploymentTime,
-  //   });
-  //   addConditionArr('employmentStatus', {
-  //     has: applicantInfo.employmentStatus,
-  //   });
+
   addConditionArr('residencyStatus', {
     has: applicantInfo.residencyStatus,
   });
-  //   addConditionArr('propertyOwnerships', {
-  //     has: applicantInfo.propertyOwnership,
-  //   });
-
   whereClause.OR = [
     {
       companyLeadSettings: null,
@@ -262,68 +247,4 @@ export async function getCompanyIdsByLeadSettings(loanRequestId: string) {
     });
 
   return companies.map((company) => company.id);
-}
-
-export async function applyCompanyLeadSettings(
-  whereClause: Prisma.LoanRequestWhereInput,
-  leadSettings: CompanyLeadSettings,
-) {
-  const updatedWhereClause = { ...whereClause };
-  mappLeadFilters(updatedWhereClause, leadSettings);
-  if (Number.isFinite(leadSettings.minLoanAmount)) {
-    updatedWhereClause.amount = {
-      gte: leadSettings.minLoanAmount || 0,
-    };
-  }
-
-  if (leadSettings.documentCount || leadSettings.maxDebtIncomeRatio || leadSettings.documents?.length > 0) {
-    const matchLoanRequests = await prismaClient.loanRequest.findMany({
-      where: updatedWhereClause,
-      include: {
-        applicantInfo: {
-          include: { documents: { where: { isDeleted: false } }, _count: { select: { documents: true } } },
-        },
-      },
-    });
-
-    const ids = matchLoanRequests
-      // filter: documentCount
-      .filter((item) => {
-        const documentCount = leadSettings?.documentCount;
-        if (!documentCount) return true;
-        const hasRequiredDocuments = documentCount > 0 && (item.applicantInfo?._count?.documents || 0) >= documentCount;
-
-        return hasRequiredDocuments;
-      })
-      // filter: maxDebtIncomeRatio
-      .filter((item) => {
-        const maxDebtIncomeRatio = leadSettings?.maxDebtIncomeRatio;
-        if (!maxDebtIncomeRatio) return true;
-        const applicantData = item.applicantInfo;
-        let hasValidDebtIncomeRatio = false;
-        if (
-          applicantData &&
-          Number.isFinite(applicantData?.lenderDebt) &&
-          Number.isFinite(applicantData.monthlyIncome) &&
-          maxDebtIncomeRatio
-        ) {
-          hasValidDebtIncomeRatio = applicantData?.lenderDebt / applicantData.monthlyIncome <= maxDebtIncomeRatio;
-        }
-
-        return hasValidDebtIncomeRatio;
-      })
-      // filter: Check document types match
-      .filter((item) => {
-        const requiredDocuments = leadSettings?.documents || [];
-        if (!requiredDocuments.length) return true;
-        const documentTypes = item.applicantInfo?.documents.map((doc) => doc.documentType) || [];
-        return requiredDocuments.length > 0 && requiredDocuments.every((doc) => documentTypes.includes(doc));
-      })
-      // Map to get IDs
-      .map((item) => item.id);
-
-    updatedWhereClause.id = { in: ids };
-  }
-
-  return updatedWhereClause;
 }

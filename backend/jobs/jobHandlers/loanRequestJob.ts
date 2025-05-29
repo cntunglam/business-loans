@@ -11,7 +11,6 @@ import { CONFIG } from '../../config';
 import { getTestIPA } from '../../data/autoIpa';
 import { formatApplicantForAdmin } from '../../services/applicantInfo.service';
 import { EmailTypeEnum, sendEmail } from '../../services/email.service';
-import { checkGradingEligibility } from '../../services/leadGrading.service';
 import { getLoanRequest } from '../../services/loanRequest.service';
 import { createLoanResponse } from '../../services/loanResponse.service';
 import { sendNotification } from '../../services/notification.service';
@@ -64,20 +63,6 @@ export const initLoanRequestJob = () => {
           console.error('Error creating loan response', e);
         }
       }
-    }
-
-    //This shouldn't fail the main job. We should log it and continue
-    try {
-      //Only fetch MLCB report if the applicant is eligible for MLCB grading. Otherwise, do grading without MLCB report
-      if (checkGradingEligibility(loanRequest.applicantInfo)) {
-        createJob(JobsEnum.FETCH_MLCB_REPORT, { loanRequestId: loanRequest.id });
-      } else {
-        createJob(JobsEnum.LEAD_GRADING, { loanRequestId: loanRequest.id });
-      }
-    } catch (e) {
-      console.error('Lead grading failed');
-      logger({ error: e, errorType: ERROR_KEYS.INTERNAL_ERROR, source: LogSource.JOB_QUEUE, level: LogLevel.ERROR });
-      console.error(e);
     }
 
     createJob(JobsEnum.CHECK_LENDER_FILTERS, { loanRequestId: loanRequest.id });

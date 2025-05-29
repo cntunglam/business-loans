@@ -16,7 +16,6 @@ export const NotificationTypeEnumLabels = {
 } as const;
 
 export const DocumentTypeEnumLabels = {
-  // [DocumentTypeEnum.ID_CARD]: "NRIC",
   [DocumentTypeEnum.PAYSLIP_1]: "Payslip 1",
   [DocumentTypeEnum.PAYSLIP_2]: "Payslip 2",
   [DocumentTypeEnum.PAYSLIP_3]: "Payslip 3",

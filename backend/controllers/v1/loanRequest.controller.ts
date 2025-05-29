@@ -166,10 +166,6 @@ export const getLoanRequests = async (req: Request, res: Response) => {
 
   let whereClause = getWhereClause(company, tab);
 
-  // if (tab === 'new' && company.companyLeadSettings) {
-  //   whereClause = await applyCompanyLeadSettings(whereClause, company.companyLeadSettings);
-  // }
-
   const query = getLoanRequestPrismaQuery({
     where: {
       ...whereClause,

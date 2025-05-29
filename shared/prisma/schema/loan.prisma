@@ -37,7 +37,6 @@ model LoanRequest {
 
   supportData Json?
 
-  grading LoanRequestGrading?
   referer String?
 
   id        String   @id @default(uuid())
@@ -51,24 +50,6 @@ model LoanRequest {
   notifications Notification[]
 
   isAutoReapply Boolean @default(false)
-
-  @@schema("public")
-}
-
-model LoanRequestGrading {
-  loanRequestId String       @unique
-  loanRequest   LoanRequest? @relation(fields: [loanRequestId], references: [id])
-
-  //MlcbGradeEnum
-  mlcbGrade String?
-  //LeadTierEnum
-  leadTier  String?
-
-  mlcbReport Json?
-
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   @@schema("public")
 }

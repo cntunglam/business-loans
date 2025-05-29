@@ -11,7 +11,6 @@ import type {
   getCompanies,
   getCompaniesSchema,
   getLeadById,
-  getMlcbReport,
   getTemplate,
   getTemplateSchema,
   getUserByPhone,
@@ -152,15 +151,6 @@ export const useGetAllClosedLeads = (defaultParams?: Partial<z.infer<typeof getA
   });
 
   return { query, params, setParams, clearParams: clearState };
-};
-
-export const useGetMlcbReport = (loanRequestId: string) => {
-  const axios = useAxios({ noErrorToast: true });
-  return useQuery({
-    queryKey: ["useGetMlcbReport", loanRequestId],
-    queryFn: () =>
-      axios.get<AwaitedRT<typeof getMlcbReport>>("admin/mlcb-report/" + loanRequestId).then((res) => res.data.data),
-  });
 };
 
 export const useConvertToNormalLoanRequest = () => {

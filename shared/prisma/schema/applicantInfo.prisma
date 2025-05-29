@@ -25,9 +25,6 @@ model ApplicantInfo {
 
     postalCode String?
 
-    lenderDebt Float @default(0)
-    bankDebt   Float @default(0)
-
     dataFormat  String?
     documents   Document[]
     applicantOf LoanRequest? @relation(name: "applicantInfo")

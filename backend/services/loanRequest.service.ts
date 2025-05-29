@@ -254,7 +254,6 @@ export const formatLoanRequestForAdmin = (
           name: true;
         };
       };
-      grading: { select: { mlcbGrade: true; leadTier: true } };
       activityLogs: {
         orderBy: { createdAt: 'desc' };
         take: 1;

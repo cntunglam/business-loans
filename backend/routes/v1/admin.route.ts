@@ -12,7 +12,6 @@ import {
   getAllUsers,
   getCompanies,
   getLeadById,
-  getMlcbReport,
   getTemplate,
   getUserByPhone,
   testEmail,
@@ -51,11 +50,6 @@ adminRouter.get('/user/:phone', verifyAuth([UserRoleEnum.ADMIN, UserRoleEnum.CUS
 adminRouter.post('/template', verifyAuth([UserRoleEnum.ADMIN, UserRoleEnum.CUSTOMER_SUPPORT]), getTemplate);
 adminRouter.get('/closed', verifyAuth([UserRoleEnum.ADMIN, UserRoleEnum.CUSTOMER_SUPPORT]), getAllClosedLeads);
 adminRouter.post('/job', verifyAuth([UserRoleEnum.ADMIN, UserRoleEnum.CUSTOMER_SUPPORT]), createJobHandler);
-adminRouter.get(
-  '/mlcb-report/:loanRequestId',
-  verifyAuth([UserRoleEnum.ADMIN, UserRoleEnum.CUSTOMER_SUPPORT]),
-  getMlcbReport,
-);
 adminRouter.post('/mailchimp-update', verifyAuth([UserRoleEnum.ADMIN, UserRoleEnum.CUSTOMER_SUPPORT]), updateMailchimp);
 adminRouter.put(
   '/loan-request/:id/convert-to-normal',

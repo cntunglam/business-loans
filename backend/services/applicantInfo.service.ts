@@ -1,5 +1,4 @@
 import { Prisma } from '@roshi/shared';
-import { safeDivide } from '../utils/utils';
 import { formatDocumentForLenderOrBorrower } from './document.service';
 
 export const formatApplicantInfoForLender = (
@@ -18,7 +17,6 @@ export const formatApplicantInfoForLender = (
     postalCode: options?.allowPersonalInformation ? postalCode : null,
     id: applicantInfo.id!,
     documents: applicantInfo.documents?.map((doc) => formatDocumentForLenderOrBorrower(doc)),
-    mlcbRatio: safeDivide(rest.lenderDebt, rest.monthlyIncome),
     loanRequest: applicantInfo.applicantOf || applicantInfo.guarantorOf,
   };
 };
@@ -32,7 +30,6 @@ export const formatApplicantForBorrower = (
     ...applicantInfo,
     id: applicantInfo.id!,
     documents: applicantInfo.documents?.map((doc) => formatDocumentForLenderOrBorrower(doc)),
-    mlcbRatio: safeDivide(applicantInfo.lenderDebt, applicantInfo.monthlyIncome),
     loanRequest: applicantInfo.applicantOf || applicantInfo.guarantorOf,
   };
 };
@@ -46,7 +43,6 @@ export const formatApplicantForAdmin = (
     ...applicantInfo,
     id: applicantInfo.id!,
     documents: applicantInfo.documents?.map((doc) => formatDocumentForLenderOrBorrower(doc)),
-    mlcbRatio: safeDivide(applicantInfo.lenderDebt, applicantInfo.monthlyIncome),
     loanRequest: applicantInfo.applicantOf || applicantInfo.guarantorOf,
   };
 };

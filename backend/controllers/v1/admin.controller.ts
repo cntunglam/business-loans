@@ -26,7 +26,6 @@ import { prismaClient } from '../../clients/prismaClient';
 import { CONFIG } from '../../config';
 import { generateMessage } from '../../data/messageTemplates/messageTemplates';
 import { createJob } from '../../jobs/boss';
-import { MLCBReportSchema } from '../../models/mlcbReport.model';
 import { createActivityLog } from '../../services/activityLog.service';
 import {
   convertToNormalLoanRequest,
@@ -355,12 +354,10 @@ export const getAllLeads = async (req: Request, res: Response) => {
   const loanRequests = await prismaClient.loanRequest.findMany({
     include: {
       applicantInfo: { include: { documents: { where: { isDeleted: false } } } },
-      grading: { select: { leadTier: true, mlcbGrade: true } },
       loanResponses: {
         select: {
           id: true,
           appointment: {
-            //Don't include appointment if outcomeStatus is not PENDING
             where: { loanResponse: { outcomeStatus: StatusEnum.PENDING } },
             select: {
               id: true,
@@ -421,7 +418,6 @@ export const getLeadById = async (req: Request, res: Response) => {
     include: {
       applicantInfo: { include: { documents: { where: { isDeleted: false } } } },
       guarantorInfo: { include: { documents: { where: { isDeleted: false } } } },
-      grading: { select: { mlcbGrade: true, leadTier: true } },
       loanResponses: {
         include: {
           appointment: {
@@ -549,15 +545,6 @@ export const createJobHandler = async (req: Request, res: Response) => {
   const { type, data } = createJobSchema.parse(req.body);
   const jobId = await createJob(type, data);
   return successResponse(res, { jobId });
-};
-
-export const getMlcbReport = async (req: Request, res: Response) => {
-  const { loanRequestId } = req.params;
-  const report = await prismaClient.loanRequestGrading.findUniqueOrThrow({
-    where: { loanRequestId },
-  });
-  const parsed = MLCBReportSchema.parse(report.mlcbReport);
-  return successResponse(res, parsed);
 };
 
 export const updateMailchimp = async (_: Request, res: Response) => {
