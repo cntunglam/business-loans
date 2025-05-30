@@ -24,7 +24,7 @@ input[type="number"] {
 
 @font-face {
   font-family: "Proxima Nova";
-  src: url("/fonts/ProximaNova-Thin.woff2");
+  src: url("/fonts/Proxima-Nova-Thin-VN.otf");
   font-weight: 300;
 }
 
@@ -54,7 +54,7 @@ input[type="number"] {
 
 @font-face {
   font-family: "Proxima Nova";
-  src: url("/fonts/Proxima-Nova-Bold.otf");
+  src: url("/fonts/Proxima-Nova-Bold-VN.otf");
   font-weight: 800;
 }
 
