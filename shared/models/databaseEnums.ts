@@ -47,12 +47,19 @@ export enum LoanResponseStatusEnum {
 }
 
 export enum DocumentTypeEnum {
-  //ID_CARD = "ID_CARD",
-  PAYSLIP_1 = "PAYSLIP_1",
-  PAYSLIP_2 = "PAYSLIP_2",
-  PAYSLIP_3 = "PAYSLIP_3",
-  CREDIT_REPORT = "CREDIT_REPORT",
-  LENDER_CREDIT_REPORT = "LENDER_CREDIT_REPORT",
+  // Identification & Residence
+  ID_CARD_FRONT = "ID_CARD_FRONT",
+  ID_CARD_BACK = "ID_CARD_BACK",
+  HOUSEHOLD_REGISTRATION = "HOUSEHOLD_REGISTRATION",
+  TEMP_RESIDENCE_CONFIRMATION = "TEMP_RESIDENCE_CONFIRMATION",
+
+  // Proof of Living Expenses/Residency
+  UTILITY_BILL = "UTILITY_BILL",
+
+  // Employment & Income Verification
+  EMPLOYMENT_CONTRACT = "EMPLOYMENT_CONTRACT",
+  SALARY_SLIP = "SALARY_SLIP",
+  BANK_STATEMENT = "BANK_STATEMENT",
 }
 
 export enum DocumentVerificationStatusEnum {

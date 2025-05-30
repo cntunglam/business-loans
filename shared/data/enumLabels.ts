@@ -16,12 +16,37 @@ export const NotificationTypeEnumLabels = {
   [NotificationTypeEnum.AUTO_IPA]: "Offer made by auto-IPA",
 } as const;
 
+export const DocumentTypeEnumDescriptions = {
+  // Identification & Residence
+  [DocumentTypeEnum.ID_CARD_FRONT]: "Mặt trước của căn cước công dân (CCCD)",
+  [DocumentTypeEnum.ID_CARD_BACK]: "Mặt sau của căn cước công dân (CCCD)",
+  [DocumentTypeEnum.HOUSEHOLD_REGISTRATION]: "Sổ hộ khẩu",
+  [DocumentTypeEnum.TEMP_RESIDENCE_CONFIRMATION]:
+    "Giấy xác nhận tạm trú (nếu đang sống ngoài địa chỉ trong sổ hộ khẩu)",
+
+  // Proof of Living Expenses/Residency
+  [DocumentTypeEnum.UTILITY_BILL]: "Hóa đơn điện, nước, internet hoặc truyền hình cáp trong vòng 3 tháng gần nhất",
+
+  // Employment & Income Verification
+  [DocumentTypeEnum.EMPLOYMENT_CONTRACT]: "Hợp đồng lao động hiện tại của bạn",
+  [DocumentTypeEnum.SALARY_SLIP]: "Phiếu lương gần nhất",
+  [DocumentTypeEnum.BANK_STATEMENT]: "Sao kê tài khoản ngân hàng thể hiện lương trong 3 tháng gần đây",
+} as const;
+
 export const DocumentTypeEnumLabels = {
-  [DocumentTypeEnum.PAYSLIP_1]: "Payslip 1",
-  [DocumentTypeEnum.PAYSLIP_2]: "Payslip 2",
-  [DocumentTypeEnum.PAYSLIP_3]: "Payslip 3",
-  [DocumentTypeEnum.CREDIT_REPORT]: "CBS",
-  [DocumentTypeEnum.LENDER_CREDIT_REPORT]: "MLCB",
+  // Identification & Residence
+  [DocumentTypeEnum.ID_CARD_FRONT]: "CCCD - Mặt Trước",
+  [DocumentTypeEnum.ID_CARD_BACK]: "CCCD - Mặt Sau",
+  [DocumentTypeEnum.HOUSEHOLD_REGISTRATION]: "Sổ Hộ Khẩu",
+  [DocumentTypeEnum.TEMP_RESIDENCE_CONFIRMATION]: "Giấy Xác Nhận Tạm Trú",
+
+  // Proof of Living Expenses/Residency
+  [DocumentTypeEnum.UTILITY_BILL]: "Hóa Đơn Sinh Hoạt",
+
+  // Employment & Income Verification
+  [DocumentTypeEnum.EMPLOYMENT_CONTRACT]: "Hợp Đồng Lao Động",
+  [DocumentTypeEnum.SALARY_SLIP]: "Phiếu Lương",
+  [DocumentTypeEnum.BANK_STATEMENT]: "Sao Kê Ngân Hàng",
 } as const;
 
 export const DocumentVerificationStatusEnumLabels = {

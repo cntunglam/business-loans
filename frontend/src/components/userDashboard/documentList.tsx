@@ -1,9 +1,22 @@
 import { Typography } from "@mui/joy";
-import { AwaitedRT, DocumentTypeEnum } from "@roshi/shared";
+import { AwaitedRT, DocumentTypeEnum, DocumentTypeEnumDescriptions, DocumentTypeEnumLabels } from "@roshi/shared";
 import { FC } from "react";
 import { useGetMyLoanRequest } from "../../api/useLoanRequestApi";
 import { Flex } from "../shared/flex";
 import { DocumentUploadRow } from "./documentRow";
+
+interface DocumentItem {
+  docType: DocumentTypeEnum;
+  label: string;
+  description?: string;
+  optional?: boolean;
+}
+
+interface DocumentCategory {
+  category: string;
+  documents: DocumentItem[];
+  disabled?: boolean;
+}
 
 interface Props {
   refetch: () => void;
@@ -11,37 +24,40 @@ interface Props {
 }
 
 export const DocumentList: FC<Props> = ({ refetch, applicantInfo }) => {
-  const requiredDocuments = [
+  const requiredDocuments: DocumentCategory[] = [
     {
-      disabled: false,
-      category: "Income",
+      category: "Identification & Residence",
       documents: [
-        {
-          docType: DocumentTypeEnum.PAYSLIP_1,
-          label: "Payslip - Latest Month",
-        },
-        {
-          docType: DocumentTypeEnum.PAYSLIP_2,
-          label: "Payslip - Second Latest Month",
-        },
-        {
-          docType: DocumentTypeEnum.PAYSLIP_3,
-          label: "Payslip - Third Latest Month",
-        },
-      ],
+        DocumentTypeEnum.ID_CARD_FRONT,
+        DocumentTypeEnum.ID_CARD_BACK,
+        DocumentTypeEnum.HOUSEHOLD_REGISTRATION,
+        DocumentTypeEnum.TEMP_RESIDENCE_CONFIRMATION,
+      ].map(docType => ({
+        docType,
+        label: DocumentTypeEnumLabels[docType],
+        description: DocumentTypeEnumDescriptions[docType],
+        optional: docType === DocumentTypeEnum.TEMP_RESIDENCE_CONFIRMATION,
+      })),
     },
     {
-      category: "Credit Report",
+      category: "Proof of Living Expenses / Residency",
+      documents: [DocumentTypeEnum.UTILITY_BILL].map(docType => ({
+        docType,
+        label: DocumentTypeEnumLabels[docType],
+        description: DocumentTypeEnumDescriptions[docType],
+      })),
+    },
+    {
+      category: "Employment & Income Verification",
       documents: [
-        {
-          docType: DocumentTypeEnum.CREDIT_REPORT,
-          label: "Credit Bureau Singapore (CBS)",
-        },
-        {
-          docType: DocumentTypeEnum.LENDER_CREDIT_REPORT,
-          label: "Moneylenders Credit Bureau (MLCB)",
-        },
-      ],
+        DocumentTypeEnum.EMPLOYMENT_CONTRACT,
+        DocumentTypeEnum.SALARY_SLIP,
+        DocumentTypeEnum.BANK_STATEMENT,
+      ].map(docType => ({
+        docType,
+        label: DocumentTypeEnumLabels[docType],
+        description: DocumentTypeEnumDescriptions[docType],
+      })),
     },
   ];
 
@@ -56,29 +72,34 @@ export const DocumentList: FC<Props> = ({ refetch, applicantInfo }) => {
           borderRadius: "md",
           border: (theme) => `1px solid ${theme.palette.divider}`,
           backgroundColor: "background.body",
+          overflow: 'hidden',
         }}
-        mb={2}
+        mb={3}
       >
         <Typography
           fontWeight={600}
           p={2}
           sx={{
-            backgroundColor: "neutral.50",
-            borderRadius: "6px 6px 0 0",
+            backgroundColor: "neutral.100",
             borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           }}
         >
           {doc.category}
         </Typography>
-        {doc.documents.map((doc) => (
-          <DocumentUploadRow
-            documents={applicantInfo?.documents}
-            applicantId={applicantInfo?.id}
-            refetch={refetch}
-            documentType={doc.docType}
-            label={doc.label}
-          />
-        ))}
+        <Flex y gap={1} p={1}>
+          {doc.documents.map((docItem) => (
+            <DocumentUploadRow
+              key={docItem.docType}
+              documents={applicantInfo?.documents}
+              applicantId={applicantInfo?.id}
+              refetch={refetch}
+              documentType={docItem.docType}
+              label={docItem.label}
+              description={docItem.description}
+              optional={docItem.optional}
+            />
+          ))}
+        </Flex>
       </Flex>
     ));
 };
