@@ -11,9 +11,7 @@ model ApplicantInfo {
     dateOfBirth DateTime?
 
     // Current Address
-    streetAddress String?
-    city          String?
-    province      String?
+    currentAddress String?
 
     monthlyIncome Float @default(0)
 

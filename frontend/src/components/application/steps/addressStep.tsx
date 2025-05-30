@@ -13,8 +13,8 @@ export const AddressStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   useEffect(() => {
     if (!visitor) return;
     try {
-      const stepData = ApplicationSteps[ApplicationStepsEnum.streetAddress].validation(
-        visitor[ApplicationStepsEnum.streetAddress],
+      const stepData = ApplicationSteps[ApplicationStepsEnum.currentAddress].validation(
+        visitor[ApplicationStepsEnum.currentAddress],
       );
       setValue(stepData);
     } catch (error) {

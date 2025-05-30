@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useUserContext } from "../../context/userContext";
 
 const EXCLUDED_PATHNAMES = ["/admin", "/lender"];
-const HIDDEN_PARAMS = ["referer", "visitorId", "amount", "term"];
+const HIDDEN_PARAMS = ["referrer", "visitorId", "amount", "term"];
 
 const getLocation = () => {
   //Remove search params based on HIDDEN_PARAMS

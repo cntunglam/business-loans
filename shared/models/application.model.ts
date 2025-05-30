@@ -36,9 +36,7 @@ export const SgManualFormSchema = z.object({
   }),
   monthlyIncome: z.coerce.number().nonnegative({ message: "Thu nhập hàng tháng không được âm" }),
   hasLaborContract: z.boolean({ invalid_type_error: "Giá trị phải là true hoặc false" }).optional(),
-  streetAddress: z.string().max(255, { message: "Địa chỉ quá dài" }),
-  city: z.string().max(255, { message: "Tên thành phố quá dài" }),
-  province: z.string().max(255, { message: "Tên tỉnh/thành phố quá dài" }),
+  currentAddress: z.string().max(255, { message: "Địa chỉ quá dài" }),
   employmentType: z.string().min(2, { message: "Công việc phải có ít nhất 1 ký tự" }),
   residencyStatus: z.string().optional().nullable(),
 });
@@ -55,9 +53,7 @@ export const SgManualFormSchemaKeys: (keyof typeof SgManualFormSchema.shape)[] =
   "dateOfBirth",
   "monthlyIncome",
   "hasLaborContract",
-  "streetAddress",
-  "city",
-  "province",
+  "currentAddress",
   "residencyStatus",
   "employmentType",
 ];

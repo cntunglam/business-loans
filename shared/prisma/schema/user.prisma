@@ -18,7 +18,6 @@ model User {
   waUser        WaUser?
   cccd          String?
   shortUrls     ShortUrl[]
-  visitorData   VisitorData[]
 
   sentMessages WaMessage[]
 
@@ -33,6 +32,7 @@ model User {
   AffiliateVisitor AffiliateVisitor[]
 
   userSettings UserSettings?
+  VisitorData  VisitorData[]
 
   @@schema("public")
 }

@@ -2,21 +2,15 @@ export enum ApplicationStepsEnum {
   borrowAmount = "borrowAmount",
   borrowPeriod = "borrowPeriod",
   borrowPurpose = "borrowPurpose",
-
   monthlyIncome = "monthlyIncome",
   employmentType = "employmentType",
   hasLaborContract = "hasLaborContract",
-
   fullName = "fullName",
   cccdNumber = "cccdNumber",
   phoneNumber = "phoneNumber",
   email = "email",
   dateOfBirth = "dateOfBirth",
-
-  city = "city",
-  province = "province",
-  streetAddress = "streetAddress",
-
+  currentAddress = "currentAddress",
   residencyStatus = "residencyStatus",
 }
 

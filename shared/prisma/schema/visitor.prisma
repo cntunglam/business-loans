@@ -7,7 +7,7 @@ model VisitorData {
   // Application metadata
   loanRequestType String
   currentStep     String? // Track current step
-  referer         String?
+  referrer        String?
   isCompleted     Boolean @default(false)
 
   borrowAmount  Float?
@@ -22,9 +22,7 @@ model VisitorData {
   dateOfBirth DateTime?
 
   // Current Address
-  streetAddress String?
-  city          String?
-  province      String?
+  currentAddress String?
 
   monthlyIncome Float? @default(0)
 

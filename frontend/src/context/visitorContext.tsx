@@ -14,7 +14,7 @@ interface VisitorContextType {
   visitor?: VisitorWithSteps | null;
   isLoading: boolean;
   error?: string;
-  init: (type: LoanRequestTypeEnum, referer?: string) => Promise<VisitorWithSteps | null>;
+  init: (type: LoanRequestTypeEnum, referrer?: string) => Promise<VisitorWithSteps | null>;
   saveStep: (stepKey: string, stepData?: unknown) => Promise<void>;
   finalize: (override?: boolean) => Promise<void>;
   steps: StepDetails[];
@@ -65,7 +65,7 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
   }, [affiliateVisitor]);
 
   const init = useCallback(
-    async (type: LoanRequestTypeEnum, referer?: string) => {
+    async (type: LoanRequestTypeEnum, referrer?: string) => {
       try {
         setIsLoading(true);
         setError(undefined);
@@ -76,12 +76,12 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
         let data = await initializeVisitor.mutateAsync({
           visitorId: visitorId || undefined,
           loanRequestType: type,
-          referer,
+          referrer,
         });
         if (data.visitor.isCompleted) {
           data = await initializeVisitor.mutateAsync({
             loanRequestType: type,
-            referer,
+            referrer,
           });
         }
         if (data.visitor.id) {

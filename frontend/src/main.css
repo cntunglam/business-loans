@@ -24,37 +24,37 @@ input[type="number"] {
 
 @font-face {
   font-family: "Proxima Nova";
-  src: url("/fonts/Proxima-Nova-Thin-VN.otf");
+  src: url("/fonts/proximanova_light.otf");
   font-weight: 300;
 }
 
 @font-face {
   font-family: "Proxima Nova";
-  src: url("/fonts/ProximaNova-Regular.woff2");
+  src: url("/fonts/proximanova_regular.ttf");
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Proxima Nova";
-  src: url("/fonts/ProximaNova-Regular.woff2");
+  src: url("/fonts/proximanova_regular.ttf");
   font-weight: 500;
 }
 
 @font-face {
   font-family: "Proxima Nova";
-  src: url("/fonts/ProximaNova-Semibold.woff2");
+  src: url("/fonts/proximanova_semibold.otf");
   font-weight: 600;
 }
 
 @font-face {
   font-family: "Proxima Nova";
-  src: url("/fonts/ProximaNova-Semibold.woff2");
+  src: url("/fonts/proximanova_semibold.otf");
   font-weight: 700;
 }
 
 @font-face {
   font-family: "Proxima Nova";
-  src: url("/fonts/Proxima-Nova-Bold-VN.otf");
+  src: url("/fonts/proximanova_bold.otf");
   font-weight: 800;
 }
 

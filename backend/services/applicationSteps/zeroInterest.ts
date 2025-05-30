@@ -48,18 +48,9 @@ export const zeroInterestLoanSteps: StepDetails[] = [
     title: ApplicationStepsLabels[ApplicationStepsEnum.hasLaborContract],
     settings: { options: ['YES', 'NO'] },
   },
-
   {
-    key: ApplicationStepsEnum.province,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.province],
-  },
-  {
-    key: ApplicationStepsEnum.city,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.city],
-  },
-  {
-    key: ApplicationStepsEnum.streetAddress,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.streetAddress],
+    key: ApplicationStepsEnum.currentAddress,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.currentAddress],
   },
   {
     key: ApplicationStepsEnum.fullName,

@@ -413,7 +413,7 @@ export const createLoanRequestSchema = z.object({
   amount: z.coerce.number().int().positive(),
   term: z.coerce.number().int().positive(),
   type: z.nativeEnum(LoanRequestTypeEnum),
-  referer: z.string().optional(),
+  referrer: z.string().optional(),
   override: z.boolean().optional(),
 
   applicantInfo: SgManualFormSchema,
@@ -455,7 +455,7 @@ export const createNewLoanRequest = async (
         userId: userId,
         applicantInfoId: applicantInfo.id,
         type: data.type,
-        referer: data.referer,
+        referrer: data.referrer,
         approvedAt: now,
         createdAt: now,
       },

@@ -37,7 +37,7 @@ model LoanRequest {
 
   supportData Json?
 
-  referer String?
+  referrer String?
 
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())

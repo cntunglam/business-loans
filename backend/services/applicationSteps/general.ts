@@ -17,9 +17,7 @@ export const ApplicationStepsLabels: Record<ApplicationStepsEnum, string> = {
   [ApplicationStepsEnum.dateOfBirth]: 'Ngày sinh của bạn là gì?',
   [ApplicationStepsEnum.monthlyIncome]: 'Thu nhập hàng tháng của bạn là bao nhiêu?',
   [ApplicationStepsEnum.hasLaborContract]: 'Bạn có hợp đồng lao động không?',
-  [ApplicationStepsEnum.streetAddress]: 'Địa chỉ hiện tại của bạn?',
-  [ApplicationStepsEnum.city]: 'Thành phố bạn đang sinh sống?',
-  [ApplicationStepsEnum.province]: 'Tỉnh/thành phố nơi bạn cư trú?',
+  [ApplicationStepsEnum.currentAddress]: 'Địa chỉ hiện tại của bạn?',
   [ApplicationStepsEnum.residencyStatus]: 'Giá trị công dân?',
   [ApplicationStepsEnum.employmentType]: 'Công việc của bạn là gì?',
 };
@@ -65,18 +63,9 @@ export const regularPersonalLoanSteps: StepDetails[] = [
     title: ApplicationStepsLabels[ApplicationStepsEnum.hasLaborContract],
     settings: { options: ['YES', 'NO'] },
   },
-
   {
-    key: ApplicationStepsEnum.province,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.province],
-  },
-  {
-    key: ApplicationStepsEnum.city,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.city],
-  },
-  {
-    key: ApplicationStepsEnum.streetAddress,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.streetAddress],
+    key: ApplicationStepsEnum.currentAddress,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.currentAddress],
   },
   {
     key: ApplicationStepsEnum.fullName,

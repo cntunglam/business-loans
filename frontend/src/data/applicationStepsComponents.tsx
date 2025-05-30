@@ -4,13 +4,11 @@ import { AgeStep } from "../components/application/steps/ageStep";
 import { BorrowAmountStep } from "../components/application/steps/borrowAmount";
 import { BorrowPurposeStep } from "../components/application/steps/borrowPurpose";
 import { BorrowTermStep } from "../components/application/steps/borrowTerm";
-import { CityStep } from '../components/application/steps/cityStep';
 import { HasLaborContractStep } from '../components/application/steps/hasLaborContract';
 import { IncomeStep } from "../components/application/steps/incomeStep";
 import { NameStep } from "../components/application/steps/nameStep";
 import { CccdNumberStep } from "../components/application/steps/nricNumberStep";
 import { OccupationStep } from '../components/application/steps/occupation';
-import { ProvinceStep } from '../components/application/steps/provinceStep';
 import { ASSETS } from "./assets";
 
 export const ApplicationStepsImages = {
@@ -29,8 +27,6 @@ export const ApplicationStepsComponents = {
   [ApplicationStepsEnum.monthlyIncome]: <IncomeStep />,
   [ApplicationStepsEnum.hasLaborContract]: <HasLaborContractStep />,
   [ApplicationStepsEnum.employmentType]: <OccupationStep />,
-  [ApplicationStepsEnum.city]: <CityStep />,
-  [ApplicationStepsEnum.province]: <ProvinceStep />,
-  [ApplicationStepsEnum.streetAddress]: <AddressStep />,
+  [ApplicationStepsEnum.currentAddress]: <AddressStep />,
   [ApplicationStepsEnum.fullName]: <NameStep />,
 } as const;

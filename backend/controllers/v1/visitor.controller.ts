@@ -17,11 +17,11 @@ export const saveStepSchema = z.object({
 export const initializeVisitorSchema = z.object({
   visitorId: z.string().optional(),
   loanRequestType: z.string(),
-  referer: z.string().optional(),
+  referrer: z.string().optional(),
 });
 
 export const initializeVisitor = async (req: Request, res: Response) => {
-  let { visitorId, loanRequestType, referer } = initializeVisitorSchema.parse(req.body);
+  let { visitorId, loanRequestType, referrer } = initializeVisitorSchema.parse(req.body);
   const userId = req.user?.sub;
   if (!visitorId) {
     visitorId = randomUUID();
@@ -30,14 +30,14 @@ export const initializeVisitor = async (req: Request, res: Response) => {
     where: { id: visitorId, loanRequestType },
     update: {
       lastActiveAt: new Date(),
-      referer: referer || undefined,
+      referrer: referrer || undefined,
     },
     create: {
       id: visitorId,
       lastActiveAt: new Date(),
       userId,
       loanRequestType,
-      referer,
+      referrer,
     },
   });
   let steps = loanRequestTypeToSteps[loanRequestType as LoanRequestTypeEnum];
@@ -136,9 +136,7 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
     monthlyIncome,
     hasLaborContract,
     employmentType,
-    streetAddress,
-    city,
-    province,
+    currentAddress,
     residencyStatus,
   } = visitor;
 
@@ -151,9 +149,7 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
     monthlyIncome: monthlyIncome!,
     hasLaborContract: hasLaborContract!,
     employmentType: employmentType!,
-    streetAddress: streetAddress!,
-    city: city!,
-    province: province!,
+    currentAddress: currentAddress!,
     residencyStatus: residencyStatus,
   };
 
@@ -162,7 +158,7 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
     term: stepDataMap[ApplicationStepsEnum.borrowPeriod],
     purpose: stepDataMap[ApplicationStepsEnum.borrowPurpose],
     type: visitor.loanRequestType as LoanRequestTypeEnum,
-    referer: visitor.referer || undefined,
+    referrer: visitor.referrer || undefined,
     applicantInfo,
   };
 

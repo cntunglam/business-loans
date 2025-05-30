@@ -75,13 +75,7 @@ export const ApplicationSteps = {
   [ApplicationStepsEnum.hasLaborContract]: {
     validation: (data: unknown) => z.boolean().parse(data),
   },
-  [ApplicationStepsEnum.streetAddress]: {
-    validation: (data: unknown) => z.string().max(255).parse(data),
-  },
-  [ApplicationStepsEnum.city]: {
-    validation: (data: unknown) => z.string().max(255).parse(data),
-  },
-  [ApplicationStepsEnum.province]: {
+  [ApplicationStepsEnum.currentAddress]: {
     validation: (data: unknown) => z.string().max(255).parse(data),
   },
   [ApplicationStepsEnum.residencyStatus]: {

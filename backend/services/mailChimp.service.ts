@@ -41,7 +41,7 @@ export const addBorrowersToMailChimpList = async () => {
             NAME: user.name || '',
             CREATED_AT: format(user.createdAt, 'MM/dd/yyyy'),
             DOB: applicantInfo?.dateOfBirth,
-            JOB: applicantInfo?.province,
+            JOB: applicantInfo?.employmentType,
             INCOME: applicantInfo?.monthlyIncome,
           },
         };

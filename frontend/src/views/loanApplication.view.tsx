@@ -12,10 +12,10 @@ interface Props {
 export const LoanApplicationView = ({ loanRequestType }: Props) => {
   const [params] = useSearchParams();
   const { init } = useVisitorContext();
-  const referer = params.get("referer");
+  const referrer = params.get("referrer");
 
   useEffect(() => {
-    init(loanRequestType, referer || undefined);
+    init(loanRequestType, referrer || undefined);
   }, []);
 
   return (
