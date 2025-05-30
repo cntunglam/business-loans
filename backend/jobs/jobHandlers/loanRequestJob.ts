@@ -8,7 +8,7 @@ import {
   UserRoleEnum,
 } from '@roshi/shared';
 import { CONFIG } from '../../config';
-import { getTestIPA } from '../../data/autoIpa';
+import { getTest1IPA, getTestIPA } from '../../data/autoIpa';
 import { formatApplicantForAdmin } from '../../services/applicantInfo.service';
 import { EmailTypeEnum, sendEmail } from '../../services/email.service';
 import { getLoanRequest } from '../../services/loanRequest.service';
@@ -50,7 +50,7 @@ export const initLoanRequestJob = () => {
 
     //Check for auto-approvals (only on creation)
     // todo: remove it when we have a better way to handle auto-approval
-    const offers = [getTestIPA(loanRequest)];
+    const offers = [getTestIPA(loanRequest), getTest1IPA(loanRequest)];
     for (const offer of offers) {
       if (offer && offer.companyId) {
         try {

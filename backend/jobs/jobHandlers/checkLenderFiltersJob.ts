@@ -1,5 +1,4 @@
-import { JobsEnum, LoanResponseStatusEnum, NotificationTypeEnum, UserRoleEnum } from '@roshi/shared';
-import { prismaClient } from '../../clients/prismaClient';
+import { JobsEnum, NotificationTypeEnum, UserRoleEnum } from '@roshi/shared';
 import { getCompanyIdsByLeadSettings } from '../../services/leadFilters.service';
 import { sendNotification } from '../../services/notification.service';
 import { boss } from '../boss';
@@ -21,17 +20,17 @@ export const initCheckLendersFiltersJob = () => {
       ),
     );
 
-    if (companiesToNotify.length === 0) {
-      await prismaClient.loanResponse.updateMany({
-        where: {
-          loanRequestId: job.data.loanRequestId,
-        },
-        data: {
-          status: LoanResponseStatusEnum.REJECTED,
-          comment: 'Lead did not meet lender filters',
-          rejectionReasons: ['Lead did not meet lender filters'],
-        },
-      });
-    }
+    // if (companiesToNotify.length === 0) {
+    //   await prismaClient.loanResponse.updateMany({
+    //     where: {
+    //       loanRequestId: job.data.loanRequestId,
+    //     },
+    //     data: {
+    //       status: LoanResponseStatusEnum.REJECTED,
+    //       comment: 'Lead did not meet lender filters',
+    //       rejectionReasons: ['Lead did not meet lender filters'],
+    //     },
+    //   });
+    // }
   });
 };

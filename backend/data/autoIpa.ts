@@ -8,10 +8,29 @@ type IpaResponse = Omit<z.infer<typeof createLoanOfferSchema>, 'loanRequestId'> 
 type LoanRequestAdmin = Prisma.LoanRequestGetPayload<{ include: { applicantInfo: true } }>;
 
 export const getTestIPA = (loanRequest: LoanRequestAdmin): IpaResponse => {
-  const companyId = '000c6655-0e74-4f74-b1d5-07e7845e1b32';
+  const companyId = '02e4d488-0b6d-4337-a8db-ba33527c093a';
   if (!loanRequest.applicantInfo) return null;
   const offerInfo = (() => {
-    return { amount: 5000000, interest: 3.88, term: 12 };
+    return { amount: 25000000, interest: 3.88, term: 12 };
+  })();
+  return {
+    status: LoanResponseStatusEnum.ACCEPTED,
+    companyId,
+    offer: {
+      amount: roundUpToThousand(Math.min(loanRequest.amount, offerInfo.amount)),
+      term: Math.min(loanRequest.term, offerInfo.term),
+      monthlyInterestRate: offerInfo.interest,
+      variableUpfrontFees: 10,
+      fixedUpfrontFees: 0,
+    },
+  };
+};
+
+export const getTest1IPA = (loanRequest: LoanRequestAdmin): IpaResponse => {
+  const companyId = '067d6316-dcc2-448a-8a43-3c6ba84fb8a0';
+  if (!loanRequest.applicantInfo) return null;
+  const offerInfo = (() => {
+    return { amount: 50000000, interest: 4.88, term: 6 };
   })();
   return {
     status: LoanResponseStatusEnum.ACCEPTED,

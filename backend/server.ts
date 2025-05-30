@@ -131,6 +131,7 @@ app.get(
 app.use(errorHandler);
 
 setupCronJobs();
+// seedData();
 
 const server = app.listen(CONFIG.PORT, () => {
   console.log(`App listening on port ${CONFIG.PORT}`);
