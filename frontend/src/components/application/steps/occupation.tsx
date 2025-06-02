@@ -1,27 +1,26 @@
-import { Option } from "@mui/joy";
-import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
-import { ApplicationStepsEnum, employmentTypeEnum, employmentTypeLabels, OptionsSettings } from "@roshi/shared";
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { Option } from '@mui/joy';
+import { ApplicationSteps } from '@roshi/backend/services/applicationSteps.service';
+import { ApplicationStepsEnum, employmentTypeEnum, employmentTypeLabels, OptionsSettings } from '@roshi/shared';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useVisitorContext } from "../../../context/visitorContext";
-import { Flex } from "../../shared/flex";
-import { ApplicationStyledInput } from "../styled/applicationStyledInput";
-import { ApplicationStyledSelect } from "../styled/applicationStyledSelect";
+import { useVisitorContext } from '../../../context/visitorContext';
+import { TEST_IDS } from '../../../utils/testUtils';
+import { Flex } from '../../shared/flex';
+import { ApplicationStyledInput } from '../styled/applicationStyledInput';
+import { ApplicationStyledSelect } from '../styled/applicationStyledSelect';
 
 export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const { t } = useTranslation('form');
   const { setError, error, visitor, currentStepData } = useVisitorContext();
   const [option, setOption] = useState<string | undefined>();
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>('');
 
   const settings = useMemo(() => currentStepData?.settings as OptionsSettings, [currentStepData]);
 
   useEffect(() => {
     if (!visitor) return;
     try {
-      const stepData = ApplicationSteps[ApplicationStepsEnum.employmentType].validation(
-        visitor[ApplicationStepsEnum.employmentType],
-      );
+      const stepData = ApplicationSteps[ApplicationStepsEnum.employmentType].validation(visitor[ApplicationStepsEnum.employmentType]);
       if (stepData)
         if (Object.values(employmentTypeEnum).includes(stepData as employmentTypeEnum)) {
           setOption(stepData);
@@ -37,28 +36,25 @@ export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
   useImperativeHandle(ref, () => ({
     getValue: () => {
       if (!option) {
-        setError("Please select your career");
+        setError('Please select your career');
         return;
       }
-      if (
-        option === employmentTypeEnum.OTHER &&
-        !value
-      ) {
-        setError("Please enter your job title");
+      if (option === employmentTypeEnum.OTHER && !value) {
+        setError('Please enter your job title');
         return;
       }
       return option === employmentTypeEnum.OTHER ? value : option;
-    },
+    }
   }));
 
   return (
     <Flex y gap2 px={{ xs: 3, sm: 2, md: 0 }}>
       <ApplicationStyledSelect
-        data-testid="occupational-status-select"
-        placeholder={t("form:applying.choose_one")}
+        data-testid={TEST_IDS.employmentTypeSelect}
+        placeholder={t('form:applying.choose_one')}
         value={option}
         onChange={(_, val) => {
-          setError("");
+          setError('');
           setOption(val || undefined);
         }}
       >
@@ -70,10 +66,10 @@ export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
       </ApplicationStyledSelect>
       {option === employmentTypeEnum.OTHER && (
         <ApplicationStyledInput
-          error={error?.toLowerCase().includes("job title") || false}
+          error={error?.toLowerCase().includes('job title') || false}
           data-testid="job-title-input"
           onChange={(e) => {
-            setError("");
+            setError('');
             setValue(e.target.value);
           }}
           value={value}
