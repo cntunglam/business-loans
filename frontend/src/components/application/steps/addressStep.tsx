@@ -4,6 +4,7 @@ import { ApplicationStepsEnum } from "@roshi/shared";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { useVisitorContext } from "../../../context/visitorContext";
 import { districts, provinces } from "../../../data/addresses";
+import { TEST_IDS } from "../../../utils/testUtils";
 import { Flex } from "../../shared/flex";
 import { ApplicationStyledInput } from "../styled/applicationStyledInput";
 import { ApplicationStyledSelect } from '../styled/applicationStyledSelect';
@@ -58,6 +59,7 @@ export const AddressStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   return (
     <Flex y xc gap2 px={{ xs: 3, sm: 2, md: 0 }}>
       <ApplicationStyledSelect
+        data-testid={TEST_IDS.citySelect}
         placeholder="Chọn tỉnh/thành phố"
         value={value.province}
         onChange={(_, val) => {
@@ -76,6 +78,7 @@ export const AddressStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
       </ApplicationStyledSelect>
 
       <ApplicationStyledSelect
+        data-testid={TEST_IDS.districtSelect}
         placeholder="Chọn quận/huyện"
         value={value.district}
         disabled={!value.province}
@@ -92,6 +95,7 @@ export const AddressStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
       </ApplicationStyledSelect>
 
       <ApplicationStyledInput
+        data-testid={TEST_IDS.addressInput}
         value={value.detail}
         placeholder="Số nhà, tên đường, phường/xã"
         error={!!error}

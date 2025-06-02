@@ -3,6 +3,7 @@ import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.servi
 import { ApplicationStepsEnum, employmentTypeEnum, employmentTypeLabels, OptionsSettings } from "@roshi/shared";
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import { useVisitorContext } from "../../../context/visitorContext";
+import { TEST_IDS } from "../../../utils/testUtils";
 import { Flex } from "../../shared/flex";
 import { ApplicationStyledInput } from "../styled/applicationStyledInput";
 import { ApplicationStyledSelect } from "../styled/applicationStyledSelect";
@@ -52,7 +53,7 @@ export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
   return (
     <Flex y gap2 px={{ xs: 3, sm: 2, md: 0 }}>
       <ApplicationStyledSelect
-        data-testid="occupational-status-select"
+        data-testid={TEST_IDS.employmentTypeSelect}
         placeholder="Choose one"
         value={option}
         onChange={(_, val) => {
@@ -69,7 +70,7 @@ export const OccupationStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
       {option === employmentTypeEnum.OTHER && (
         <ApplicationStyledInput
           error={error?.toLowerCase().includes("job title") || false}
-          data-testid="job-title-input"
+          data-testid={TEST_IDS.jobTitleInput}
           onChange={(e) => {
             setError("");
             setValue(e.target.value);

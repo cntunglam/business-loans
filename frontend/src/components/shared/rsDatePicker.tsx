@@ -6,14 +6,16 @@ import { Flex } from "./flex";
 
 type RsDatePickerProps = DatePickerProps & {
   isTimeSelected: "date" | "time";
+  "data-testid"?: string;
 };
 
-export const RsDatePicker: FC<RsDatePickerProps> = ({ isTimeSelected, ...props }) => {
+export const RsDatePicker: FC<RsDatePickerProps> = ({ isTimeSelected, "data-testid": dataTestId, ...props }) => {
   return (
     <Flex
       x
       xc
       fullwidth
+      data-testid={dataTestId}
       sx={{
         ".react-datepicker-popper": {
           transform: "none !important",

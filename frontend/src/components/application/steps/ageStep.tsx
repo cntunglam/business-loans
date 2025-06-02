@@ -2,6 +2,7 @@ import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.servi
 import { ApplicationStepsEnum } from "@roshi/shared";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { useVisitorContext } from "../../../context/visitorContext";
+import { TEST_IDS } from '../../../utils/testUtils';
 import { RsDatePicker } from '../../shared/rsDatePicker';
 
 export const AgeStep = forwardRef((_, ref) => {
@@ -33,6 +34,7 @@ export const AgeStep = forwardRef((_, ref) => {
     <RsDatePicker
       isTimeSelected={"date"}
       open
+      data-testid={TEST_IDS.dobInput}
       selected={value}
       onChange={(date: Date | null) => setValue(date)}
       calendarStartDay={1}

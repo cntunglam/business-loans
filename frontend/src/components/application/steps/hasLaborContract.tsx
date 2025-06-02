@@ -35,7 +35,7 @@ export const HasLaborContractStep = forwardRef<{ getValue: () => unknown }>((_, 
 
   return (
     <Flex y gap={4}>
-      <Flex y gap2 px={{ xs: 3, sm: 2, md: 0 }} data-testid={TEST_IDS.existingLoanBox}>
+      <Flex y gap2 px={{ xs: 3, sm: 2, md: 0 }}>
         {options.map((option) => (
           <Button
             key={option}
@@ -44,6 +44,7 @@ export const HasLaborContractStep = forwardRef<{ getValue: () => unknown }>((_, 
             onClick={() => {
               setValue(option);
             }}
+            data-testid={option === "Yes" ? TEST_IDS.hasLaborContractYes : TEST_IDS.hasLaborContractNo}
             sx={{
               color: value === option ? "primary.500" : "neutral.400",
               minWidth: { xs: "200px", md: "400px" },

@@ -36,13 +36,13 @@ export const IncomeStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   return (
     <Flex y px={{ xs: 3, sm: 2, md: 0 }}>
       <RsSlider
-        step={100000}
+        step={100_000}
         suffix={"₫" + (value === settings.max ? "+" : "")}
         min={settings.min}
         max={settings.max}
         value={value}
         setValue={setValue}
-        data-testid={TEST_IDS.borrowAmountSlider}
+        data-testid={TEST_IDS.monthlyIncomeInput}
       />
     </Flex>
   );

@@ -36,7 +36,7 @@ export const CccdNumberStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
   return (
     <Flex y gap2 px={{ xs: 3, sm: 2, md: 0 }}>
       <ApplicationStyledInput
-        data-testid={TEST_IDS.nricInput}
+        data-testid={TEST_IDS.cccdInput}
         value={value}
         placeholder="Nhập số CCCD"
         error={!!error}
