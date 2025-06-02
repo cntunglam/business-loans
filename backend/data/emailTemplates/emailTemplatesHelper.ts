@@ -19,21 +19,21 @@ export const generateOffersHtml = (
             </td>
             <td width="120"
               style="padding: 10px; border-right: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; background-color: #FBFBFB;">
-              Offer from</td>
+              Ưu đãi từ</td>
             <td
               style="padding: 10px; font-weight: bold; color: #25282B; border-bottom: 1px solid #e0e0e0; background-color: #FBFBFB;">
               ${offer.lender.name}</td>
           </tr>
           <tr style="border-bottom: 1px solid #e0e0e0;">
-            <td style="padding: 10px; border-right: 1px solid #e0e0e0;">Loan amount</td>
+            <td style="padding: 10px; border-right: 1px solid #e0e0e0;">Số tiền vay</td>
             <td style="padding: 10px; font-weight: bold; color: #25282B;">$${offer.loanOffer!.amount}</td>
           </tr>
           <tr style="border-bottom: 1px solid #e0e0e0; background-color: #FBFBFB;">
-            <td style="padding: 10px; border-right: 1px solid #e0e0e0;">Interest rate</td>
+            <td style="padding: 10px; border-right: 1px solid #e0e0e0;">Lãi suất</td>
             <td style="padding: 10px; font-weight: bold;">${offer.loanOffer!.monthlyInterestRate}% per month</td>
           </tr>
           <tr>
-            <td style="padding: 10px; border-right: 1px solid #e0e0e0;">Loan tenure</td>
+            <td style="padding: 10px; border-right: 1px solid #e0e0e0;">Thời hạn cho vay</td>
             <td style="padding: 10px; font-weight: bold; color: #25282B;">${offer.loanOffer!.term} months</td>
           </tr>
         </table>
@@ -92,7 +92,7 @@ export const generateUnsubHtml = async (userEmail: string) => {
             font-size: 10px;
             font-family: helvetica, 'helvetica neue', arial, verdana, sans-serif;
           "
-          >Click here to unsubscribe</span
+          >Nhấp vào đây để hủy đăng ký</span
         ></a
       >
     </p>
