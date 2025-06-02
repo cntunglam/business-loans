@@ -3,6 +3,7 @@ import { ErrorResponse } from "@roshi/shared";
 import { AxiosError } from "axios";
 import { addSeconds } from "date-fns";
 import { FC, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useOTPLogin, useSendOTP } from "../../api/useAccountApi";
 import { TEST_IDS } from "../../utils/testUtils";
 import { Countdown } from "../shared/countdown";
@@ -24,6 +25,7 @@ export const OTPModal: FC<Props> = ({ email, onClose, onSuccess, phone }) => {
   const [error, setError] = useState("");
   const sendOtp = useSendOTP();
   const otpLogin = useOTPLogin();
+  const { t } = useTranslation();
 
   const handleSubmit = () => {
     otpLogin.mutate(
@@ -60,7 +62,7 @@ export const OTPModal: FC<Props> = ({ email, onClose, onSuccess, phone }) => {
           {error && <FormHelperText>{error}</FormHelperText>}
         </FormControl>
         <Button loading={otpLogin.isPending} onClick={handleSubmit} data-testid={TEST_IDS.submitOtpButton}>
-          Submit
+          {t('submit')}
         </Button>
         <Link
           style={{ color: !canResend ? theme.palette.neutral[300] : undefined }}

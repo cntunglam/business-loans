@@ -1,0 +1,145 @@
+{
+  "borrowAmount": {
+    "title": "Bạn muốn vay bao nhiêu?"
+  },
+  "borrowTerm": {
+    "title": "Bạn muốn trả trong khoảng thời gian nào?"
+  },
+  "finalStep": {
+    "title": "Người vay sử dụng ROSHI để so sánh khoản vay, đăng ký trực tuyến & giải ngân nhanh chóng.",
+    "item1": "Tiếp cận lãi suất vay cá nhân tốt hơn",
+    "item2": "Quyết định vay nhanh (tỷ lệ duyệt 97%)",
+    "item3": "Cập nhật hồ sơ theo thời gian thực qua chat & email",
+    "protecting": "Bảo vệ thông tin của bạn",
+    "almostThere": "Sắp xong rồi...",
+    "addEmail": "Thêm email để bắt đầu hồ sơ vay",
+    "verified": "Số điện thoại đã được xác minh",
+    "email_verified": "Email đã được xác minh",
+    "launch": "Bắt đầu hồ sơ vay",
+    "agreement": "Bằng cách đăng ký, bạn đồng ý với <1>Chính sách quyền riêng tư</1> và <2>Điều khoản & Điều kiện</2> của ROSHI.",
+    "phoneInput": {
+      "placeholder": "Thêm số điện thoại",
+      "error": "Vui lòng nhập số điện thoại hợp lệ"
+    },
+    "emailInput": {
+      "placeholder": "Thêm Email",
+      "error": "Vui lòng nhập địa chỉ email hợp lệ"
+    }
+  },
+  "layout": {
+    "overview": "Tổng quan",
+    "documents": "Tài liệu",
+    "details": "Chi tiết",
+    "paymentTracker": "Theo dõi thanh toán",
+    "rewards": "Phần thưởng",
+    "logout": "Đăng xuất"
+    },
+  "applicationStatus": {
+    "offers": "Đề xuất",
+    "searching": "Đang tìm kiếm",
+    "appointment": "Cuộc hẹn",
+    "waitingforoffers": "Đang chờ đề xuất",
+    "offers-found": "Đã tìm thấy offer",
+    "booking": "Đặt phòng ngay"
+  },
+  "promotionalbanners" :{
+    "title": "ROSHI không tính phí",
+    "description": "Dịch vụ của chúng tôi luôn miễn phí - không có phí nền tảng, không có phí ẩn. Chỉ ngân hàng hoặc công ty cho vay tiền được cấp phép mà bạn chọn mới có thể áp dụng phí xử lý tiêu chuẩn của họ sau khi được chấp thuận."
+  },
+  "useroverview": {
+    "title_1": "Ưu đãi từ đối tác được phê duyệt trước",
+    "description_1": "Chưa có ưu đãi nào được phê duyệt trước",
+    "title_2": "Lãi suất ngân hàng mới nhất",
+    "description_2": "Chưa có ưu đãi từ ngân hàng"
+  },
+  "beatoffer": {
+    "title": "Tìm được lãi suất tốt hơn? Chúng tôi sẽ vượt qua!",
+    "description": "Chúng tôi tự tin với mức lãi suất cạnh tranh của mình đến mức nếu bạn mang đến một đề nghị vay hợp lệ từ nền tảng khác, chúng tôi không chỉ so sánh – mà sẽ vượt qua nó! Đó là Cam Kết Giá Tốt Hơn của chúng tôi.",
+    "share-offers": "Chia sẻ ưu đãi"
+  },
+  "documentview": {
+    "supporting": "Tài liệu hỗ trợ",
+    "upload": "Tải lên",
+    "text": "Vui lòng hoàn tất việc tải lên tất cả tài liệu bắt buộc bên dưới"
+  },
+  "documentlist": {
+    "income": "Thu nhập",
+    "payslip_1": "Phiếu lương - Tháng gần nhất",
+    "payslip_2": "Phiếu lương - Tháng liền trước",
+    "payslip_3": "Phiếu lương - Ba tháng trước",
+    "credit_report": "Báo cáo tín dụng",
+    "text_1": "Cục Tín Dụng Singapore (CBS)",
+    "text_2": "Cục Tín Dụng Các Công ty Cho Vay Tiền (MLCB)",
+    "select":"Chọn hoặc thả tập tin",
+    "title_1": "Giấy tờ tùy thân & Nơi cư trú",
+    "title_2": "Chứng minh chi phí sinh hoạt / Cư trú",
+    "title_3": "Xác minh việc làm & Thu nhập"
+  },
+  "applicationdetails": {
+    "review": "Xem xét đơn đăng ký",
+    "information": "Thông tin cơ bản",
+    "phone-number": "Số điện thoại",
+    "amount": "Số tiền vay",
+    "period": "Thời hạn vay",
+    "purpose": "Mục đích vay",
+    "residency": "Tình trạng cư trú",
+    "age": "Tuổi",
+    "monthly": "Thu nhập hàng tháng",
+    "employment": "Thời gian làm việc",
+    "job": "Chức danh công việc",
+    "remove": "Xóa",
+    "title": "Bạn có chắc chắn muốn rút đơn xin vay không?",
+    "description": "Rút đơn xin vay có nghĩa là bạn sẽ mất toàn bộ tiến trình. Bạn có chắc chắn muốn tiếp tục không?"
+  },
+  "applying" :{
+    "choose_one": "Chọn một"
+  }, 
+  "step_7": {
+    "yes": "Có",
+    "no": "Không"
+  },
+  "offer-card": {
+    "interest-rate": "Lãi suất thấp nhất",
+    "amount": "Số tiền cao nhất",
+    "tenure": "Kỳ hạn dài nhất",
+    "up-to": "TỐI ĐA",
+    "monthly": "LÃI SUẤT (HÀNG THÁNG)",
+    "show-more": "Xem thêm",
+    "show-less": "Hiển thị ít hơn",
+    "pre-approved": "Đã được phê duyệt trước",
+    "select-offer": "Chọn ưu đãi",
+    "offer-selected": "Đã chọn ưu đãi",
+    "book-appointment": "Đặt lịch hẹn",
+    "features": "Các tính năng chính",
+    "amount_1": "Số tiền: ",
+    "interest": "Lãi suất hàng tháng: ",
+    "duration": "Thời hạn vay: ",
+    "fees": "Phí trả trước: ",
+    "installment": "Khoản trả góp hàng tháng: ",
+    "partner-offers": "Ưu đãi đối tác",
+    "proceed": "Tiếp tục"
+  },
+  "offer-proceed": {
+    "apply": "Đăng ký khoản vay lên đến",
+    "monthly": "Lãi suất hàng tháng",
+    "tenure": "Kỳ hạn",
+    "instalment": "Khoản trả góp hàng tháng",
+    "processing": "Phí xử lý",
+    "appointment": "Đặt lịch hẹn",
+    "go-back": "Quay lại"
+  },
+ "scheduleAppointment": {
+    "appointment": "Đặt lịch hẹn",
+    "selectTimeAndDate": "Chọn thời gian và ngày",
+    "confirmAppointment": "Xác nhận cuộc hẹn"
+  },
+   "day": {
+    "sunday": "Chủ Nhật",
+    "monday": "Thứ Hai",
+    "tuesday": "Thứ Ba",
+    "wednesday": "Thứ Tư",
+    "thursday": "Thứ Năm",
+    "friday": "Thứ Sáu",
+    "saturday": "Thứ Bảy"
+   }
+}

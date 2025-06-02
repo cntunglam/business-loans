@@ -1,5 +1,6 @@
 import { Card, Grid, Typography } from "@mui/joy";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useGetMyLoanRequest, useGetPartnerOffers } from "../api/useLoanRequestApi";
 import { CustomerSupportWidget } from "../components/shared/customerSupportWidget";
 import { Flex } from "../components/shared/flex";
@@ -14,6 +15,7 @@ import { useUserContext } from "../context/userContext";
 import { useGetBestOffers } from "../hooks/useGetBestOffers";
 
 export const UserOverviewView = () => {
+ const { t } = useTranslation();
   const { user } = useUserContext();
   const { data, refetch, isLoading } = useGetMyLoanRequest();
   const [isBorderAnimation, setIsBorderAnimation] = useState(false);
@@ -72,7 +74,7 @@ export const UserOverviewView = () => {
       {renderModal()}
       <CustomerSupportWidget />
       <Typography level="h3" fontWeight={"700"} color="secondary">
-        Welcome, {user?.name}
+        {t("welcome")}, {user?.name}
       </Typography>
       <Flex sx={{ mt: { xs: 2, md: 4 } }} y fullwidth>
         <Flex
@@ -87,7 +89,7 @@ export const UserOverviewView = () => {
           <PromotionalBanners />
         </Flex>
         <Typography id="pre-approved-offers" mt={4} mb={1} color="secondary" level="title-lg">
-          Pre-approved Partner Offers
+          {t("form:useroverview.title_1")}
         </Typography>
         <Grid container rowSpacing={2} columnSpacing={2} minWidth={"100%"}>
           {preApprovedOffers?.length === 0 ? (
@@ -100,7 +102,7 @@ export const UserOverviewView = () => {
               py={2}
               sx={{ width: "100%", borderRadius: 3, display: "flex", alignItems: "center" }}
             >
-              No pre-approved offers yet
+              {t("form:useroverview.description_1")}
             </Typography>
           ) : (
             preApprovedOffers?.map((res) => (
@@ -119,7 +121,7 @@ export const UserOverviewView = () => {
         </Grid>
         <BeatOfferBanner />
         <Typography color="secondary" level="title-lg" mt={4} mb={1}>
-          Latest Bank Rates
+          {t("form:useroverview.title_2")}
         </Typography>
         <Grid container rowSpacing={2} columnSpacing={2} minWidth={"100%"}>
           {partnerOffers?.length === 0 ? (
@@ -132,7 +134,7 @@ export const UserOverviewView = () => {
               py={2}
               sx={{ width: "100%", borderRadius: 3, display: "flex", alignItems: "center" }}
             >
-              No bank offers
+             {t("form:useroverview.description_2")}
             </Typography>
           ) : (
             partnerOffers?.map((res) => <PartnerOfferCard key={res.id} offer={res} />)

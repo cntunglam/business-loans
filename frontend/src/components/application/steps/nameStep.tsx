@@ -1,6 +1,7 @@
 import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
 import { ApplicationStepsEnum } from "@roshi/shared";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useVisitorContext } from "../../../context/visitorContext";
 import { TEST_IDS } from "../../../utils/testUtils";
 import { Flex } from "../../shared/flex";
@@ -9,6 +10,7 @@ import { ApplicationStyledInput } from "../styled/applicationStyledInput";
 export const NameStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const { error, setError, visitor } = useVisitorContext();
   const [value, setValue] = useState<string>("");
+   const { t } = useTranslation();
 
   useEffect(() => {
     if (!visitor) return;
@@ -37,7 +39,7 @@ export const NameStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
       <ApplicationStyledInput
         value={value}
         data-testid={TEST_IDS.fullNameInput}
-        placeholder="Add Full Name"
+        placeholder={t("add-full-name")}
         error={!!error}
         sx={{ maxWidth: { xs: "100%", sm: 300, md: 300 } }}
         onChange={(e) => {

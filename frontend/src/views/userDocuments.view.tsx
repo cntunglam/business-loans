@@ -1,5 +1,6 @@
 import { TabPanel, Tabs, Typography } from "@mui/joy";
 import { ReactNode } from "react";
+import { useTranslation } from 'react-i18next';
 import { useSearchParams } from "react-router-dom";
 import { useGetMyLoanRequest } from "../api/useLoanRequestApi";
 import { Flex } from "../components/shared/flex";
@@ -8,12 +9,13 @@ import { DocumentList } from "../components/userDashboard/documentList";
 export const UserDocumentsView = () => {
   const { data, refetch } = useGetMyLoanRequest();
   const [params, setParams] = useSearchParams();
+  const { t } = useTranslation();
 
   const DocumentUploadHeader = ({ text, children }: { text: string; children?: ReactNode }) => {
     return (
       <Flex y xc fullwidth gap3 pt={2} pb={4}>
         <Flex y xc gap={0.5}>
-          <Typography level="h3">Supporting Documents</Typography>
+          <Typography level="h3">{t("form:documentview.supporting")}</Typography>
           <Typography level="body-md" textAlign={"center"}>
             {text}
           </Typography>
@@ -26,7 +28,7 @@ export const UserDocumentsView = () => {
   return (
     <Flex fullwidth y px={{ xs: 1, md: 4 }} gap2>
       <Typography level="h3" fontWeight={"700"} color="secondary">
-        Upload Documents
+       {t("form:documentview.upload")}
       </Typography>
       <Tabs
         value={params.get("tab") || "personal"}
@@ -43,7 +45,7 @@ export const UserDocumentsView = () => {
             borderRadius: "md",
           }}
         >
-          <DocumentUploadHeader text="Complete uploading all required documents below" />
+          <DocumentUploadHeader text={t("form:documentview.text")} />
           <DocumentList applicantInfo={data?.applicantInfo} refetch={refetch} />
         </TabPanel>
       </Tabs>

@@ -1,10 +1,12 @@
 import { Box, Link, Typography } from "@mui/joy";
+import { useTranslation } from 'react-i18next';
 import { ASSETS } from "../../data/assets";
 import { CONSTANTS } from "../../data/constants";
 import { generateWhatsappLinkForUser } from "../../utils/utils";
 import { Flex } from "../shared/flex";
 
 export const BeatOfferBanner = () => {
+  const { t } = useTranslation();
   return (
     <>
       <Flex x gap1 yc my={2} p={1} borderRadius={"md"} sx={{ background: "white", boxShadow: "md" }}>
@@ -17,12 +19,11 @@ export const BeatOfferBanner = () => {
               <img src={ASSETS.PERSON_RUSHING} height="28px" width="28px" />
             </Box>
             <Typography fontWeight={800} textColor={"secondary.500"} level="title-md">
-              Found a Better Rate? We'll Beat it!
+              {t("form:beatoffer.title")}
             </Typography>
           </Flex>
           <Typography level="body-xs">
-            We're so confident in our competitive rates that if you bring us a valid loan offer from another platform,
-            we won't just match it – we'll beat it! That's our Price Beat Guarantee.{" "}
+            {t("form:beatoffer.description")}
           </Typography>
         </Flex>
         <Flex x yc xc sx={{ width: { xs: undefined, md: "200px" } }}>
@@ -35,7 +36,7 @@ export const BeatOfferBanner = () => {
             )}
           >
             <Typography level="body-sm" sx={{ textDecoration: "underline" }}>
-              Share offer
+              {t("form:beatoffer.share-offers")}
             </Typography>
           </Link>
         </Flex>

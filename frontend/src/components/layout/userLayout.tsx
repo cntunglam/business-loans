@@ -15,6 +15,7 @@ import {
   useTheme,
 } from "@mui/joy";
 import { FC, useCallback, useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useUserContext } from "../../context/userContext";
 import { ASSETS } from "../../data/assets";
@@ -28,13 +29,18 @@ import RewardIcon from "../icons/rewardIcon";
 import { Flex } from "../shared/flex";
 import { RoshiLogo } from "../shared/roshiLogo";
 
+
+
+export const UserLayout: FC = () => {
+const { t } = useTranslation();
+
 const primaryNavItems = [
-  { label: "Overview", href: "/user/dashboard", icon: HomeIcon },
-  // { label: "My application", href: "/user/my-application", icon: CreditCard },
-  { label: "Documents", href: "/user/documents", icon: DocumentIcon },
-  { label: "Details", href: "", icon: DetailIcon, drawerContent: <ApplicationDetailsView />, search: "details=true" },
-  { label: "Payment tracker", href: "/user/payment-tracker", icon: PaymentTrackerIcon, disabled: true },
-  { label: "Rewards", href: "/user/rewards-and-vouchers", icon: RewardIcon, disabled: true },
+  { label: t("form:layout.overview"), href: "/user/dashboard", icon: HomeIcon },
+  // { label: t("layout.myApplication"), href: "/user/my-application", icon: CreditCard },
+  { label: t("form:layout.documents"), href: "/user/documents", icon: DocumentIcon },
+  { label: t("form:layout.details"), href: "", icon: DetailIcon, drawerContent: <ApplicationDetailsView />, search: "details=true" },
+  { label: t("form:layout.paymentTracker"), href: "/user/payment-tracker", icon: PaymentTrackerIcon, disabled: true },
+  { label: t("form:layout.rewards"), href: "/user/rewards-and-vouchers", icon: RewardIcon, disabled: true },
 ];
 
 const footerNavItems: typeof primaryNavItems = [
@@ -50,8 +56,6 @@ const findActiveDrawerContent = (search: string) => {
     }
   }
 };
-
-export const UserLayout: FC = () => {
   const { user, logout } = useUserContext();
   const theme = useTheme();
   const location = useLocation();
@@ -183,7 +187,7 @@ export const UserLayout: FC = () => {
                 />
               </ListItemDecorator>
               <Typography level="body-sm" sx={{ color: `${theme.palette.secondary[500]} !important` }}>
-                Logout
+                 {t("logout")}
               </Typography>
             </ListItemButton>
           </List>
@@ -257,7 +261,7 @@ export const UserLayout: FC = () => {
                   </Typography>
                 </MenuButton>
                 <Menu>
-                  <MenuItem onClick={() => logout?.()}>Logout</MenuItem>
+                  <MenuItem onClick={() => logout?.()}>{t("logout")}</MenuItem>
                 </Menu>
               </Dropdown>
             </Flex>

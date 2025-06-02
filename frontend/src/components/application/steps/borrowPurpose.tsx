@@ -2,6 +2,7 @@ import { Option } from "@mui/joy";
 import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
 import { ApplicationStepsEnum, loanPurposesEnum, loanPurposesLabels, OptionsSettings } from "@roshi/shared";
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useVisitorContext } from "../../../context/visitorContext";
 import { TEST_IDS } from "../../../utils/testUtils";
 import { Flex } from "../../shared/flex";
@@ -9,6 +10,7 @@ import { ApplicationStyledInput } from "../styled/applicationStyledInput";
 import { ApplicationStyledSelect } from "../styled/applicationStyledSelect";
 
 export const BorrowPurposeStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
+  const { t } = useTranslation();
   const { error, setError, currentStepData, visitor } = useVisitorContext();
 
   const settings = useMemo(() => currentStepData?.settings as OptionsSettings, [currentStepData]);
@@ -49,7 +51,7 @@ export const BorrowPurposeStep = forwardRef<{ getValue: () => unknown }>((_, ref
     <Flex y gap2 px={{ xs: 3, md: 0 }}>
       <ApplicationStyledSelect
         data-testid={TEST_IDS.borrowPurposeSelect}
-        placeholder="Choose one"
+        placeholder={t("form:applying.choose_one")}
         value={option}
         onChange={(_, val) => {
           setError("");

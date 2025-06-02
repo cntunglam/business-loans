@@ -1,4 +1,5 @@
 import { Box, Dropdown, Link as JoyLink, Menu, MenuButton, MenuItem } from "@mui/joy";
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { useUserContext } from "../../context/userContext";
 import useMediaQueries from "../../hooks/useMediaQueries";
@@ -6,6 +7,7 @@ import { Flex } from "../shared/flex";
 import { RoshiLogo } from "../shared/roshiLogo";
 
 export const Header = () => {
+  const { t } = useTranslation();
   const { user, logout } = useUserContext();
   const { sm } = useMediaQueries(["sm"]);
   return (
@@ -42,7 +44,7 @@ export const Header = () => {
       {!user ? (
         <Flex x xe>
           <JoyLink component={Link} color="secondary" to="/signin">
-            Login
+            {t("login")}
           </JoyLink>
         </Flex>
       ) : (
@@ -50,7 +52,7 @@ export const Header = () => {
           <Dropdown>
             <MenuButton>{user.email}</MenuButton>
             <Menu>
-              <MenuItem onClick={() => logout?.()}>Logout</MenuItem>
+              <MenuItem onClick={() => logout?.()}>{t("logout")}</MenuItem>
             </Menu>
           </Dropdown>
         </Flex>

@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Typography } from "@mui/material";
 import { getAgeFromDateOfBirth } from '@roshi/backend/utils/age';
+import { useTranslation } from 'react-i18next';
 import { useDeleteMyLoanRequest, useGetMyLoanRequest } from "../api/useLoanRequestApi";
 import { formatApplicationData } from "../components/shared/applicationDataFormatter";
 import { Flex } from "../components/shared/flex";
@@ -11,6 +12,7 @@ export const ApplicationDetailsView = () => {
   const { data: application, isLoading } = useGetMyLoanRequest();
   const deleteApplication = useDeleteMyLoanRequest();
   const queryMedia = useMediaQueries(["md"]);
+  const { t } = useTranslation();
 
   const handleDeleteApplication = () => {
     OpenDialog({
@@ -19,8 +21,8 @@ export const ApplicationDetailsView = () => {
         deleteApplication.mutateAsync().then(() => window.location.reload());
       },
       type: "delete",
-      title: "Are you sure you want to withdraw your loan application?",
-      body: "Withdrawing your loan application means you will lose all progress. Are you sure you want to proceed?",
+      title: t("form:applicationdetails.title"),
+      body: t("form:applicationdetails.description"),
     });
   };
 
@@ -40,7 +42,7 @@ export const ApplicationDetailsView = () => {
     <Box px={{ xs: 1, md: 3 }} pt={3} pb={8}>
       <Box mb={2}>
         <Typography level="h4" fontWeight={"700"} color="secondary">
-          Application Review
+          {t("form:applicationdetails.review")}
         </Typography>
       </Box>
 
@@ -49,34 +51,34 @@ export const ApplicationDetailsView = () => {
       </Typography>
 
       <Box sx={{ my: 2 }}>
-        <Typography textColor="neutral.400">Basic information</Typography>
+        <Typography textColor="neutral.400">{t("form:applicationdetails.information")}</Typography>
       </Box>
 
       <Flex y fullwidth gap2>
         <Flex x fullwidth pr={1} wrap rowGap={2} cols={queryMedia.md ? 3 : 2}>
-          {applicantInfo!.phoneNumber && renderTitleAndValue("Phone number", applicantInfo!.phoneNumber)}
+          {applicantInfo!.phoneNumber && renderTitleAndValue(t("form:applicationdetails.phone-number"), applicantInfo!.phoneNumber)}
           {loanRequest && (
             <>
               {renderTitleAndValue(
-                "Loan Amount",
+                t("form:applicationdetails.amount"),
                 formatApplicationData({ property: "amount", value: loanRequest.amount })
               )}
-              {renderTitleAndValue("Loan Period", formatApplicationData({ property: "term", value: loanRequest.term }))}
+              {renderTitleAndValue( t("form:applicationdetails.period"), formatApplicationData({ property: "term", value: loanRequest.term }))}
               {renderTitleAndValue(
-                "Loan Purpose",
+                t("form:applicationdetails.purpose"),
                 formatApplicationData({ property: "purpose", value: loanRequest.purpose })
               )}
             </>
           )}
           {renderTitleAndValue(
-            "Residency Status",
+              t("form:applicationdetails.residency"),
             formatApplicationData({
               property: "residencyStatus",
               value: applicantInfo?.residencyStatus,
             })
           )}
           {renderTitleAndValue(
-            "Age",
+            t("form:applicationdetails.age"),
             formatApplicationData({
               property: "dateOfBirth",
               value: getAgeFromDateOfBirth(applicantInfo!.dateOfBirth),
@@ -85,7 +87,7 @@ export const ApplicationDetailsView = () => {
         </Flex>
         <Flex x fullwidth pr={1} cols={queryMedia.md ? 3 : 2}>
           {renderTitleAndValue(
-            "Monthly Income",
+            t("form:applicationdetails.monthly"),
             formatApplicationData({
               property: "monthlyIncome",
               value: applicantInfo!.monthlyIncome,
@@ -98,12 +100,12 @@ export const ApplicationDetailsView = () => {
       <Divider sx={{ my: 2 }} />
 
       <Typography sx={{ my: 2 }} textColor="neutral.400">
-        Employment Period
+        {t("form:applicationdetails.employment")}
       </Typography>
 
       <Flex x fullwidth gap1 pr={1} cols={2}>
         {renderTitleAndValue(
-            "Job Tile",
+             t("form:applicationdetails.job"),
             formatApplicationData({
               property: "employmentType",
               value: applicantInfo!.employmentType,
@@ -121,7 +123,7 @@ export const ApplicationDetailsView = () => {
         onClick={() => handleDeleteApplication()}
         sx={{ mt: 2 }}
       >
-        Remove
+        {t("form:applicationdetails.remove")}
       </Button>
     </Box>
   );

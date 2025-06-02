@@ -5,6 +5,7 @@ import ModalClose from "@mui/joy/ModalClose";
 import ModalDialog from "@mui/joy/ModalDialog";
 import Typography from "@mui/joy/Typography";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { Flex } from "../components/shared/flex";
 
 interface DialogOptions {
@@ -37,6 +38,7 @@ const eventEmitter = (() => {
 })();
 
 export const DialogContainer = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -108,7 +110,7 @@ export const DialogContainer = () => {
       return (
         <Flex x yc gap1 alignSelf={"center"} growChildren width="80%">
           <Button size="lg" color="neutral" variant="outlined" onClick={close}>
-            Cancel
+           {t("cancel")}
           </Button>
           <Button
             size="lg"
@@ -118,7 +120,7 @@ export const DialogContainer = () => {
               submitAction();
             }}
           >
-            Delete
+          {t("delete")}
           </Button>
         </Flex>
       );

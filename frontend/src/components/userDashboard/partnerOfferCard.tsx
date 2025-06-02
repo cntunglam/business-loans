@@ -14,6 +14,7 @@ import {
 } from "@mui/joy";
 import { NonNullRT } from "@roshi/shared";
 import { FC, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { useGetPartnerOffers } from "../../api/useLoanRequestApi";
 import { extractTextFromHTML } from "../../utils/utils";
@@ -28,6 +29,7 @@ interface Props {
 }
 
 export const PartnerOfferCard: FC<Props> = ({ offer }) => {
+  const { t } = useTranslation();
   const [isShowingDetails, setIsShowingDetails] = useState(false);
   const [isProceeding, setIsProceeding] = useState(false);
   const keyFeatures = extractTextFromHTML(offer?.description || "");
@@ -93,7 +95,7 @@ export const PartnerOfferCard: FC<Props> = ({ offer }) => {
         <Flex fullwidth x xsb>
           <Flex y xst>
             <Typography fontWeight="600" fontSize="xs" textColor="neutral.500">
-              UP TO
+                {t("form:offer-card.up-to")}
             </Typography>
             <Typography fontWeight={"600"} level="h4">
               {formatApplicationData({ property: "amount", value: offer?.amount })}
@@ -101,7 +103,7 @@ export const PartnerOfferCard: FC<Props> = ({ offer }) => {
           </Flex>
           <Flex y xst>
             <Typography fontWeight="600" fontSize="xs" textColor="neutral.500">
-              INTEREST RATE (MONTHLY)
+             {t("form:offer-card.monthly")}
             </Typography>
             <Typography level="h4" width="100%" textAlign={"end"} fontWeight={"600"}>
               {formatApplicationData({ property: "interestRate", value: offer?.interestRate })}
@@ -120,12 +122,12 @@ export const PartnerOfferCard: FC<Props> = ({ offer }) => {
               },
             }}
           >
-            {isShowingDetails ? "Show less" : "Show more"}
+            {isShowingDetails ? t("form:offer-card.show-less") : t("form:offer-card.show-more")}
           </AccordionSummary>
           <AccordionDetails>
             <Flex y gap1 px={2}>
               <Typography textColor="neutral.700" level="title-md">
-                Key features
+                {t("form:offer-card.features")}
               </Typography>
               <Typography level="body-sm">
                 <List>
@@ -146,9 +148,9 @@ export const PartnerOfferCard: FC<Props> = ({ offer }) => {
         <Divider inset="none" />
         <Flex fullwidth x xsb yc>
           <Typography textColor="#2F80ED" level="title-md">
-            Partner offer
+             {t("form:offer-card.partner-offers")}
           </Typography>
-          <Button onClick={() => setIsProceeding(true)}>Proceed</Button>
+          <Button onClick={() => setIsProceeding(true)}>{t("form:offer-card.proceed")}</Button>
         </Flex>
       </Flex>
     </Grid>

@@ -1,6 +1,7 @@
 import { Button, Link as JoyLink, Typography } from "@mui/joy";
 import { calculateEMI } from "@roshi/shared";
 import { FC } from "react";
+import { useTranslation } from 'react-i18next';
 import { loanResponse } from "../../api/useLoanRequestApi";
 import { formatToDisplayString } from "../../utils/utils";
 import { formatApplicationData } from "../shared/applicationDataFormatter";
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export const OfferProceedModal: FC<Props> = ({ loanResponse, onClose, onBookAppointment }: Props) => {
+  const { t } = useTranslation();
   return (
     <RsModal onClose={onClose} fullscreenOnMobile={false} disableClickOutside={true}>
       <FlexGrid container spacing={2}>
@@ -37,22 +39,22 @@ export const OfferProceedModal: FC<Props> = ({ loanResponse, onClose, onBookAppo
       <>
         <FlexGrid container spacing={4} sx={{ flexGrow: 1, mt: 2 }} yc>
           <TitleAndValue
-            title="Apply for up to"
+            title={t("form:offer-proceed.apply")}
             value={formatApplicationData({ property: "amount", value: loanResponse?.loanOffer?.amount })}
           />
           <TitleAndValue
-            title={"Monthly Rate"}
+            title={t("form:offer-proceed.monthly")}
             value={formatApplicationData({
               property: "interestRate",
               value: loanResponse?.loanOffer?.monthlyInterestRate,
             })}
           />
           <TitleAndValue
-            title="Tenure"
+            title={t("form:offer-proceed.tenure")}
             value={formatApplicationData({ property: "term", value: loanResponse?.loanOffer?.term })}
           />
           <TitleAndValue
-            title="Monthly instalment"
+            title={t("form:offer-proceed.instalment")}
             value={`$${formatToDisplayString(
               calculateEMI(
                 Number(loanResponse?.loanOffer?.amount),
@@ -63,7 +65,7 @@ export const OfferProceedModal: FC<Props> = ({ loanResponse, onClose, onBookAppo
             )}`}
           />
           <TitleAndValue
-            title="Processing fee"
+            title={t("form:offer-proceed.processing")}
             value={formatApplicationData({
               property: "amount",
               value:
@@ -75,11 +77,11 @@ export const OfferProceedModal: FC<Props> = ({ loanResponse, onClose, onBookAppo
         </FlexGrid>
         <Flex y xc gap2 mt={4}>
           <Button onClick={() => onBookAppointment()} sx={{ width: "200px" }}>
-            Book appointment
+             {t("form:offer-proceed.appointment")}
           </Button>
 
           <JoyLink color="neutral" onClick={onClose}>
-            Go Back
+            {t("form:offer-proceed.go-back")}
           </JoyLink>
         </Flex>
       </>

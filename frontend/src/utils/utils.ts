@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { differenceInSeconds, format, fromUnixTime, startOfDay, subDays, subMonths } from "date-fns";
 import { getTimezoneOffset } from "date-fns-tz";
+import i18next from "i18next";
 import { URLSearchParams } from "url";
 import { CONSTANTS } from "../data/constants";
 
@@ -130,7 +131,15 @@ export function sortIntoPeriods<T extends { createdAt: Date }>(toSort: T[]) {
 }
 
 export const numberToDayOfWeek = (number: number) => {
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const days = [
+    i18next.t("form:day.sunday"),
+    i18next.t("form:day.monday"),
+    i18next.t("form:day.tuesday"),
+    i18next.t("form:day.wednesday"),
+    i18next.t("form:day.thursday"),
+    i18next.t("form:day.friday"),
+    i18next.t("form:day.saturday"),
+  ];
   return days[number];
 };
 

@@ -1,6 +1,7 @@
 import { Typography } from "@mui/joy";
 import { AwaitedRT, DocumentTypeEnum, DocumentTypeEnumDescriptions, DocumentTypeEnumLabels } from "@roshi/shared";
 import { FC } from "react";
+import { useTranslation } from 'react-i18next';
 import { useGetMyLoanRequest } from "../../api/useLoanRequestApi";
 import { Flex } from "../shared/flex";
 import { DocumentUploadRow } from "./documentRow";
@@ -24,9 +25,10 @@ interface Props {
 }
 
 export const DocumentList: FC<Props> = ({ refetch, applicantInfo }) => {
+  const { t } = useTranslation();
   const requiredDocuments: DocumentCategory[] = [
     {
-      category: "Identification & Residence",
+      category: t("form:documentlist.title_1"),
       documents: [
         DocumentTypeEnum.ID_CARD_FRONT,
         DocumentTypeEnum.ID_CARD_BACK,
@@ -40,7 +42,7 @@ export const DocumentList: FC<Props> = ({ refetch, applicantInfo }) => {
       })),
     },
     {
-      category: "Proof of Living Expenses / Residency",
+      category: t("form:documentlist.title_2"),
       documents: [DocumentTypeEnum.UTILITY_BILL].map(docType => ({
         docType,
         label: DocumentTypeEnumLabels[docType],
@@ -48,7 +50,7 @@ export const DocumentList: FC<Props> = ({ refetch, applicantInfo }) => {
       })),
     },
     {
-      category: "Employment & Income Verification",
+      category: t("form:documentlist.title_3"),
       documents: [
         DocumentTypeEnum.EMPLOYMENT_CONTRACT,
         DocumentTypeEnum.SALARY_SLIP,
