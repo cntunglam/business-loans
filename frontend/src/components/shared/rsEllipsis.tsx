@@ -1,7 +1,7 @@
-import { Typography } from "@mui/joy";
-import { SxProps } from "@mui/joy/styles/types";
-import { FC, ReactNode } from "react";
-import { RsTooltip } from "./rsTooltip";
+import { Typography } from '@mui/joy';
+import { SxProps } from '@mui/joy/styles/types';
+import { FC, ReactNode } from 'react';
+import { RsTooltip } from './rsTooltip';
 
 interface Props {
   children?: React.ReactNode;
@@ -20,12 +20,12 @@ export const RsEllipsis: FC<Props> = ({ text, maxWidth, maxLines, onClick, sx, e
         onClick={onClick}
         sx={{
           maxWidth: maxWidth,
-          textOverflow: "ellipsis",
-          overflow: "hidden",
-          display: "-webkit-box",
-          WebkitBoxOrient: "vertical",
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
           WebkitLineClamp: maxLines || 1,
-          ...sx,
+          ...sx
         }}
       >
         {text}

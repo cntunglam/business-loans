@@ -1,6 +1,11 @@
 import assert from "node:assert";
 import { describe, it } from "node:test";
-import { generateShortCode, isPathAllowed, ShortUrlType, validateApiPath } from "../shortUrlUtils";
+import {
+  generateShortCode,
+  isPathAllowed,
+  ShortUrlType,
+  validateApiPath,
+} from "../shortUrlUtils";
 
 describe("shortUrlUtils", () => {
   describe("generateShortCode", () => {
@@ -34,7 +39,13 @@ describe("shortUrlUtils", () => {
 
   describe("validateApiPath", () => {
     it("should validate correct API paths", () => {
-      const validPaths = ["/api", "/api/v1/loans", "/api/v1/*", "/api/v2/users/profile", "/health"];
+      const validPaths = [
+        "/api",
+        "/api/v1/loans",
+        "/api/v1/*",
+        "/api/v2/users/profile",
+        "/health",
+      ];
 
       validPaths.forEach((path) => {
         assert.strictEqual(validateApiPath(path), true);

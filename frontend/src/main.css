@@ -18,43 +18,43 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
 @font-face {
-  font-family: "Proxima Nova";
-  src: url("/fonts/proximanova_light.otf");
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_light.otf');
   font-weight: 300;
 }
 
 @font-face {
-  font-family: "Proxima Nova";
-  src: url("/fonts/proximanova_regular.ttf");
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_regular.ttf');
   font-weight: 400;
 }
 
 @font-face {
-  font-family: "Proxima Nova";
-  src: url("/fonts/proximanova_regular.ttf");
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_regular.ttf');
   font-weight: 500;
 }
 
 @font-face {
-  font-family: "Proxima Nova";
-  src: url("/fonts/proximanova_semibold.otf");
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_semibold.otf');
   font-weight: 600;
 }
 
 @font-face {
-  font-family: "Proxima Nova";
-  src: url("/fonts/proximanova_semibold.otf");
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_semibold.otf');
   font-weight: 700;
 }
 
 @font-face {
-  font-family: "Proxima Nova";
-  src: url("/fonts/proximanova_bold.otf");
+  font-family: 'Proxima Nova';
+  src: url('/fonts/proximanova_bold.otf');
   font-weight: 800;
 }
 

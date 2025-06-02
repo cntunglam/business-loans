@@ -1,38 +1,38 @@
-import { LoanRequestTypeEnum, UserRoleEnum } from "@roshi/shared";
-import { Navigate, useRoutes } from "react-router-dom";
-import { Authorization } from "./components/authentication/authorization";
-import { MainLayout } from "./components/layout/mainLayout";
-import { UserLayout } from "./components/layout/userLayout";
-import MatomoTagManager from "./components/shared/MatomoTagManager";
-import { ApplicantInfoView } from "./views/applicantInfoView";
-import { BookingView } from "./views/bookingView";
-import { ErrorView } from "./views/error.view";
-import { LoanApplicationView } from "./views/loanApplication.view";
-import { SigninView } from "./views/signin.view";
-import { UserDocumentsView } from "./views/userDocuments.view";
-import { UserOverviewView } from "./views/userOverview.view";
-import { UserUnsubscribeView } from "./views/userUnsubscribe.view";
+import { LoanRequestTypeEnum, UserRoleEnum } from '@roshi/shared';
+import { Navigate, useRoutes } from 'react-router-dom';
+import { Authorization } from './components/authentication/authorization';
+import { MainLayout } from './components/layout/mainLayout';
+import { UserLayout } from './components/layout/userLayout';
+import MatomoTagManager from './components/shared/MatomoTagManager';
+import { ApplicantInfoView } from './views/applicantInfoView';
+import { BookingView } from './views/bookingView';
+import { ErrorView } from './views/error.view';
+import { LoanApplicationView } from './views/loanApplication.view';
+import { SigninView } from './views/signin.view';
+import { UserDocumentsView } from './views/userDocuments.view';
+import { UserOverviewView } from './views/userOverview.view';
+import { UserUnsubscribeView } from './views/userUnsubscribe.view';
 
 export const AppRouter = () => {
   const routes = useRoutes([
     {
-      path: "error/:code",
-      element: <ErrorView />,
+      path: 'error/:code',
+      element: <ErrorView />
     },
     {
-      path: "/book/:code",
-      element: <BookingView />,
+      path: '/book/:code',
+      element: <BookingView />
     },
     {
-      path: "/signin",
+      path: '/signin',
       element: (
         <Authorization>
           <SigninView />
         </Authorization>
-      ),
+      )
     },
     {
-      path: "/",
+      path: '/',
       element: (
         <Authorization>
           <MatomoTagManager />
@@ -40,16 +40,16 @@ export const AppRouter = () => {
         </Authorization>
       ),
       children: [
-        { path: "apply", element: <LoanApplicationView loanRequestType={LoanRequestTypeEnum.GENERAL} /> },
+        { path: 'apply', element: <LoanApplicationView loanRequestType={LoanRequestTypeEnum.GENERAL} /> },
         {
-          path: "apply-for-zero-interest-loan",
-          element: <LoanApplicationView loanRequestType={LoanRequestTypeEnum.ZERO_INTEREST} />,
+          path: 'apply-for-zero-interest-loan',
+          element: <LoanApplicationView loanRequestType={LoanRequestTypeEnum.ZERO_INTEREST} />
         },
-        { path: "*", element: <Navigate replace to="apply" /> },
-      ],
+        { path: '*', element: <Navigate replace to="apply" /> }
+      ]
     },
     {
-      path: "/user",
+      path: '/user',
       element: (
         <Authorization requiredRole={[UserRoleEnum.BORROWER, UserRoleEnum.ADMIN]}>
           <MatomoTagManager />
@@ -57,28 +57,28 @@ export const AppRouter = () => {
         </Authorization>
       ),
       children: [
-        { path: "", element: <Navigate replace to="dashboard" /> },
-        { path: "dashboard", element: <UserOverviewView /> },
-        { path: "documents", element: <UserDocumentsView /> },
-        { path: "*", element: <Navigate replace to="dashboard" /> },
-      ],
+        { path: '', element: <Navigate replace to="dashboard" /> },
+        { path: 'dashboard', element: <UserOverviewView /> },
+        { path: 'documents', element: <UserDocumentsView /> },
+        { path: '*', element: <Navigate replace to="dashboard" /> }
+      ]
     },
     {
-      path: "/applicant/:id",
+      path: '/applicant/:id',
       element: (
         <Authorization requiredRole={[UserRoleEnum.LENDER, UserRoleEnum.ADMIN, UserRoleEnum.CUSTOMER_SUPPORT]}>
           <ApplicantInfoView />
         </Authorization>
-      ),
+      )
     },
     {
-      path: "/unsubscribe/:code",
-      element: <UserUnsubscribeView />,
+      path: '/unsubscribe/:code',
+      element: <UserUnsubscribeView />
     },
     {
-      path: "*",
-      element: <Navigate replace to="/" />,
-    },
+      path: '*',
+      element: <Navigate replace to="/" />
+    }
   ]);
   return routes;
 };

@@ -1,7 +1,7 @@
-import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
-import { ApplicationStepsEnum } from "@roshi/shared";
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { useVisitorContext } from "../../../context/visitorContext";
+import { ApplicationSteps } from '@roshi/backend/services/applicationSteps.service';
+import { ApplicationStepsEnum } from '@roshi/shared';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { useVisitorContext } from '../../../context/visitorContext';
 import { TEST_IDS } from '../../../utils/testUtils';
 import { RsDatePicker } from '../../shared/rsDatePicker';
 
@@ -12,9 +12,7 @@ export const AgeStep = forwardRef((_, ref) => {
   useEffect(() => {
     if (!visitor) return;
     try {
-      const stepData = ApplicationSteps[ApplicationStepsEnum.dateOfBirth].validation(
-        visitor[ApplicationStepsEnum.dateOfBirth],
-      );
+      const stepData = ApplicationSteps[ApplicationStepsEnum.dateOfBirth].validation(visitor[ApplicationStepsEnum.dateOfBirth]);
       setValue(stepData);
     } catch (e) {
       // do nothing
@@ -23,16 +21,16 @@ export const AgeStep = forwardRef((_, ref) => {
   }, [visitor]);
 
   useImperativeHandle(ref, () => ({
-    getValue: () => value,
+    getValue: () => value
   }));
 
   if (!value) {
-    return null
+    return null;
   }
 
   return (
     <RsDatePicker
-      isTimeSelected={"date"}
+      isTimeSelected={'date'}
       open
       data-testid={TEST_IDS.dobInput}
       selected={value}

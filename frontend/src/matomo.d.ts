@@ -1,5 +1,5 @@
 // matomo.d.ts (or in your component file)
-export { };
+export {};
 
 declare global {
   interface Window {

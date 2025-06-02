@@ -1,12 +1,12 @@
-import { Prisma } from "@prisma/client";
-import { ApplicationStepsEnum, ERROR_KEYS, LoanRequestTypeEnum, StepDetails } from "@roshi/shared";
-import { ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useGetAffiliateVisitor } from "../api/useAffiliateApi";
-import { useFinalizeLoanRequest, useInitializeVisitor, useSaveStepProgress } from "../api/useVisitorApi";
-import { KEYS, TIME_CONSTANTS } from "../data/constants";
-import { getErrorMessage, isErrorResponse } from "../utils/errorHandler";
-import { getFromLocalStorage, saveToLocalStorage } from "../utils/localStorageHelper";
+import { Prisma } from '@prisma/client';
+import { ApplicationStepsEnum, ERROR_KEYS, LoanRequestTypeEnum, StepDetails } from '@roshi/shared';
+import { ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useGetAffiliateVisitor } from '../api/useAffiliateApi';
+import { useFinalizeLoanRequest, useInitializeVisitor, useSaveStepProgress } from '../api/useVisitorApi';
+import { KEYS, TIME_CONSTANTS } from '../data/constants';
+import { getErrorMessage, isErrorResponse } from '../utils/errorHandler';
+import { getFromLocalStorage, saveToLocalStorage } from '../utils/localStorageHelper';
 
 type VisitorWithSteps = Prisma.VisitorDataGetPayload<null>;
 
@@ -29,12 +29,12 @@ const defaultContext: VisitorContextType = {
   isLoading: false,
   currentStepIndex: 0,
   currentStepData: undefined,
-  init: () => Promise.reject(new Error("Context not initialized")),
-  saveStep: () => Promise.reject(new Error("Context not initialized")),
-  finalize: () => Promise.reject(new Error("Context not initialized")),
-  setError: () => { },
-  goBack: () => { },
-  steps: [],
+  init: () => Promise.reject(new Error('Context not initialized')),
+  saveStep: () => Promise.reject(new Error('Context not initialized')),
+  finalize: () => Promise.reject(new Error('Context not initialized')),
+  setError: () => {},
+  goBack: () => {},
+  steps: []
 };
 
 const visitorContext = createContext<VisitorContextType>(defaultContext);
@@ -47,11 +47,11 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string>();
 
   const navigate = useNavigate();
-  const currentStepIndex = params.get("step") ? parseInt(params.get("step") as string) : 0;
+  const currentStepIndex = params.get('step') ? parseInt(params.get('step') as string) : 0;
   const setStep = useCallback((step: number) => setParams({ step: step.toString() }), [setParams]);
   const currentStepData = useMemo(() => (steps ? steps[currentStepIndex] : undefined), [steps, currentStepIndex]);
 
-  const visitorId = params.get("affiliateVisitorId");
+  const visitorId = params.get('affiliateVisitorId');
   const initializeVisitor = useInitializeVisitor();
   const { data: affiliateVisitor } = useGetAffiliateVisitor(visitorId);
 
@@ -76,12 +76,12 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
         let data = await initializeVisitor.mutateAsync({
           visitorId: visitorId || undefined,
           loanRequestType: type,
-          referrer,
+          referrer
         });
         if (data.visitor.isCompleted) {
           data = await initializeVisitor.mutateAsync({
             loanRequestType: type,
-            referrer,
+            referrer
           });
         }
         if (data.visitor.id) {
@@ -96,7 +96,7 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
           const visitorCurrentStepIndex = data.steps.findIndex((step) => step.key === data.visitor.currentStep);
           if (visitorCurrentStepIndex !== undefined) {
             // example: visitor is on step 1 a edit url is on step 5 -> missing steps data between 1 and 5, redirect to step 1.
-            setStep(Math.min(currentStepIndex, visitorCurrentStepIndex))
+            setStep(Math.min(currentStepIndex, visitorCurrentStepIndex));
           }
         }
         return data.visitor;
@@ -117,13 +117,13 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
         setError(undefined);
 
         if (!visitorData?.id) {
-          throw new Error("Visitor ID not initialized");
+          throw new Error('Visitor ID not initialized');
         }
 
         const updatedVisitorData = await saveStepProgress.mutateAsync({
           visitorId: visitorData.id,
           stepKey: stepKey as ApplicationStepsEnum,
-          data: stepData,
+          data: stepData
         });
 
         if (updatedVisitorData) {
@@ -131,7 +131,7 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
           if (steps && currentStepIndex < steps.length) setStep(currentStepIndex + 1);
         }
       } catch (err) {
-        setError(isErrorResponse(err) ? getErrorMessage(err) : "An error occured");
+        setError(isErrorResponse(err) ? getErrorMessage(err) : 'An error occured');
         throw err;
       } finally {
         setIsLoading(false);
@@ -147,7 +147,7 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
   const finalize = useCallback(
     async (override?: boolean) => {
       if (!visitorData?.id) {
-        throw new Error("Visitor ID not initialized");
+        throw new Error('Visitor ID not initialized');
       }
       try {
         setIsLoading(true);
@@ -177,7 +177,7 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
       steps: steps || [],
       currentStepIndex,
       currentStepData,
-      goBack,
+      goBack
     }),
     [
       visitorData,
@@ -191,7 +191,7 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
       steps,
       currentStepIndex,
       currentStepData,
-      goBack,
+      goBack
     ]
   );
 

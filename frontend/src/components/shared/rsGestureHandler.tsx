@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState } from 'react';
 
 const SWIPE_THRESHOLD = 50; // minimum distance for swipe
 const SWIPE_TIMEOUT = 300; // maximum time for swipe in ms
 
-export type GestureType = "swipeLeft" | "swipeRight" | "swipeUp" | "swipeDown" | "tap" | "doubleTap" | "longPress";
+export type GestureType = 'swipeLeft' | 'swipeRight' | 'swipeUp' | 'swipeDown' | 'tap' | 'doubleTap' | 'longPress';
 
 interface GestureDetectorProps {
   onGesture: (gesture: GestureType) => void;
@@ -16,9 +16,9 @@ interface GestureDetectorProps {
 const RSGestureDetector: React.FC<GestureDetectorProps> = ({
   onGesture,
   children,
-  className = "",
+  className = '',
   longPressDelay = 500,
-  doubleTapDelay = 300,
+  doubleTapDelay = 300
 }) => {
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0, time: 0 });
   const [lastTap, setLastTap] = useState(0);
@@ -32,12 +32,12 @@ const RSGestureDetector: React.FC<GestureDetectorProps> = ({
       setTouchStart({
         x: touch.clientX,
         y: touch.clientY,
-        time: now,
+        time: now
       });
 
       // Set up long press timer
       const timer = setTimeout(() => {
-        onGesture("longPress");
+        onGesture('longPress');
       }, longPressDelay);
 
       setLongPressTimer(timer);
@@ -61,7 +61,7 @@ const RSGestureDetector: React.FC<GestureDetectorProps> = ({
       const timeSinceLastTap = now - lastTap;
 
       if (timeSinceLastTap < doubleTapDelay && Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
-        onGesture("doubleTap");
+        onGesture('doubleTap');
         setLastTap(0); // Reset last tap
         return;
       }
@@ -69,12 +69,12 @@ const RSGestureDetector: React.FC<GestureDetectorProps> = ({
       // Handle swipes
       if (deltaTime < SWIPE_TIMEOUT) {
         if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
-          onGesture(deltaX > 0 ? "swipeRight" : "swipeLeft");
+          onGesture(deltaX > 0 ? 'swipeRight' : 'swipeLeft');
         } else if (Math.abs(deltaY) > SWIPE_THRESHOLD) {
-          onGesture(deltaY > 0 ? "swipeDown" : "swipeUp");
+          onGesture(deltaY > 0 ? 'swipeDown' : 'swipeUp');
         } else if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
           // Single tap
-          onGesture("tap");
+          onGesture('tap');
           setLastTap(now);
         }
       }

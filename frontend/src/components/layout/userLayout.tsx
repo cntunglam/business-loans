@@ -1,4 +1,4 @@
-import { Close } from "@mui/icons-material";
+import { Close } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -12,50 +12,48 @@ import {
   MenuButton,
   MenuItem,
   Typography,
-  useTheme,
-} from "@mui/joy";
-import { FC, useCallback, useEffect, useState } from "react";
+  useTheme
+} from '@mui/joy';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { useUserContext } from "../../context/userContext";
-import { ASSETS } from "../../data/assets";
-import { ApplicationDetailsView } from "../../views/applicationDetails.view";
-import DetailIcon from "../icons/detailIcon";
-import DocumentIcon from "../icons/documentIcon";
-import HomeIcon from "../icons/homeIcon";
-import LogoutIcon from "../icons/logoutIcon";
-import PaymentTrackerIcon from "../icons/paymentTrackerIcon";
-import RewardIcon from "../icons/rewardIcon";
-import { Flex } from "../shared/flex";
-import { RoshiLogo } from "../shared/roshiLogo";
-
-
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useUserContext } from '../../context/userContext';
+import { ASSETS } from '../../data/assets';
+import { ApplicationDetailsView } from '../../views/applicationDetails.view';
+import DetailIcon from '../icons/detailIcon';
+import DocumentIcon from '../icons/documentIcon';
+import HomeIcon from '../icons/homeIcon';
+import LogoutIcon from '../icons/logoutIcon';
+import PaymentTrackerIcon from '../icons/paymentTrackerIcon';
+import RewardIcon from '../icons/rewardIcon';
+import { Flex } from '../shared/flex';
+import { RoshiLogo } from '../shared/roshiLogo';
 
 export const UserLayout: FC = () => {
-const { t } = useTranslation();
+  const { t } = useTranslation();
 
-const primaryNavItems = [
-  { label: t("form:layout.overview"), href: "/user/dashboard", icon: HomeIcon },
-  // { label: t("layout.myApplication"), href: "/user/my-application", icon: CreditCard },
-  { label: t("form:layout.documents"), href: "/user/documents", icon: DocumentIcon },
-  { label: t("form:layout.details"), href: "", icon: DetailIcon, drawerContent: <ApplicationDetailsView />, search: "details=true" },
-  { label: t("form:layout.paymentTracker"), href: "/user/payment-tracker", icon: PaymentTrackerIcon, disabled: true },
-  { label: t("form:layout.rewards"), href: "/user/rewards-and-vouchers", icon: RewardIcon, disabled: true },
-];
+  const primaryNavItems = [
+    { label: t('form:layout.overview'), href: '/user/dashboard', icon: HomeIcon },
+    // { label: t("layout.myApplication"), href: "/user/my-application", icon: CreditCard },
+    { label: t('form:layout.documents'), href: '/user/documents', icon: DocumentIcon },
+    { label: t('form:layout.details'), href: '', icon: DetailIcon, drawerContent: <ApplicationDetailsView />, search: 'details=true' },
+    { label: t('form:layout.paymentTracker'), href: '/user/payment-tracker', icon: PaymentTrackerIcon, disabled: true },
+    { label: t('form:layout.rewards'), href: '/user/rewards-and-vouchers', icon: RewardIcon, disabled: true }
+  ];
 
-const footerNavItems: typeof primaryNavItems = [
-  // { label: "Help & Support", href: "/user/help-support", icon: HelpAndSupportIcon },
-  // { label: "Settings", href: "/user/settings", icon: SettingsIcon },
-];
+  const footerNavItems: typeof primaryNavItems = [
+    // { label: "Help & Support", href: "/user/help-support", icon: HelpAndSupportIcon },
+    // { label: "Settings", href: "/user/settings", icon: SettingsIcon },
+  ];
 
-const findActiveDrawerContent = (search: string) => {
-  for (let index = 0; index < primaryNavItems.length; index++) {
-    const item = primaryNavItems[index];
-    if (item.search && search.includes(item.search)) {
-      return item.drawerContent;
+  const findActiveDrawerContent = (search: string) => {
+    for (let index = 0; index < primaryNavItems.length; index++) {
+      const item = primaryNavItems[index];
+      if (item.search && search.includes(item.search)) {
+        return item.drawerContent;
+      }
     }
-  }
-};
+  };
   const { user, logout } = useUserContext();
   const theme = useTheme();
   const location = useLocation();
@@ -79,10 +77,7 @@ const findActiveDrawerContent = (search: string) => {
   }, []);
 
   const getHref = useCallback((item: (typeof primaryNavItems)[number]) => {
-    return (
-      item.href ||
-      getCurrentPath() + (item?.search ? (getCurrentPath().includes("?") ? `&${item.search}` : `?${item.search}`) : "")
-    );
+    return item.href || getCurrentPath() + (item?.search ? (getCurrentPath().includes('?') ? `&${item.search}` : `?${item.search}`) : '');
   }, []);
 
   const handleDrawerContentClose = () => {
@@ -94,8 +89,8 @@ const findActiveDrawerContent = (search: string) => {
         window.history.back();
       } else {
         const url = new URL(window.location.href);
-        url.search = "";
-        window.history.pushState({}, "", url);
+        url.search = '';
+        window.history.pushState({}, '', url);
       }
     }
   };
@@ -121,9 +116,7 @@ const findActiveDrawerContent = (search: string) => {
                   <ListItemDecorator>
                     <IconComponent
                       sx={{
-                        color: item.disabled
-                          ? `${theme.palette.neutral[400]} !important`
-                          : `${theme.palette.secondary[500]} !important`,
+                        color: item.disabled ? `${theme.palette.neutral[400]} !important` : `${theme.palette.secondary[500]} !important`
                       }}
                     />
                   </ListItemDecorator>
@@ -134,7 +127,7 @@ const findActiveDrawerContent = (search: string) => {
                           ? `${theme.palette.neutral[400]} !important`
                           : location.pathname === item.href
                             ? `${theme.palette.primary[500]} !important`
-                            : `${theme.palette.secondary[500]} !important`,
+                            : `${theme.palette.secondary[500]} !important`
                     }}
                     level="body-sm"
                   >
@@ -144,22 +137,16 @@ const findActiveDrawerContent = (search: string) => {
               );
             })}
           </List>
-          <List sx={{ justifyContent: "flex-end" }}>
+          <List sx={{ justifyContent: 'flex-end' }}>
             <Divider />
             {footerNavItems.map((item) => {
               const IconComponent = item.icon;
               return (
-                <ListItemButton
-                  key={item.label}
-                  component={Link}
-                  to={item.href}
-                  sx={{ py: 2 }}
-                  onClick={() => setOpenDrawer(false)}
-                >
+                <ListItemButton key={item.label} component={Link} to={item.href} sx={{ py: 2 }} onClick={() => setOpenDrawer(false)}>
                   <ListItemDecorator>
                     <IconComponent
                       sx={{
-                        color: `${theme.palette.secondary[500]} !important`,
+                        color: `${theme.palette.secondary[500]} !important`
                       }}
                     />
                   </ListItemDecorator>
@@ -168,7 +155,7 @@ const findActiveDrawerContent = (search: string) => {
                       color: (theme) =>
                         location.pathname === item.href
                           ? `${theme.palette.primary[500]} !important`
-                          : `${theme.palette.secondary[500]} !important`,
+                          : `${theme.palette.secondary[500]} !important`
                     }}
                     level="body-sm"
                   >
@@ -182,12 +169,12 @@ const findActiveDrawerContent = (search: string) => {
               <ListItemDecorator>
                 <LogoutIcon
                   sx={{
-                    color: `${theme.palette.secondary[500]} !important`,
+                    color: `${theme.palette.secondary[500]} !important`
                   }}
                 />
               </ListItemDecorator>
               <Typography level="body-sm" sx={{ color: `${theme.palette.secondary[500]} !important` }}>
-                 {t("logout")}
+                {t('logout')}
               </Typography>
             </ListItemButton>
           </List>
@@ -201,15 +188,15 @@ const findActiveDrawerContent = (search: string) => {
         y
         px={1}
         sx={{
-          width: { md: "250px" },
-          height: "100dvh",
-          transition: "width 0.5s",
-          display: { xs: "none", md: "flex" },
-          borderRight: "1px solid #E0D2ED",
-          overflow: "auto",
+          width: { md: '250px' },
+          height: '100dvh',
+          transition: 'width 0.5s',
+          display: { xs: 'none', md: 'flex' },
+          borderRight: '1px solid #E0D2ED',
+          overflow: 'auto'
         }}
       >
-        <RoshiLogo sx={{ display: { xs: "none", md: "flex" }, my: 4, justifyContent: "center" }} height="40px" />
+        <RoshiLogo sx={{ display: { xs: 'none', md: 'flex' }, my: 4, justifyContent: 'center' }} height="40px" />
         <Flex y ysb sx={{ flexGrow: 1 }}>
           <ListMenu />
         </Flex>
@@ -221,8 +208,8 @@ const findActiveDrawerContent = (search: string) => {
         gap={2}
         sx={{
           backgroundColor: (theme) => theme.palette.background.rsBackground,
-          height: "100dvh",
-          overflow: "auto",
+          height: '100dvh',
+          overflow: 'auto'
         }}
       >
         <Flex x xsb yc fullwidth px={1} pt={1}>
@@ -231,13 +218,13 @@ const findActiveDrawerContent = (search: string) => {
             xc
             yc
             sx={{
-              boxShadow: "0px 4px 50px 0px rgba(0, 0, 0, 0.03), 0px 5px 10px 0px rgba(0, 0, 0, 0.1)",
-              borderRadius: "6px",
-              display: { xs: "block", md: "none" },
+              boxShadow: '0px 4px 50px 0px rgba(0, 0, 0, 0.03), 0px 5px 10px 0px rgba(0, 0, 0, 0.1)',
+              borderRadius: '6px',
+              display: { xs: 'block', md: 'none' }
             }}
           >
             <Button variant="plain" size="sm" onClick={() => setOpenDrawer(true)}>
-              <img src={ASSETS.HAMBURGER_MENU} height={"20px"} />
+              <img src={ASSETS.HAMBURGER_MENU} height={'20px'} />
             </Button>
             <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
               <Flex y sx={{ flexGrow: 1 }}>
@@ -246,39 +233,31 @@ const findActiveDrawerContent = (search: string) => {
             </Drawer>
           </Flex>
 
-          <RoshiLogo sx={{ display: { xs: "block", md: "none" }, alignSelf: "center" }} height="30px" />
+          <RoshiLogo sx={{ display: { xs: 'block', md: 'none' }, alignSelf: 'center' }} height="30px" />
 
-          <Flex x xe py={1} sx={{ width: { xs: "auto", md: "100%" } }}>
+          <Flex x xe py={1} sx={{ width: { xs: 'auto', md: '100%' } }}>
             <Flex fullwidth x xe>
               <Dropdown>
-                <MenuButton
-                  variant="plain"
-                  sx={{ gap: 1, boxShadow: "0px 8px 16px 0px rgba(79, 43, 114, 0.1)", borderRadius: "6px" }}
-                >
+                <MenuButton variant="plain" sx={{ gap: 1, boxShadow: '0px 8px 16px 0px rgba(79, 43, 114, 0.1)', borderRadius: '6px' }}>
                   <img src={ASSETS.USER_CIRCLE} />
-                  <Typography sx={{ display: { xs: "none", md: "block" } }} level="body-md" color="secondary">
+                  <Typography sx={{ display: { xs: 'none', md: 'block' } }} level="body-md" color="secondary">
                     {user?.email}
                   </Typography>
                 </MenuButton>
                 <Menu>
-                  <MenuItem onClick={() => logout?.()}>{t("logout")}</MenuItem>
+                  <MenuItem onClick={() => logout?.()}>{t('logout')}</MenuItem>
                 </Menu>
               </Dropdown>
             </Flex>
           </Flex>
         </Flex>
-        <Box width={"100%"}>
+        <Box width={'100%'}>
           <Outlet />
         </Box>
       </Flex>
 
       <Drawer open={openContentDrawer} onClose={handleDrawerContentClose} anchor="right" size="lg">
-        <Button
-          variant="plain"
-          color="neutral"
-          onClick={handleDrawerContentClose}
-          sx={{ position: "absolute", top: 20, right: 0 }}
-        >
+        <Button variant="plain" color="neutral" onClick={handleDrawerContentClose} sx={{ position: 'absolute', top: 20, right: 0 }}>
           <Close />
         </Button>
         <Box px={2}>{drawerContent}</Box>

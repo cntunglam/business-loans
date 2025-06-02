@@ -1,12 +1,12 @@
-import { Button, FormControl, FormHelperText, Input, Link, Typography, useTheme } from "@mui/joy";
-import { ErrorResponse } from "@roshi/shared";
-import { AxiosError } from "axios";
-import { addSeconds } from "date-fns";
-import { FC, useState } from "react";
-import { useOTPLoginWithPhone, useSendWhatsappOTP } from "../../api/useAccountApi";
-import { Countdown } from "../shared/countdown";
-import { Flex } from "../shared/flex";
-import { RsModal } from "../shared/rsModal";
+import { Button, FormControl, FormHelperText, Input, Link, Typography, useTheme } from '@mui/joy';
+import { ErrorResponse } from '@roshi/shared';
+import { AxiosError } from 'axios';
+import { addSeconds } from 'date-fns';
+import { FC, useState } from 'react';
+import { useOTPLoginWithPhone, useSendWhatsappOTP } from '../../api/useAccountApi';
+import { Countdown } from '../shared/countdown';
+import { Flex } from '../shared/flex';
+import { RsModal } from '../shared/rsModal';
 interface Props {
   onClose: () => void;
   onSuccess: () => void;
@@ -15,10 +15,10 @@ interface Props {
 
 export const WhatsappOTPModal: FC<Props> = ({ phone, onClose, onSuccess }) => {
   const theme = useTheme();
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState('');
   const [lastSent, setLastSent] = useState(new Date());
   const [canResend, setCanResend] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const sendOtp = useSendWhatsappOTP();
   const otpLogin = useOTPLoginWithPhone();
 
@@ -40,11 +40,11 @@ export const WhatsappOTPModal: FC<Props> = ({ phone, onClose, onSuccess }) => {
         <Typography>A verification code has been sent to your whatsapp</Typography>
         <FormControl error={!!error}>
           <Input
-            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+            onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
             value={otp}
             onChange={(e) => {
               setOtp(e.target.value);
-              setError("");
+              setError('');
             }}
           />
           {error && <FormHelperText>{error}</FormHelperText>}
@@ -62,11 +62,11 @@ export const WhatsappOTPModal: FC<Props> = ({ phone, onClose, onSuccess }) => {
           }}
         >
           {canResend ? (
-            "Resend verification code"
+            'Resend verification code'
           ) : (
             <>
-              Haven't received message? Try again in:{" "}
-              <Countdown endDate={addSeconds(lastSent, 60)} onEnd={() => setCanResend(true)} /> seconds
+              Haven't received message? Try again in: <Countdown endDate={addSeconds(lastSent, 60)} onEnd={() => setCanResend(true)} />{' '}
+              seconds
             </>
           )}
         </Link>

@@ -1,5 +1,5 @@
-import { emailSchema } from "@roshi/shared";
-import { useSendOTP } from "../api/useAccountApi";
+import { emailSchema } from '@roshi/shared';
+import { useSendOTP } from '../api/useAccountApi';
 
 export const useLogin = ({ onSuccess, onError }: { onSuccess: () => void; onError: () => void }) => {
   const sendOTP = useSendOTP();

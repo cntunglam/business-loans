@@ -1,7 +1,7 @@
-import { useTheme } from "@mui/joy";
-import { useEffect, useState } from "react";
+import { useTheme } from '@mui/joy';
+import { useEffect, useState } from 'react';
 
-type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
+type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 function useMediaQueries(breakpointKeys: Breakpoint[]) {
   const theme = useTheme();
@@ -22,16 +22,16 @@ function useMediaQueries(breakpointKeys: Breakpoint[]) {
     };
 
     breakpointKeys.forEach((key) => {
-      const mediaQuery = window.matchMedia(theme.breakpoints.up(key).replace("@media ", ""));
+      const mediaQuery = window.matchMedia(theme.breakpoints.up(key).replace('@media ', ''));
       mediaQueryLists[key] = mediaQuery;
-      mediaQuery.addEventListener("change", handleChange);
+      mediaQuery.addEventListener('change', handleChange);
     });
 
     handleChange(); // Initial check
 
     return () => {
       breakpointKeys.forEach((key) => {
-        mediaQueryLists[key]?.removeEventListener("change", handleChange);
+        mediaQueryLists[key]?.removeEventListener('change', handleChange);
       });
     };
   }, [theme.breakpoints]);

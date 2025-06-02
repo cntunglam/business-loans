@@ -1,38 +1,30 @@
-import { Button, Divider, Typography } from "@mui/joy";
-import { formatApplicantForAdmin, formatApplicantForBorrower, formatApplicantInfoForLender } from "@roshi/backend";
-import { DocumentTypeEnum } from "@roshi/shared";
+import { Button, Divider, Typography } from '@mui/joy';
+import { formatApplicantForAdmin, formatApplicantForBorrower, formatApplicantInfoForLender } from '@roshi/backend';
+import { DocumentTypeEnum } from '@roshi/shared';
 import { format } from 'date-fns';
-import { FC } from "react";
-import { useGetApplicantInfo } from "../../api/useApplicantInfoApi";
-import { useGetMyLoanRequest } from "../../api/useLoanRequestApi";
-import { ASSETS } from "../../data/assets";
-import { formatApplicationData } from "../shared/applicationDataFormatter";
-import { Flex } from "../shared/flex";
-import { RsModal } from "../shared/rsModal";
-import { ViewDocumentBtn } from "../shared/viewDocumentBtn";
+import { FC } from 'react';
+import { useGetApplicantInfo } from '../../api/useApplicantInfoApi';
+import { useGetMyLoanRequest } from '../../api/useLoanRequestApi';
+import { ASSETS } from '../../data/assets';
+import { formatApplicationData } from '../shared/applicationDataFormatter';
+import { Flex } from '../shared/flex';
+import { RsModal } from '../shared/rsModal';
+import { ViewDocumentBtn } from '../shared/viewDocumentBtn';
 
 interface Props {
-  loanRequest?: Pick<NonNullable<ReturnType<typeof useGetMyLoanRequest>["data"]>, "amount" | "term" | "purpose">;
+  loanRequest?: Pick<NonNullable<ReturnType<typeof useGetMyLoanRequest>['data']>, 'amount' | 'term' | 'purpose'>;
   applicantInfo:
     | ReturnType<typeof formatApplicantForAdmin>
     | ReturnType<typeof formatApplicantForBorrower>
     | ReturnType<typeof formatApplicantInfoForLender>;
-  documents?: NonNullable<ReturnType<typeof useGetApplicantInfo>["data"]>["documents"];
+  documents?: NonNullable<ReturnType<typeof useGetApplicantInfo>['data']>['documents'];
   onDelete?: () => void;
   onClose: () => void;
   title: string;
   isLoading?: boolean;
 }
 
-export const ApplicationDetailsModal: FC<Props> = ({
-  title,
-  loanRequest,
-  applicantInfo,
-  onDelete,
-  onClose,
-  isLoading,
-  documents,
-}) => {
+export const ApplicationDetailsModal: FC<Props> = ({ title, loanRequest, applicantInfo, onDelete, onClose, isLoading, documents }) => {
   const renderTitleAndValue = (title: string, value: string) => {
     return (
       <Flex x xsb>
@@ -49,51 +41,44 @@ export const ApplicationDetailsModal: FC<Props> = ({
       <Flex y fullwidth gap1 pr={1}>
         <Divider />
         <Typography textColor="neutral.400">Basic information</Typography>
-        {applicantInfo.phoneNumber && renderTitleAndValue("Phone number", applicantInfo.phoneNumber)}
+        {applicantInfo.phoneNumber && renderTitleAndValue('Phone number', applicantInfo.phoneNumber)}
         {loanRequest && (
           <>
-            {renderTitleAndValue(
-              "Loan Amount",
-              formatApplicationData({ property: "amount", value: loanRequest.amount })
-            )}
-            {renderTitleAndValue("Loan Period", formatApplicationData({ property: "term", value: loanRequest.term }))}
-            {renderTitleAndValue(
-              "Loan Purpose",
-              formatApplicationData({ property: "purpose", value: loanRequest.purpose })
-            )}
+            {renderTitleAndValue('Loan Amount', formatApplicationData({ property: 'amount', value: loanRequest.amount }))}
+            {renderTitleAndValue('Loan Period', formatApplicationData({ property: 'term', value: loanRequest.term }))}
+            {renderTitleAndValue('Loan Purpose', formatApplicationData({ property: 'purpose', value: loanRequest.purpose }))}
           </>
         )}
         {renderTitleAndValue(
-          "Residency Status",
+          'Residency Status',
           formatApplicationData({
-            property: "residencyStatus",
-            value: applicantInfo?.residencyStatus,
+            property: 'residencyStatus',
+            value: applicantInfo?.residencyStatus
           })
         )}
         {renderTitleAndValue(
-          "DOB",
+          'DOB',
           formatApplicationData({
-            property: "dateOfBirth",
-            value: format(applicantInfo.dateOfBirth!, "dd/MM/yyyy"),
+            property: 'dateOfBirth',
+            value: format(applicantInfo.dateOfBirth!, 'dd/MM/yyyy')
           })
         )}
         {renderTitleAndValue(
-          "Monthly Income",
+          'Monthly Income',
           formatApplicationData({
-            property: "monthlyIncome",
-            value: applicantInfo.monthlyIncome,
+            property: 'monthlyIncome',
+            value: applicantInfo.monthlyIncome
           })
         )}
-       
 
         <Divider />
         <Typography textColor="neutral.400">Employment Period</Typography>
 
-         {renderTitleAndValue(
-          "Job Title",
+        {renderTitleAndValue(
+          'Job Title',
           formatApplicationData({
-            property: "employmentType",
-            value: applicantInfo.employmentType,
+            property: 'employmentType',
+            value: applicantInfo.employmentType
           })
         )}
         <Divider />
@@ -106,7 +91,7 @@ export const ApplicationDetailsModal: FC<Props> = ({
               return (
                 <Flex key={docType} gap1 x xsb yc height="25px">
                   <Typography>{docType}</Typography>
-                  {file ? <ViewDocumentBtn filename={file.filename} /> : "Missing"}
+                  {file ? <ViewDocumentBtn filename={file.filename} /> : 'Missing'}
                 </Flex>
               );
             })}

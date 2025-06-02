@@ -8,7 +8,8 @@
     "build": "rm -rf dist && ncc build server.ts && mv dist/client/* dist && mkdir -p dist/cert/ && cp cert/enc.pem cert/sig.pem dist/cert/",
     "test": "node --import tsx --test **/*.test.ts",
     "dev": "nodemon",
-    "seed": "ts-node --esm scripts/seedData.ts"
+    "seed": "ts-node --esm scripts/seedData.ts",
+    "pretty": "prettier --write \"./**/*.{ts,tsx,css}\""
   },
   "keywords": [],
   "author": "",

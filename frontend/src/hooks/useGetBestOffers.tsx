@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { loanResponse } from "../api/useLoanRequestApi";
+import { useMemo } from 'react';
+import { loanResponse } from '../api/useLoanRequestApi';
 
 export const useGetBestOffers = (loanResponses: loanResponse[]) => {
   const bestOffers = useMemo(() => {
@@ -36,7 +36,7 @@ export const useGetBestOffers = (loanResponses: loanResponse[]) => {
     return {
       highestAmountId,
       longestTenureId,
-      lowestInterestRateId,
+      lowestInterestRateId
     };
   }, [loanResponses]);
 

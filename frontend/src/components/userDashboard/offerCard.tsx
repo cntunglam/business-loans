@@ -1,4 +1,4 @@
-import { CheckCircle } from "@mui/icons-material";
+import { CheckCircle } from '@mui/icons-material';
 import {
   Accordion,
   AccordionDetails,
@@ -12,20 +12,20 @@ import {
   List,
   ListItem,
   Typography,
-  useTheme,
-} from "@mui/joy";
-import { calculateEMI, formatWithoutTz, NonNullRT } from "@roshi/shared";
-import { FC, useMemo, useState } from "react";
+  useTheme
+} from '@mui/joy';
+import { calculateEMI, formatWithoutTz, NonNullRT } from '@roshi/shared';
+import { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDeleteAppointment } from "../../api/useAppointmentApi";
-import { useGetMyLoanRequest } from "../../api/useLoanRequestApi";
-import StarIcon from "../../components/icons/starIcon.tsx";
-import { OpenDialog } from "../../context/DialogContainer";
-import { formatApplicationData } from "../shared/applicationDataFormatter";
-import { Flex } from "../shared/flex";
-import { UserOverviewModalType } from "./useUserOverview";
+import { useDeleteAppointment } from '../../api/useAppointmentApi';
+import { useGetMyLoanRequest } from '../../api/useLoanRequestApi';
+import StarIcon from '../../components/icons/starIcon.tsx';
+import { OpenDialog } from '../../context/DialogContainer';
+import { formatApplicationData } from '../shared/applicationDataFormatter';
+import { Flex } from '../shared/flex';
+import { UserOverviewModalType } from './useUserOverview';
 interface Props {
-  loanResponse: NonNullRT<typeof useGetMyLoanRequest>["loanResponses"][0];
+  loanResponse: NonNullRT<typeof useGetMyLoanRequest>['loanResponses'][0];
   openModal: (loanResponseId: string, modal: UserOverviewModalType) => void;
   refetch: () => void;
   borderAnimation: boolean;
@@ -40,7 +40,7 @@ export const OfferCard: FC<Props> = ({
   borderAnimation,
   hasOfferedHighestAmount,
   hasOfferLongestTenure,
-  hasOfferLowestInterestRate,
+  hasOfferLowestInterestRate
 }) => {
   const [isShowingDetails, setIsShowingDetails] = useState(false);
   const { t } = useTranslation();
@@ -57,33 +57,27 @@ export const OfferCard: FC<Props> = ({
     <Grid xs={12} sm={6} md={6} lg={4}>
       <Flex
         y
-        height={"100%"}
+        height={'100%'}
         component={Card}
         sx={{
-          boxShadow: "md",
-          border: borderAnimation ? "3px solid " + theme.palette.primary[100] : "none",
-          borderRadius: "md",
-          animation: borderAnimation ? "border-pulse 2s infinite" : undefined,
+          boxShadow: 'md',
+          border: borderAnimation ? '3px solid ' + theme.palette.primary[100] : 'none',
+          borderRadius: 'md',
+          animation: borderAnimation ? 'border-pulse 2s infinite' : undefined
         }}
       >
         <Flex x yc gap2>
-          <img
-            src={loanResponse?.lender.logo}
-            alt="lender-logo"
-            width={"50px"}
-            height={"50px"}
-            style={{ objectFit: "contain" }}
-          />
+          <img src={loanResponse?.lender.logo} alt="lender-logo" width={'50px'} height={'50px'} style={{ objectFit: 'contain' }} />
           <Typography level="title-md">{loanResponse?.lender.name}</Typography>
         </Flex>
-        <Flex x gap1 wrap minHeight={24} flex={1} alignItems={"start"}>
+        <Flex x gap1 wrap minHeight={24} flex={1} alignItems={'start'}>
           {ratings && (
             <Chip
               color="lightSecondary"
               variant="soft"
               endDecorator={<StarIcon />}
               sx={{
-                "--Chip-radius": "4px",
+                '--Chip-radius': '4px'
               }}
             >
               {ratings}
@@ -94,10 +88,10 @@ export const OfferCard: FC<Props> = ({
               color="lightSecondary"
               variant="soft"
               sx={{
-                "--Chip-radius": "4px",
+                '--Chip-radius': '4px'
               }}
             >
-              {t("form:offer-card.interest-rate")}
+              {t('form:offer-card.interest-rate')}
             </Chip>
           )}
           {hasOfferLongestTenure && (
@@ -105,10 +99,10 @@ export const OfferCard: FC<Props> = ({
               color="lightPrimary"
               variant="soft"
               sx={{
-                "--Chip-radius": "4px",
+                '--Chip-radius': '4px'
               }}
             >
-               {t("form:offer-card.tenure")}
+              {t('form:offer-card.tenure')}
             </Chip>
           )}
           {hasOfferedHighestAmount && (
@@ -116,10 +110,10 @@ export const OfferCard: FC<Props> = ({
               color="lightPrimary"
               variant="soft"
               sx={{
-                "--Chip-radius": "4px",
+                '--Chip-radius': '4px'
               }}
             >
-               {t("form:offer-card.amount")}
+              {t('form:offer-card.amount')}
             </Chip>
           )}
         </Flex>
@@ -128,84 +122,84 @@ export const OfferCard: FC<Props> = ({
         <Flex fullwidth x xsb>
           <Flex y xst>
             <Typography fontWeight="600" fontSize="xs" textColor="neutral.500">
-             {t("form:offer-card.up-to")}
+              {t('form:offer-card.up-to')}
             </Typography>
-            <Typography fontWeight={"500"} level="h4">
-              {formatApplicationData({ property: "amount", value: loanResponse?.loanOffer?.amount })}
+            <Typography fontWeight={'500'} level="h4">
+              {formatApplicationData({ property: 'amount', value: loanResponse?.loanOffer?.amount })}
             </Typography>
           </Flex>
           <Flex y xe>
             <Typography fontWeight="600" fontSize="xs" textColor="neutral.500">
-               {t("form:offer-card.monthly")}
+              {t('form:offer-card.monthly')}
             </Typography>
-            <Typography fontWeight={"500"} level="h4">
-              {formatApplicationData({ property: "interestRate", value: loanResponse?.loanOffer?.monthlyInterestRate })}
+            <Typography fontWeight={'500'} level="h4">
+              {formatApplicationData({ property: 'interestRate', value: loanResponse?.loanOffer?.monthlyInterestRate })}
             </Typography>
           </Flex>
         </Flex>
         <Accordion onChange={(_, expanded) => setIsShowingDetails(expanded)} sx={{ mx: -2, mb: -1.5 }}>
           <AccordionSummary
             sx={{
-              ".MuiAccordionSummary-button": {
+              '.MuiAccordionSummary-button': {
                 py: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: (theme) => theme.typography["body-sm"].fontSize,
-                color: (theme) => theme.palette.neutral[500],
-              },
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: (theme) => theme.typography['body-sm'].fontSize,
+                color: (theme) => theme.palette.neutral[500]
+              }
             }}
           >
-           {isShowingDetails ? t("form:offer-card.show-less") : t("form:offer-card.show-more")}
+            {isShowingDetails ? t('form:offer-card.show-less') : t('form:offer-card.show-more')}
           </AccordionSummary>
           <AccordionDetails>
             <Flex y gap1 px={2}>
               <Typography textColor="neutral.700" level="title-md">
-                 {t("form:offer-card.features")}
+                {t('form:offer-card.features')}
               </Typography>
               <Typography level="body-lg">
                 <List
                   sx={{
-                    fontSize: "md",
-                    "& li": {
+                    fontSize: 'md',
+                    '& li': {
                       paddingLeft: 0,
-                      paddingRight: 0,
-                    },
+                      paddingRight: 0
+                    }
                   }}
                 >
                   <ListItem>
-                    <CheckCircle sx={{ color: "success.400" }} />
-                     {t("form:offer-card.amount_1")} {formatApplicationData({ property: "amount", value: loanResponse?.loanOffer?.amount })}
+                    <CheckCircle sx={{ color: 'success.400' }} />
+                    {t('form:offer-card.amount_1')} {formatApplicationData({ property: 'amount', value: loanResponse?.loanOffer?.amount })}
                   </ListItem>
                   <ListItem>
-                    {" "}
-                    <CheckCircle sx={{ color: "success.400" }} />
-                    {t("form:offer-card.interest")} {loanResponse?.loanOffer?.monthlyInterestRate}%
+                    {' '}
+                    <CheckCircle sx={{ color: 'success.400' }} />
+                    {t('form:offer-card.interest')} {loanResponse?.loanOffer?.monthlyInterestRate}%
                   </ListItem>
                   <ListItem>
-                    {" "}
-                    <CheckCircle sx={{ color: "success.400" }} />
-                    {t("form:offer-card.duration")} {loanResponse?.loanOffer?.term} months
+                    {' '}
+                    <CheckCircle sx={{ color: 'success.400' }} />
+                    {t('form:offer-card.duration')} {loanResponse?.loanOffer?.term} months
                   </ListItem>
                   <ListItem>
-                    <CheckCircle sx={{ color: "success.400" }} />
-                     {t("form:offer-card.fees")}
+                    <CheckCircle sx={{ color: 'success.400' }} />
+                    {t('form:offer-card.fees')}
                     {formatApplicationData({
-                      property: "amount",
+                      property: 'amount',
                       value:
                         loanResponse.loanOffer.fixedUpfrontFees +
-                        (loanResponse.loanOffer.variableUpfrontFees / 100 || 0) * loanResponse.loanOffer.amount,
+                        (loanResponse.loanOffer.variableUpfrontFees / 100 || 0) * loanResponse.loanOffer.amount
                     })}
                   </ListItem>
                   <ListItem>
-                    <CheckCircle sx={{ color: "success.400" }} />
-                     {t("form:offer-card.installment")}
+                    <CheckCircle sx={{ color: 'success.400' }} />
+                    {t('form:offer-card.installment')}
                     {formatApplicationData({
-                      property: "amount",
+                      property: 'amount',
                       value: calculateEMI(
                         loanResponse.loanOffer.amount,
                         loanResponse.loanOffer.monthlyInterestRate / 100,
                         loanResponse.loanOffer.term
-                      ),
+                      )
                     })}
                   </ListItem>
                 </List>
@@ -218,17 +212,13 @@ export const OfferCard: FC<Props> = ({
           <Flex fullwidth x xsb yc grow>
             <Typography color="primary" level="title-md">
               {loanResponse.appointment.scheduledTime ? (
-                <>Scheduled for {formatWithoutTz(loanResponse.appointment.scheduledTime, "dd MMM HH:mm")}</>
+                <>Scheduled for {formatWithoutTz(loanResponse.appointment.scheduledTime, 'dd MMM HH:mm')}</>
               ) : (
                 <>Appointment request received</>
               )}
             </Typography>
             {loanResponse.appointment.scheduledTime ? (
-              <Link
-                color="neutral"
-                sx={{ textDecoration: "underline" }}
-                onClick={() => openModal(loanResponse.id, "appointment")}
-              >
+              <Link color="neutral" sx={{ textDecoration: 'underline' }} onClick={() => openModal(loanResponse.id, 'appointment')}>
                 More info
               </Link>
             ) : (
@@ -238,10 +228,10 @@ export const OfferCard: FC<Props> = ({
                 loading={deleteAppointment.isPending}
                 onClick={() =>
                   OpenDialog({
-                    type: "confirm",
-                    title: "Cancel appointment?",
-                    body: "Are you sure you want to cancel your appointment with " + loanResponse.lender.name,
-                    submit: () => deleteAppointment.mutateAsync(loanResponse.appointment!.id).then(() => refetch()),
+                    type: 'confirm',
+                    title: 'Cancel appointment?',
+                    body: 'Are you sure you want to cancel your appointment with ' + loanResponse.lender.name,
+                    submit: () => deleteAppointment.mutateAsync(loanResponse.appointment!.id).then(() => refetch())
                   })
                 }
               >
@@ -251,11 +241,11 @@ export const OfferCard: FC<Props> = ({
           </Flex>
         ) : (
           <Flex fullwidth x xsb yc>
-            <Typography color={loanResponse.acceptedAt ? "primary" : "neutral"} level="title-md">
-              {loanResponse?.acceptedAt ? t("offer-card.offer-selected") : t("form:offer-card.pre-approved")}
+            <Typography color={loanResponse.acceptedAt ? 'primary' : 'neutral'} level="title-md">
+              {loanResponse?.acceptedAt ? t('offer-card.offer-selected') : t('form:offer-card.pre-approved')}
             </Typography>
-            <Button onClick={() => openModal(loanResponse.id, loanResponse.acceptedAt ? "schedule" : "details")}>
-              {loanResponse?.acceptedAt ? t("offer-card.book-appointment") : t("form:offer-card.select-offer")}
+            <Button onClick={() => openModal(loanResponse.id, loanResponse.acceptedAt ? 'schedule' : 'details')}>
+              {loanResponse?.acceptedAt ? t('offer-card.book-appointment') : t('form:offer-card.select-offer')}
             </Button>
           </Flex>
         )}

@@ -30,9 +30,16 @@ interface BankCriteria {
 
 export const bankLoanCriteria: BankCriteria[] = [
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.DEBT_CONSOLIDATION],
     min_amount: 0,
     max_amount: 500_000_000,
@@ -52,9 +59,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.DEBT_CONSOLIDATION],
     min_amount: 0,
     max_amount: 500_000_000,
@@ -74,9 +88,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.DEBT_CONSOLIDATION],
     min_amount: 0,
     max_amount: 500_000_000,
@@ -89,16 +110,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 600.0,
     variable_processing_fee: 0,
     interest_rate: 6,
-    bank_url: "https://www.bankofchina.com/sg/pbservice/pb2/201701/t20170120_8516236.html",
+    bank_url:
+      "https://www.bankofchina.com/sg/pbservice/pb2/201701/t20170120_8516236.html",
     description_text:
       "<ul>\r\n\t<li>Fixed monthly repayment up to 10 years</li>\r\n\t<li>Successful applicants get a complimentary BOC Family credit card upon approval, with the annual fee permanently waived during your BOC DCP tenure</li>\r\n</ul>",
     bank_description: "BOC Debt Consolidation Plan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.DEBT_CONSOLIDATION],
     min_amount: 0,
     max_amount: 500_000_000,
@@ -111,16 +140,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 0.0,
     variable_processing_fee: 0,
     interest_rate: 3.99,
-    bank_url: "https://www.citibank.com.sg/gcb/loans/debt-consolidation/debt-consolidation.htm#Eligibility",
+    bank_url:
+      "https://www.citibank.com.sg/gcb/loans/debt-consolidation/debt-consolidation.htm#Eligibility",
     description_text:
       "<ul>\r\n\t<li>Enjoy interest saving with NO processing fees</li>\r\n\t<li>Interest rates from as low as 3.99% p.a. (EIR 7.50% p.a.)</li>\r\n</ul>",
     bank_description: "Citi Debt Consolidation Plan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.DEBT_CONSOLIDATION],
     min_amount: 0,
     max_amount: 500_000_000,
@@ -140,9 +177,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.DEBT_CONSOLIDATION],
     min_amount: 0,
     max_amount: 500_000_000,
@@ -155,16 +199,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 99.0,
     variable_processing_fee: 0,
     interest_rate: 3.58,
-    bank_url: "https://www.dbs.com.sg/personal/loans/personal-loans/dbs-debt-consolidation-plan",
+    bank_url:
+      "https://www.dbs.com.sg/personal/loans/personal-loans/dbs-debt-consolidation-plan",
     description_text:
       "<ul>\r\n\t<li>Interest rates from as low as 3.58% p.a (6.56% p.a EIR). Note that the interest rate offered to you is based on your personal credit profile and may differ from the published rate.</li>\r\n\t<li>Loan tenor of 1 - 8 years is available for affordable monthly repayment</li>\r\n</ul>",
     bank_description: "DBS Debt Consolidation",
     disabled: false,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.DEBT_CONSOLIDATION],
     min_amount: 0,
     max_amount: 500_000_000,
@@ -177,16 +229,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 0.0,
     variable_processing_fee: 0,
     interest_rate: 4.5,
-    bank_url: "https://www.ocbc.com/personal-banking/loans/debt-consolidation.page",
+    bank_url:
+      "https://www.ocbc.com/personal-banking/loans/debt-consolidation.page",
     description_text:
       "<ul>\n <li>Monthly repayment remains the same throughout the 8-year loan tenure</li>\n <li>Enjoy an affordable interest rate of 4.5% p.a. (EIR 8.06% p.a.) on your Debt Consolidation Loan amount</li>\n </ul>",
     bank_description: "OCBC Debt Consolidation Plan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.EDUCATION],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -206,9 +266,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.EDUCATION],
     min_amount: 1_000_0000,
     max_amount: 500_000_000,
@@ -221,16 +288,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     variable_processing_fee: 2.0,
     fixed_processing_fee: 0,
     interest_rate: 4.5,
-    bank_url: "https://www.maybank2u.com.sg/en/personal/loans/personal-credit/education-loan.page",
+    bank_url:
+      "https://www.maybank2u.com.sg/en/personal/loans/personal-credit/education-loan.page",
     description_text:
       "<ul>\n <li>Minimum Loan Amount: $5,000</li>\n <li>Borrow up to 8x your monthly salary up to $ 200k</li>\n </ul>",
     bank_description: "Maybank Monthly Rest Education Loan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.EDUCATION],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -252,9 +327,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: false,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.EDUCATION],
     min_amount: 2000,
     max_amount: 500_000_000,
@@ -267,16 +349,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 0.0,
     variable_processing_fee: 0,
     interest_rate: 4.4,
-    bank_url: "https://www.posb.com.sg/personal/loans/education-loans/posb-further-study-assist",
+    bank_url:
+      "https://www.posb.com.sg/personal/loans/education-loans/posb-further-study-assist",
     description_text:
       "<ul>\n <li>Minimum Loan Amount: $2,000</li>\n <li>Borrow up to 10x of your monthly salary up to $160k</li>\n </ul>",
     bank_description: "POSB Further Study Assist",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.EDUCATION],
     min_amount: 2000,
     max_amount: 500_000_000,
@@ -289,16 +379,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     variable_processing_fee: 2.5,
     fixed_processing_fee: 0,
     interest_rate: 4.4,
-    bank_url: "https://www.dbs.com.sg/personal/loans/education-loans/further-study-assist",
+    bank_url:
+      "https://www.dbs.com.sg/personal/loans/education-loans/further-study-assist",
     description_text:
       "<ul>\n <li>Minimum Loan Amount: $2,000</li>\n <li>Borrow up to 10x of your monthly salary up to $160k</li>\n </ul>",
     bank_description: "DBS Study Loan",
     disabled: false,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.HOME],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -318,9 +416,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: false,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.HOME],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -342,9 +447,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: false,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: [loanPurposesEnum.HOME],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -357,16 +469,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     variable_processing_fee: 0.5,
     fixed_processing_fee: 0,
     interest_rate: 4.2,
-    bank_url: "https://www.ocbc.com/personal-banking/loans/home-renovation-loan",
+    bank_url:
+      "https://www.ocbc.com/personal-banking/loans/home-renovation-loan",
     description_text:
       "<ul><li>Only bank to accept third party applicants (where applicant is not the home owner)</li>\n <li>Processing Fee: 1% of Approved Loan Amount +$200</li>\n </ul>",
     bank_description: "OCBC Renovation Loan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 0,
     max_amount: 500_000_000,
@@ -379,16 +499,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     variable_processing_fee: 1.0,
     fixed_processing_fee: 0,
     interest_rate: 2.66,
-    bank_url: "https://www.ocbc.com/personal-banking/loans/cash-on-instalments-fixed-repayment.page",
+    bank_url:
+      "https://www.ocbc.com/personal-banking/loans/cash-on-instalments-fixed-repayment.page",
     description_text:
       "<ul><li>Minimum loan amount of $1,000</li>\n <li>Min Income for Singaporeans/PRs: S$20,000 p.a.</li>\n <li>Min Income for Foreigners: S$45,000 p.a.</li>\n <li>Please note that if you do not have an existing OCBC Credit Card or EasiCredit account, you will need to apply for an OCBC Credit Card (which you will be redirected when you click 'Apply Now' button) before you can apply for the OCBC Personal Loan.</li></ul>",
     bank_description: "OCBC Personal Loan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -408,9 +536,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: false,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -423,16 +558,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 100.0,
     variable_processing_fee: 0,
     interest_rate: 1.99,
-    bank_url: "https://www.posb.com.sg/personal/loans/personal-loans/posb-personalloan",
+    bank_url:
+      "https://www.posb.com.sg/personal/loans/personal-loans/posb-personalloan",
     description_text:
       "<ul>\n <li>With fixed interest rate from as low as 1.99% p.a. +1% (EIR 4.17%)</li>\n <li>Get cash up to 4x of your monthly salary or 10x if your annual income is S$120,000 and above.</li>\n </ul>",
     bank_description: "POSB Personal Loan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -452,9 +595,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -476,9 +626,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: false,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -491,16 +648,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 200.0,
     variable_processing_fee: 0,
     interest_rate: 3.28,
-    bank_url: "https://www.maybank2u.com.sg/en/personal/loans/personal-line-or-credit/creditable-term-loan.page",
+    bank_url:
+      "https://www.maybank2u.com.sg/en/personal/loans/personal-line-or-credit/creditable-term-loan.page",
     description_text:
       "<ul>\n <li>Loan up to 2x of your monthly income (based on credit limit of your Maybank CreditAble account)</li>\n <li>Min Income for Singaporeans/PRs: S$30,000 p.a.</li>\n </ul>",
     bank_description: "Maybank CreditAble Term Loan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -513,16 +678,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 300.0,
     variable_processing_fee: 0,
     interest_rate: 6.5,
-    bank_url: "https://www.bankofchina.com/sg/pbservice/pb2/201708/t20170828_10477307.html",
+    bank_url:
+      "https://www.bankofchina.com/sg/pbservice/pb2/201708/t20170828_10477307.html",
     description_text:
       "<ul>\n <li>Equivalent flat interest rate from as low as 6.48% p.a. (EIR 15.73% p.a.).</li>\n <li>Receive complimentary MoneyPlus Line of Credit with low interest rate and ease of withdrawals for emergency cash use.</li>\n </ul>",
     bank_description: "BOC $martLoan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -542,9 +715,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_0000,
     max_amount: 500_000_000,
@@ -557,16 +737,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 0.0,
     variable_processing_fee: 0,
     interest_rate: 2.92,
-    bank_url: "https://www.hsbc.com.sg/loans/products/personal-line-of-credit/instalment-plan/",
+    bank_url:
+      "https://www.hsbc.com.sg/loans/products/personal-line-of-credit/instalment-plan/",
     description_text:
       "<ul>\n <li>Get 1-min in-principle approval on HSBC Personal Loan</li>\n <li>Maximum loan amount of up to 4x your monthly income with an annual income from S$30,000 to S$120,000 and up to 8x with an annual income of S$120,000 or more, or up to S$200,000.</li>\n </ul>",
     bank_description: "HSBC Personal Loan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -586,9 +774,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.SINGAPOREAN, residencyStatusesEnum.PERMANANT_RESIDENT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.SINGAPOREAN,
+      residencyStatusesEnum.PERMANANT_RESIDENT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 4500,
     max_amount: 500_000_000,
@@ -601,16 +796,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 200.0,
     variable_processing_fee: 0,
     interest_rate: 5.43,
-    bank_url: "https://www.ocbc.com/personal-banking/loans/extracash-loan-fixed-repayment.page",
+    bank_url:
+      "https://www.ocbc.com/personal-banking/loans/extracash-loan-fixed-repayment.page",
     description_text:
       "<ul>\n <li>Borrow up to 6x monthly salary for annual income S$120,000 and above, 4x monthly salary for annual income S$30,000-S$119,999 and 2x monthly salary for annual income S$20,000-S$29,000</li>\n </ul>",
     bank_description: "OCBC Extra Cash",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.EMPLOYMENT_PASS, residencyStatusesEnum.S_PASS_WORK_PERMIT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.EMPLOYMENT_PASS,
+      residencyStatusesEnum.S_PASS_WORK_PERMIT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 0,
     max_amount: 500_000_000,
@@ -623,16 +826,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     variable_processing_fee: 1.0,
     fixed_processing_fee: 0,
     interest_rate: 2.66,
-    bank_url: "https://www.ocbc.com/personal-banking/loans/cash-on-instalments-fixed-repayment.page",
+    bank_url:
+      "https://www.ocbc.com/personal-banking/loans/cash-on-instalments-fixed-repayment.page",
     description_text:
       "<ul>\n <li>Turn your unused credit limit into cash, without the need for additional income documents</li>\n \n </li>Repay with fixed instalments over 12 to 60 months</li>\n \n </li>Lower interest rate from 3.8% p.a. (EIR from 7.49% p.a.) and a one-time processing fee</li>",
     bank_description: "OCBC Personal Loan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.EMPLOYMENT_PASS, residencyStatusesEnum.S_PASS_WORK_PERMIT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.EMPLOYMENT_PASS,
+      residencyStatusesEnum.S_PASS_WORK_PERMIT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -645,16 +856,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 300.0,
     variable_processing_fee: 0,
     interest_rate: 6.5,
-    bank_url: "https://www.bankofchina.com/sg/pbservice/pb2/201708/t20170828_10477307.html",
+    bank_url:
+      "https://www.bankofchina.com/sg/pbservice/pb2/201708/t20170828_10477307.html",
     description_text:
       "<ul>\n <li>Equivalent flat interest rate from as low as 6.48% p.a. (EIR 15.73% p.a.).</li>\n <li>Receive complimentary MoneyPlus Line of Credit with low interest rate and ease of withdrawals for emergency cash use.</li>\n </ul>",
     bank_description: "BOC $martLoan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.EMPLOYMENT_PASS, residencyStatusesEnum.S_PASS_WORK_PERMIT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.EMPLOYMENT_PASS,
+      residencyStatusesEnum.S_PASS_WORK_PERMIT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -674,9 +893,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.EMPLOYMENT_PASS, residencyStatusesEnum.S_PASS_WORK_PERMIT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.EMPLOYMENT_PASS,
+      residencyStatusesEnum.S_PASS_WORK_PERMIT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_0000,
     max_amount: 500_000_000,
@@ -689,16 +915,24 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 0.0,
     variable_processing_fee: 0,
     interest_rate: 2.92,
-    bank_url: "https://www.hsbc.com.sg/loans/products/personal-line-of-credit/instalment-plan/",
+    bank_url:
+      "https://www.hsbc.com.sg/loans/products/personal-line-of-credit/instalment-plan/",
     description_text:
       "<ul>\n <li>Get 1-min in-principle approval on HSBC Personal Loan</li>\n <li>Maximum loan amount of up to 4x your monthly income with an annual income from S$30,000 to S$120,000 and up to 8x with an annual income of S$120,000 or more, or up to S$200,000.</li>\n </ul>",
     bank_description: "HSBC Personal Loan",
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.EMPLOYMENT_PASS, residencyStatusesEnum.S_PASS_WORK_PERMIT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.EMPLOYMENT_PASS,
+      residencyStatusesEnum.S_PASS_WORK_PERMIT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 1_000_000,
     max_amount: 500_000_000,
@@ -718,9 +952,16 @@ export const bankLoanCriteria: BankCriteria[] = [
     disabled: true,
   },
   {
-    residency_status: [residencyStatusesEnum.EMPLOYMENT_PASS, residencyStatusesEnum.S_PASS_WORK_PERMIT],
-    occupational_status: Object.keys(employmentStatusesEnum) as employmentStatusesEnum[],
-    property_ownership_status: Object.keys(propertyOwnershipsEnum) as propertyOwnershipsEnum[],
+    residency_status: [
+      residencyStatusesEnum.EMPLOYMENT_PASS,
+      residencyStatusesEnum.S_PASS_WORK_PERMIT,
+    ],
+    occupational_status: Object.keys(
+      employmentStatusesEnum,
+    ) as employmentStatusesEnum[],
+    property_ownership_status: Object.keys(
+      propertyOwnershipsEnum,
+    ) as propertyOwnershipsEnum[],
     loan_purpose: Object.keys(loanPurposesEnum) as loanPurposesEnum[],
     min_amount: 4500,
     max_amount: 500_000_000,
@@ -733,7 +974,8 @@ export const bankLoanCriteria: BankCriteria[] = [
     fixed_processing_fee: 200.0,
     variable_processing_fee: 0,
     interest_rate: 5.43,
-    bank_url: "https://www.ocbc.com/personal-banking/loans/extracash-loan-fixed-repayment.page",
+    bank_url:
+      "https://www.ocbc.com/personal-banking/loans/extracash-loan-fixed-repayment.page",
     description_text:
       "<ul>\n <li>Borrow up to 6x monthly salary for annual income S$120,000 and above, 4x monthly salary for annual income S$30,000-S$119,999 and 2x monthly salary for annual income S$20,000-S$29,000</li>\n </ul>",
     bank_description: "OCBC Extra Cash",

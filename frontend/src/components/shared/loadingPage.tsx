@@ -1,11 +1,11 @@
-import CircularProgress from "@mui/joy/CircularProgress";
-import Typography from "@mui/joy/Typography";
-import { FC } from "react";
-import { Flex } from "./flex";
+import CircularProgress from '@mui/joy/CircularProgress';
+import Typography from '@mui/joy/Typography';
+import { FC } from 'react';
+import { Flex } from './flex';
 
 interface Props {
   minHeight?: string;
-  variant?: "overlay";
+  variant?: 'overlay';
   isLoading?: boolean;
   opacity?: number;
   message?: string;
@@ -19,10 +19,10 @@ export const LoadingPage: FC<Props> = ({
   isLoading = true,
   opacity = 0.7,
   message,
-  messageColor = "inherit",
-  messageSize = "sm",
+  messageColor = 'inherit',
+  messageSize = 'sm'
 }) => {
-  if (variant === "overlay" && !isLoading) return null;
+  if (variant === 'overlay' && !isLoading) return null;
 
   const LoadingContent = () => (
     <>
@@ -34,7 +34,7 @@ export const LoadingPage: FC<Props> = ({
             color: messageColor,
             fontSize: messageSize,
             mt: 2,
-            textAlign: "center",
+            textAlign: 'center'
           }}
         >
           {message}
@@ -43,20 +43,20 @@ export const LoadingPage: FC<Props> = ({
     </>
   );
 
-  if (variant === "overlay") {
+  if (variant === 'overlay') {
     return (
       <Flex
         y
         yc
         xc
         sx={{
-          position: "fixed",
+          position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
           zIndex: 5,
-          background: `rgba(255, 255, 255, ${opacity})`,
+          background: `rgba(255, 255, 255, ${opacity})`
         }}
       >
         <LoadingContent />

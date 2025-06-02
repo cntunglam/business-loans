@@ -1,12 +1,12 @@
 import { Divider } from '@mui/joy';
-import Button from "@mui/joy/Button";
-import Modal from "@mui/joy/Modal";
-import ModalClose from "@mui/joy/ModalClose";
-import ModalDialog from "@mui/joy/ModalDialog";
-import Typography from "@mui/joy/Typography";
-import { useCallback, useEffect, useState } from "react";
+import Button from '@mui/joy/Button';
+import Modal from '@mui/joy/Modal';
+import ModalClose from '@mui/joy/ModalClose';
+import ModalDialog from '@mui/joy/ModalDialog';
+import Typography from '@mui/joy/Typography';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Flex } from "../components/shared/flex";
+import { Flex } from '../components/shared/flex';
 
 interface DialogOptions {
   title?: string;
@@ -17,7 +17,7 @@ interface DialogOptions {
   image?: string;
 }
 
-type DialogType = "delete" | "confirm" | "discard" | "success";
+type DialogType = 'delete' | 'confirm' | 'discard' | 'success';
 
 const eventEmitter = (() => {
   let callbackList: ((options: DialogOptions) => unknown)[] = [];
@@ -33,17 +33,17 @@ const eventEmitter = (() => {
       callbackList.forEach((callback) => {
         callback(options);
       });
-    },
+    }
   };
 })();
 
 export const DialogContainer = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [image, setImage] = useState("");
-  const [type, setType] = useState<DialogType>("confirm");
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
+  const [image, setImage] = useState('');
+  const [type, setType] = useState<DialogType>('confirm');
   const [submitAction, setSubmitAction] = useState<() => void>(() => null);
   const [onClose, setOnClose] = useState<() => void>(() => null);
 
@@ -54,13 +54,13 @@ export const DialogContainer = () => {
 
   const openDialog = useCallback((dialogOptions: DialogOptions) => {
     if (dialogOptions.title) setTitle(dialogOptions.title);
-    else setTitle("");
+    else setTitle('');
 
     if (dialogOptions.body) setBody(dialogOptions.body);
-    else setBody("");
+    else setBody('');
 
     if (dialogOptions.image) setImage(dialogOptions.image);
-    else setImage("");
+    else setImage('');
 
     setSubmitAction(() => dialogOptions.submit);
 
@@ -70,9 +70,9 @@ export const DialogContainer = () => {
   }, []);
 
   const renderDialogButtons = () => {
-    if (type === "discard") {
+    if (type === 'discard') {
       return (
-        <Flex x yc gap1 alignSelf={"center"} growChildren width="80%">
+        <Flex x yc gap1 alignSelf={'center'} growChildren width="80%">
           <Button size="lg" color="neutral" variant="outlined" onClick={close}>
             Cancel
           </Button>
@@ -89,9 +89,9 @@ export const DialogContainer = () => {
         </Flex>
       );
     }
-    if (type === "confirm") {
+    if (type === 'confirm') {
       return (
-        <Flex x yc gap1 alignSelf={"center"} growChildren width="80%">
+        <Flex x yc gap1 alignSelf={'center'} growChildren width="80%">
           <Button size="lg" color="neutral" variant="outlined" onClick={close}>
             Cancel
           </Button>
@@ -106,11 +106,11 @@ export const DialogContainer = () => {
           </Button>
         </Flex>
       );
-    } else if (type === "delete") {
+    } else if (type === 'delete') {
       return (
-        <Flex x yc gap1 alignSelf={"center"} growChildren width="80%">
+        <Flex x yc gap1 alignSelf={'center'} growChildren width="80%">
           <Button size="lg" color="neutral" variant="outlined" onClick={close}>
-           {t("cancel")}
+            {t('cancel')}
           </Button>
           <Button
             size="lg"
@@ -120,13 +120,13 @@ export const DialogContainer = () => {
               submitAction();
             }}
           >
-          {t("delete")}
+            {t('delete')}
           </Button>
         </Flex>
       );
-    } else if (type === "success") {
+    } else if (type === 'success') {
       return (
-        <Flex x yc gap1 alignSelf={"center"} growChildren width="80%">
+        <Flex x yc gap1 alignSelf={'center'} growChildren width="80%">
           <Button size="lg" color="neutral" variant="outlined" onClick={close}>
             Close
           </Button>
@@ -138,23 +138,23 @@ export const DialogContainer = () => {
   const getTitle = () => {
     if (title) return title;
 
-    if (type === "confirm") return "Confirmation";
+    if (type === 'confirm') return 'Confirmation';
 
-    if (type === "delete") return "Confirm deletion";
+    if (type === 'delete') return 'Confirm deletion';
 
-    if (type === "discard") return "Discard changes?";
+    if (type === 'discard') return 'Discard changes?';
 
-    return "";
+    return '';
   };
 
   const getBody = () => {
     if (body) return body;
 
-    if (type === "confirm") return "Are you sure ?";
+    if (type === 'confirm') return 'Are you sure ?';
 
-    if (type === "delete") return "Are you sure you want to delete this item";
+    if (type === 'delete') return 'Are you sure you want to delete this item';
 
-    if (type === "discard") return "This can't be undone and you'll lose all changes.";
+    if (type === 'discard') return "This can't be undone and you'll lose all changes.";
   };
 
   useEffect(() => {
@@ -167,9 +167,9 @@ export const DialogContainer = () => {
 
   return (
     <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-      <ModalDialog sx={{ maxWidth: "650px", width: { xs: "95%", sm: "80%", md: "60%" } }}>
+      <ModalDialog sx={{ maxWidth: '650px', width: { xs: '95%', sm: '80%', md: '60%' } }}>
         <Flex alignItems={'center'} justifyContent={'space-between'}>
-          <Typography mb={2} textAlign={"center"} level={"title-lg"} fontSize={"1.3rem"}>
+          <Typography mb={2} textAlign={'center'} level={'title-lg'} fontSize={'1.3rem'}>
             {getTitle()}
           </Typography>
           <ModalClose sx={{ position: 'relative', top: 0 }} />
@@ -178,7 +178,7 @@ export const DialogContainer = () => {
         <Flex y xc gap1 py={2} px={{ xs: 0, md: 2 }}>
           {image && <img height="100px" src={image} />}
           <Flex y gap3>
-            <Typography textAlign={"center"} textColor="neutral.600" level="body-lg">
+            <Typography textAlign={'center'} textColor="neutral.600" level="body-lg">
               {getBody()}
             </Typography>
             {renderDialogButtons()}

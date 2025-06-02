@@ -1,7 +1,7 @@
-import { CircularProgress } from "@mui/joy";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
-import { ImageViewerControls } from "./imageViewerControls";
+import { CircularProgress } from '@mui/joy';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
+import { ImageViewerControls } from './imageViewerControls';
 
 const scaleUp = true;
 const zoomFactor = 8;
@@ -33,9 +33,9 @@ export const ImageViewer = ({ src }: { src: string }) => {
 
   useEffect(() => {
     handleResize();
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, [handleResize]);
 
@@ -57,10 +57,10 @@ export const ImageViewer = ({ src }: { src: string }) => {
     <div
       style={{
         zIndex: 2,
-        marginTop: "50px",
-        height: "calc(100vh - 100px)",
-        width: "100vw",
-        marginBottom: "50px",
+        marginTop: '50px',
+        height: 'calc(100vh - 100px)',
+        width: '100vw',
+        marginBottom: '50px'
       }}
       ref={(el: HTMLDivElement | null) => setContainer(el)}
     >
@@ -75,11 +75,11 @@ export const ImageViewer = ({ src }: { src: string }) => {
           <ImageViewerControls />
           <TransformComponent
             wrapperStyle={{
-              width: "100%",
-              height: "100%",
+              width: '100%',
+              height: '100%'
             }}
           >
-            <img src={src} alt={"document"} />
+            <img src={src} alt={'document'} />
           </TransformComponent>
         </TransformWrapper>
       )}

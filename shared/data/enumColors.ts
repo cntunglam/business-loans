@@ -1,4 +1,8 @@
-import { AppointmentStatusEnum, DocumentVerificationStatusEnum, LogLevel } from "../models/databaseEnums";
+import {
+  AppointmentStatusEnum,
+  DocumentVerificationStatusEnum,
+  LogLevel,
+} from "../models/databaseEnums";
 import { LeadComputedStatus } from "../models/otherEnums";
 
 export const DocumentVerificationStatusEnumColors = {
@@ -22,9 +26,18 @@ export const LeadComputedStatusColors = {
   [LeadComputedStatus.WON]: { backgroundColor: "#13734B", color: "white" },
   [LeadComputedStatus.WITHDRAWN]: { backgroundColor: "#E6CFF2" },
   [LeadComputedStatus.REJECTED]: { backgroundColor: "#B10202", color: "white" },
-  [LeadComputedStatus.NO_RESPONSE]: { backgroundColor: "#B10202", color: "white" },
-  [LeadComputedStatus.WAITING_OUTCOME]: { backgroundColor: "orange", color: "white" },
-  [LeadComputedStatus.NO_ACTIVITY]: { backgroundColor: "#B10202", color: "white" },
+  [LeadComputedStatus.NO_RESPONSE]: {
+    backgroundColor: "#B10202",
+    color: "white",
+  },
+  [LeadComputedStatus.WAITING_OUTCOME]: {
+    backgroundColor: "orange",
+    color: "white",
+  },
+  [LeadComputedStatus.NO_ACTIVITY]: {
+    backgroundColor: "#B10202",
+    color: "white",
+  },
 } as const;
 
 export const LogLevelColors = {

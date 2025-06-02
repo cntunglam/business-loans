@@ -1,5 +1,5 @@
-import { ReactNode, useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
+import { ReactNode, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export const useModals = <T extends string>(
   entryId: string,
@@ -7,12 +7,12 @@ export const useModals = <T extends string>(
   onClose?: () => void
 ) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentModal = searchParams.get("id") === entryId ? searchParams.get("modal") : undefined;
+  const currentModal = searchParams.get('id') === entryId ? searchParams.get('modal') : undefined;
 
   const closeModal = useCallback(() => {
     setSearchParams((searchParams) => {
-      searchParams.delete("modal");
-      searchParams.delete("id");
+      searchParams.delete('modal');
+      searchParams.delete('id');
       return searchParams;
     });
     onClose?.();
@@ -21,8 +21,8 @@ export const useModals = <T extends string>(
   const openModal = useCallback(
     (modalType: T) => {
       setSearchParams((searchParams) => {
-        searchParams.set("modal", modalType);
-        searchParams.set("id", entryId);
+        searchParams.set('modal', modalType);
+        searchParams.set('id', entryId);
         return searchParams;
       });
     },

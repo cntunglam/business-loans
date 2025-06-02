@@ -1,10 +1,10 @@
-import { useSearchParams } from "react-router-dom";
-import { loanResponse } from "../../api/useLoanRequestApi";
-import { AppointmentReviewModal } from "./appointmentScheduling/appointmentReviewModal";
-import { ScheduleAppointmentModal } from "./appointmentScheduling/scheduleAppointmentModal";
-import { OfferProceedModal } from "./offerProceedModal";
+import { useSearchParams } from 'react-router-dom';
+import { loanResponse } from '../../api/useLoanRequestApi';
+import { AppointmentReviewModal } from './appointmentScheduling/appointmentReviewModal';
+import { ScheduleAppointmentModal } from './appointmentScheduling/scheduleAppointmentModal';
+import { OfferProceedModal } from './offerProceedModal';
 
-export type UserOverviewModalType = "appointment" | "schedule" | "details";
+export type UserOverviewModalType = 'appointment' | 'schedule' | 'details';
 
 interface Props {
   loanResponses: loanResponse[];
@@ -22,14 +22,14 @@ export const useUserOverview = ({ loanResponses, refetch }: Props) => {
     setSearchParams({});
   };
 
-  const loanResponseId = searchParams.get("loanResponseId");
-  const currentModal = searchParams.get("modal");
+  const loanResponseId = searchParams.get('loanResponseId');
+  const currentModal = searchParams.get('modal');
 
   const renderModal = () => {
     const loanResponse = loanResponses?.find((res) => res.id === loanResponseId);
     if (!loanResponse) return null;
     switch (currentModal) {
-      case "appointment":
+      case 'appointment':
         return (
           <AppointmentReviewModal
             isApplicant={true}
@@ -40,7 +40,7 @@ export const useUserOverview = ({ loanResponses, refetch }: Props) => {
             }}
           />
         );
-      case "schedule":
+      case 'schedule':
         return (
           <ScheduleAppointmentModal
             loanResponse={loanResponse}
@@ -50,14 +50,14 @@ export const useUserOverview = ({ loanResponses, refetch }: Props) => {
             }}
           />
         );
-      case "details":
+      case 'details':
         return (
           <OfferProceedModal
             loanResponse={loanResponse}
             refetch={refetch}
             onClose={closeModal}
             onBookAppointment={() => {
-              openModal(loanResponse.id, "schedule");
+              openModal(loanResponse.id, 'schedule');
             }}
           />
         );

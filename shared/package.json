@@ -6,7 +6,8 @@
     "build": "tsc",
     "postinstall": "prisma generate",
     "migrate": "prisma migrate deploy",
-    "push": "prisma db push"
+    "push": "prisma db push",
+    "pretty": "prettier --write \"./**/*.{ts,tsx,css}\""
   },
   "author": "",
   "license": "ISC",

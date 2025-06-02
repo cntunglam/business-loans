@@ -43,8 +43,12 @@ export const WhatsappGroupSchema = z.object({
   group_id: z.string(),
   group_icon_link: z.string(),
   group_invite_link: z.string(),
-  group_admins: z.array(z.object({ number: z.string(), created_time: z.string() })),
-  group_members: z.array(z.object({ number: z.string(), created_time: z.string() })),
+  group_admins: z.array(
+    z.object({ number: z.string(), created_time: z.string() }),
+  ),
+  group_members: z.array(
+    z.object({ number: z.string(), created_time: z.string() }),
+  ),
   group_created_date: z.string(),
 });
 

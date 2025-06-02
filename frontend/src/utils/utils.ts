@@ -1,31 +1,32 @@
-import { AxiosError } from "axios";
-import { differenceInSeconds, format, fromUnixTime, startOfDay, subDays, subMonths } from "date-fns";
-import { getTimezoneOffset } from "date-fns-tz";
-import i18next from "i18next";
-import { URLSearchParams } from "url";
-import { CONSTANTS } from "../data/constants";
+import { AxiosError } from 'axios';
+import { differenceInSeconds, format, fromUnixTime, startOfDay, subDays, subMonths } from 'date-fns';
+import { getTimezoneOffset } from 'date-fns-tz';
+import i18next from 'i18next';
+import { URLSearchParams } from 'url';
+import { CONSTANTS } from '../data/constants';
 
 export const encodeQueryData = (data: Record<string, string>) => {
   const ret = [];
   for (const d in data) {
-    ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
+    ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
   }
-  return ret.join("&");
+  return ret.join('&');
 };
 
 export const formatToDisplayString = (value?: string | number, significantDigits = 6) => {
-  if (value === undefined) return "";
-  const nbr = typeof value === "string" ? parseFloat(value) : value;
-  if (isNaN(nbr)) return "";
-  return nbr.toLocaleString("vi-VN", {
-    maximumFractionDigits: significantDigits });
+  if (value === undefined) return '';
+  const nbr = typeof value === 'string' ? parseFloat(value) : value;
+  if (isNaN(nbr)) return '';
+  return nbr.toLocaleString('vi-VN', {
+    maximumFractionDigits: significantDigits
+  });
 };
 
 export const formatError = (error: unknown) => {
-  if (!error) return "";
-  let res = "";
-  if (typeof error === "object" && "shortMessage" in error) res = error.shortMessage as string;
-  else if (typeof error === "string") res = error;
+  if (!error) return '';
+  let res = '';
+  if (typeof error === 'object' && 'shortMessage' in error) res = error.shortMessage as string;
+  else if (typeof error === 'string') res = error;
   else if (error instanceof AxiosError) res = error.response?.data.error;
   else if (error instanceof Error) res = error.message;
   else res = JSON.stringify(error);
@@ -34,8 +35,8 @@ export const formatError = (error: unknown) => {
 };
 
 export const generateRandomString = (length: number) => {
-  const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
+  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) result += characters.charAt(Math.floor(Math.random() * charactersLength));
   return result;
@@ -47,7 +48,7 @@ export function buildQueryClauses(query: URLSearchParams) {
 
   for (const key of Object.keys(query)) {
     // Assume any param ending in "OrderBy" is for ordering, others are for filtering
-    if (key.endsWith("OrderBy")) {
+    if (key.endsWith('OrderBy')) {
       const field = key.slice(0, -7); // Remove 'OrderBy' from the key
       orderBy[field] = query.get(key) as string;
     } else {
@@ -62,11 +63,11 @@ export function convertParamsToString(searchParams: Record<string, string | numb
   return Object.entries(searchParams)
     .filter(([key, value]) => key && value !== undefined)
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`)
-    .join("&");
+    .join('&');
 }
 
 export const getDifference = (date?: Date) => {
-  if (!date) return "";
+  if (!date) return '';
   const seconds = differenceInSeconds(new Date(), date);
   if (seconds < 60) return `${seconds}s`;
   const minutes = Math.floor(seconds / 60);
@@ -82,7 +83,7 @@ export const getDifference = (date?: Date) => {
 };
 
 export const getFullTimeDifference = (date?: Date) => {
-  if (!date) return "";
+  if (!date) return '';
   const seconds = differenceInSeconds(new Date(), date);
   if (seconds < 60) return `${seconds}s`;
   const minutes = Math.floor(seconds / 60);
@@ -111,20 +112,20 @@ export function sortIntoPeriods<T extends { createdAt: Date }>(toSort: T[]) {
 
   const sorted = {
     today: [] as T[],
-    "last 7 days": [] as T[],
-    "last 30 days": [] as T[],
-    "last 6 months": [] as T[],
-    "last year": [] as T[],
-    "all time": [] as T[],
+    'last 7 days': [] as T[],
+    'last 30 days': [] as T[],
+    'last 6 months': [] as T[],
+    'last year': [] as T[],
+    'all time': [] as T[]
   };
 
   toSort.forEach((item) => {
-    if (item.createdAt > today) sorted["today"].push(item);
-    else if (item.createdAt > lastWeek) sorted["last 7 days"].push(item);
-    else if (item.createdAt > lastMonth) sorted["last 30 days"].push(item);
-    else if (item.createdAt > last6Month) sorted["last 6 months"].push(item);
-    else if (item.createdAt > lastYear) sorted["last year"].push(item);
-    else sorted["all time"].push(item);
+    if (item.createdAt > today) sorted['today'].push(item);
+    else if (item.createdAt > lastWeek) sorted['last 7 days'].push(item);
+    else if (item.createdAt > lastMonth) sorted['last 30 days'].push(item);
+    else if (item.createdAt > last6Month) sorted['last 6 months'].push(item);
+    else if (item.createdAt > lastYear) sorted['last year'].push(item);
+    else sorted['all time'].push(item);
   });
 
   return sorted;
@@ -132,13 +133,13 @@ export function sortIntoPeriods<T extends { createdAt: Date }>(toSort: T[]) {
 
 export const numberToDayOfWeek = (number: number) => {
   const days = [
-    i18next.t("form:day.sunday"),
-    i18next.t("form:day.monday"),
-    i18next.t("form:day.tuesday"),
-    i18next.t("form:day.wednesday"),
-    i18next.t("form:day.thursday"),
-    i18next.t("form:day.friday"),
-    i18next.t("form:day.saturday"),
+    i18next.t('form:day.sunday'),
+    i18next.t('form:day.monday'),
+    i18next.t('form:day.tuesday'),
+    i18next.t('form:day.wednesday'),
+    i18next.t('form:day.thursday'),
+    i18next.t('form:day.friday'),
+    i18next.t('form:day.saturday')
   ];
   return days[number];
 };
@@ -148,7 +149,7 @@ export const extractTextFromHTML = (html: string) => {
   const text = html.match(/<li>(.*?)<\/li>/g);
   if (text) {
     text.forEach((t) => {
-      res.push(t.replace(/<\/?li>/g, ""));
+      res.push(t.replace(/<\/?li>/g, ''));
     });
     return res;
   } else {
@@ -160,9 +161,7 @@ export const extractTextFromHTML = (html: string) => {
 export const getCurrentTime = () => {
   const currDateWithTz = new Date();
   const currUtcTimestamp = currDateWithTz.getTime() + currDateWithTz.getTimezoneOffset() * 60 * 1000;
-  const dateWithTz = fromUnixTime(
-    Math.floor((currUtcTimestamp + getTimezoneOffset(CONSTANTS.TIMEZONE, new Date())) / 1000)
-  );
+  const dateWithTz = fromUnixTime(Math.floor((currUtcTimestamp + getTimezoneOffset(CONSTANTS.TIMEZONE, new Date())) / 1000));
   return new Date(format(dateWithTz, "yyyy-MM-dd'T'HH:mm':00Z'"));
 };
 
@@ -180,9 +179,9 @@ export const isImageUrl = (url: string) => {
   return /[/.](gif|jpg|jpeg|tiff|png)$/i.test(url);
 };
 
-export const formattedDate = (date: Date, formatStr = "dd/MM/yyyy HH:mm") => {
+export const formattedDate = (date: Date, formatStr = 'dd/MM/yyyy HH:mm') => {
   if (!date) {
-    throw new Error("Invalid date: date is required");
+    throw new Error('Invalid date: date is required');
   }
 
   return format(date, formatStr);

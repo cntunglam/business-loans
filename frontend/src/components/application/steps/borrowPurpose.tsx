@@ -1,13 +1,13 @@
-import { Option } from "@mui/joy";
-import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
-import { ApplicationStepsEnum, loanPurposesEnum, loanPurposesLabels, OptionsSettings } from "@roshi/shared";
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { Option } from '@mui/joy';
+import { ApplicationSteps } from '@roshi/backend/services/applicationSteps.service';
+import { ApplicationStepsEnum, loanPurposesEnum, loanPurposesLabels, OptionsSettings } from '@roshi/shared';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useVisitorContext } from "../../../context/visitorContext";
-import { TEST_IDS } from "../../../utils/testUtils";
-import { Flex } from "../../shared/flex";
-import { ApplicationStyledInput } from "../styled/applicationStyledInput";
-import { ApplicationStyledSelect } from "../styled/applicationStyledSelect";
+import { useVisitorContext } from '../../../context/visitorContext';
+import { TEST_IDS } from '../../../utils/testUtils';
+import { Flex } from '../../shared/flex';
+import { ApplicationStyledInput } from '../styled/applicationStyledInput';
+import { ApplicationStyledSelect } from '../styled/applicationStyledSelect';
 
 export const BorrowPurposeStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const { t } = useTranslation();
@@ -21,9 +21,7 @@ export const BorrowPurposeStep = forwardRef<{ getValue: () => unknown }>((_, ref
   useEffect(() => {
     if (!visitor) return;
     try {
-      const stepData = ApplicationSteps[ApplicationStepsEnum.borrowPurpose].validation(
-        visitor[ApplicationStepsEnum.borrowPurpose],
-      );
+      const stepData = ApplicationSteps[ApplicationStepsEnum.borrowPurpose].validation(visitor[ApplicationStepsEnum.borrowPurpose]);
       const isNotOtherValue = settings.options.includes(stepData);
       if (isNotOtherValue) setOption(stepData);
       else {
@@ -38,26 +36,26 @@ export const BorrowPurposeStep = forwardRef<{ getValue: () => unknown }>((_, ref
   useImperativeHandle(ref, () => ({
     getValue: () => {
       if (!option) {
-        setError("Please select a purpose");
+        setError('Please select a purpose');
       } else if (option === loanPurposesEnum.OTHER && !otherValue) {
-        setError("Please specify a purpose");
+        setError('Please specify a purpose');
       } else {
         return option === loanPurposesEnum.OTHER ? otherValue : option;
       }
-    },
+    }
   }));
 
   return (
     <Flex y gap2 px={{ xs: 3, md: 0 }}>
       <ApplicationStyledSelect
         data-testid={TEST_IDS.borrowPurposeSelect}
-        placeholder={t("form:applying.choose_one")}
+        placeholder={t('form:applying.choose_one')}
         value={option}
         onChange={(_, val) => {
-          setError("");
+          setError('');
           setOption(val || undefined);
         }}
-        sx={{ maxWidth: 400, mx: "auto" }}
+        sx={{ maxWidth: 400, mx: 'auto' }}
       >
         {settings.options.map((option) => (
           <Option key={option} value={option}>
@@ -69,7 +67,7 @@ export const BorrowPurposeStep = forwardRef<{ getValue: () => unknown }>((_, ref
         <ApplicationStyledInput
           error={!!error}
           onChange={(e) => {
-            setError("");
+            setError('');
             setOtherValue(e.target.value);
           }}
           value={otherValue}

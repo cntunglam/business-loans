@@ -1,7 +1,7 @@
-import { Slider, Typography } from "@mui/joy";
-import { FC, type ReactElement } from "react";
-import { formatToDisplayString } from "../../utils/utils";
-import { Flex } from "./flex";
+import { Slider, Typography } from '@mui/joy';
+import { FC, type ReactElement } from 'react';
+import { formatToDisplayString } from '../../utils/utils';
+import { Flex } from './flex';
 
 interface Props {
   min: number;
@@ -14,7 +14,7 @@ interface Props {
   formatNumber?: (value: number) => string;
   showSuffixOnValue?: boolean;
   id?: string;
-  "data-testid"?: string;
+  'data-testid'?: string;
 }
 
 export const RsSlider: FC<Props> = ({
@@ -27,8 +27,8 @@ export const RsSlider: FC<Props> = ({
   suffix,
   formatNumber,
   showSuffixOnValue = true,
-  id = "",
-  "data-testid": dataTestId,
+  id = '',
+  'data-testid': dataTestId
 }) => {
   const formatValue = (val: number) => {
     if (formatNumber) {
@@ -43,45 +43,45 @@ export const RsSlider: FC<Props> = ({
 
   return (
     <Flex y xc gap={4}>
-      <Typography level="h2" textColor="primary.500" fontWeight={"800"} fontSize={46}>
-        {prefix === "$" ? <sup style={{ fontSize: 18 }}>$ </sup> : prefix}
+      <Typography level="h2" textColor="primary.500" fontWeight={'800'} fontSize={46}>
+        {prefix === '$' ? <sup style={{ fontSize: 18 }}>$ </sup> : prefix}
         {formatToDisplayString(value)} {showSuffixOnValue && suffix}
       </Typography>
-      <Flex x yst gap2 sx={{ width: "100%" }}>
+      <Flex x yst gap2 sx={{ width: '100%' }}>
         {/* <IconButton size="lg" onClick={() => setValue(Math.max(value - step, min))}>
           <RemoveCircleOutline />
         </IconButton> */}
         <Flex y fullwidth px={{ xs: 3, sm: 2, md: 0 }}>
           <Slider
             sx={{
-              "--Slider-thumbSize": "36px",
-              "--Slider-trackSize": "10px",
+              '--Slider-thumbSize': '36px',
+              '--Slider-trackSize': '10px',
 
-              "& .MuiSlider-rail": {
+              '& .MuiSlider-rail': {
                 borderRadius: 4,
-                backgroundColor: "#d9d9d9",
+                backgroundColor: '#d9d9d9'
               },
-              "& .MuiSlider-track": {
+              '& .MuiSlider-track': {
                 borderRadius: 4,
-                backgroundColor: "var(--joy-palette-secondary-500)",
+                backgroundColor: 'var(--joy-palette-secondary-500)'
               },
-              "& .MuiSlider-thumb": {
+              '& .MuiSlider-thumb': {
                 // backgroundColor: "var(--joy-palette-secondary-500)",
                 transform: `translate(${translateX}, -50%)`,
-                border: "4px solid var(--joy-palette-secondary-500)",
-                outline: "none !important",
-                boxShadow: "0px 2px 10px rgba(159, 128, 186, 0.3)",
-                "&:hover, &.Mui-focusVisible": {
-                  boxShadow: "0px 2px 10px rgba(159, 128, 186, 0.3)",
+                border: '4px solid var(--joy-palette-secondary-500)',
+                outline: 'none !important',
+                boxShadow: '0px 2px 10px rgba(159, 128, 186, 0.3)',
+                '&:hover, &.Mui-focusVisible': {
+                  boxShadow: '0px 2px 10px rgba(159, 128, 186, 0.3)'
                 },
-                "&.Mui-active": {
-                  boxShadow: "0px 2px 10px rgba(159, 128, 186, 0.3)",
+                '&.Mui-active': {
+                  boxShadow: '0px 2px 10px rgba(159, 128, 186, 0.3)'
                 },
 
-                "&:before": {
-                  borderColor: "transparent",
-                },
-              },
+                '&:before': {
+                  borderColor: 'transparent'
+                }
+              }
             }}
             value={value}
             onChange={(_, v) => setValue(v as number)}
@@ -91,17 +91,17 @@ export const RsSlider: FC<Props> = ({
             id={id}
             slotProps={{
               input: {
-                "data-testid": `${dataTestId}_input`,
-              },
+                'data-testid': `${dataTestId}_input`
+              }
             }}
             data-testid={dataTestId}
           />
           <Flex x xsb yc>
-            <Typography textColor="#a0a0a0" fontWeight={"800"}>
+            <Typography textColor="#a0a0a0" fontWeight={'800'}>
               {prefix}
               {formatValue(min)} {suffix}
             </Typography>
-            <Typography textColor="#a0a0a0" fontWeight={"800"}>
+            <Typography textColor="#a0a0a0" fontWeight={'800'}>
               {prefix}
               {formatValue(max)} {suffix}
             </Typography>

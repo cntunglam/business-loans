@@ -1,9 +1,9 @@
-import ArrowRightIcon from "./arrowRightIcon";
-import CalendarTickIcon from "./calendarTickIcon";
-import CopyIcon from "./copyIcon";
-import FlashIcon from "./flashIcon";
-import NoteIcon from "./noteIcon";
-import SearchIcon from "./searchIcon";
+import ArrowRightIcon from './arrowRightIcon';
+import CalendarTickIcon from './calendarTickIcon';
+import CopyIcon from './copyIcon';
+import FlashIcon from './flashIcon';
+import NoteIcon from './noteIcon';
+import SearchIcon from './searchIcon';
 
 export const Icons = {
   ArrowRight: ArrowRightIcon,
@@ -11,7 +11,7 @@ export const Icons = {
   Copy: CopyIcon,
   Flash: FlashIcon,
   Note: NoteIcon,
-  Search: SearchIcon,
+  Search: SearchIcon
 };
 
 export type IconType = keyof typeof Icons;

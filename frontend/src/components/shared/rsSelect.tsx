@@ -1,7 +1,7 @@
-import { Option, Select } from "@mui/joy";
-import { SxProps } from "@mui/joy/styles/types";
-import _ from "lodash";
-import { Flex } from "./flex";
+import { Option, Select } from '@mui/joy';
+import { SxProps } from '@mui/joy/styles/types';
+import _ from 'lodash';
+import { Flex } from './flex';
 
 type Props<T extends number | string> = {
   values: T[];
@@ -12,31 +12,23 @@ type Props<T extends number | string> = {
   error?: boolean;
 } & React.ComponentProps<typeof Select>;
 
-export const RsSelect = <T extends number | string>({
-  values,
-  value,
-  setValue,
-  placeholder,
-  sx,
-  error,
-  ...rest
-}: Props<T>) => {
+export const RsSelect = <T extends number | string>({ values, value, setValue, placeholder, sx, error, ...rest }: Props<T>) => {
   return (
     <Flex
       x
       yc
       sx={{
-        ".MuiSelect-variantOutlined > .MuiSelect-button": {
-          opacity: _.isEmpty(value) && !error ? "var(--Select-placeholderOpacity)" : 1,
-          color: error ? "var(--joy-palette-danger-400)" : "",
+        '.MuiSelect-variantOutlined > .MuiSelect-button': {
+          opacity: _.isEmpty(value) && !error ? 'var(--Select-placeholderOpacity)' : 1,
+          color: error ? 'var(--joy-palette-danger-400)' : ''
         },
-        ".Mui-expanded.MuiSelect-variantOutlined:before": {
-          border: error ? "2px solid var(--joy-palette-danger-500)" : "2px solid var(--joy-palette-primary-500)",
+        '.Mui-expanded.MuiSelect-variantOutlined:before': {
+          border: error ? '2px solid var(--joy-palette-danger-500)' : '2px solid var(--joy-palette-primary-500)'
         },
-        ".MuiSelect-variantOutlined": {
-          border: error ? "1px solid var(--joy-palette-danger-300)" : "",
+        '.MuiSelect-variantOutlined': {
+          border: error ? '1px solid var(--joy-palette-danger-300)' : ''
         },
-        overflow: "hidden",
+        overflow: 'hidden'
       }}
     >
       <Select

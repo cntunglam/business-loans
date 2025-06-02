@@ -1,5 +1,5 @@
-import SvgIcon, { SvgIconProps } from "@mui/joy/SvgIcon";
-import React from "react";
+import SvgIcon, { SvgIconProps } from '@mui/joy/SvgIcon';
+import React from 'react';
 
 const HomeIcon: React.FC<SvgIconProps> = ({ ...props }) => (
   <SvgIcon {...props}>

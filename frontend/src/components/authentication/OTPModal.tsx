@@ -1,14 +1,14 @@
-import { Button, FormControl, FormHelperText, Input, Link, Typography, useTheme } from "@mui/joy";
-import { ErrorResponse } from "@roshi/shared";
-import { AxiosError } from "axios";
-import { addSeconds } from "date-fns";
-import { FC, useState } from "react";
+import { Button, FormControl, FormHelperText, Input, Link, Typography, useTheme } from '@mui/joy';
+import { ErrorResponse } from '@roshi/shared';
+import { AxiosError } from 'axios';
+import { addSeconds } from 'date-fns';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useOTPLogin, useSendOTP } from "../../api/useAccountApi";
-import { TEST_IDS } from "../../utils/testUtils";
-import { Countdown } from "../shared/countdown";
-import { Flex } from "../shared/flex";
-import { RsModal } from "../shared/rsModal";
+import { useOTPLogin, useSendOTP } from '../../api/useAccountApi';
+import { TEST_IDS } from '../../utils/testUtils';
+import { Countdown } from '../shared/countdown';
+import { Flex } from '../shared/flex';
+import { RsModal } from '../shared/rsModal';
 
 interface Props {
   onClose: () => void;
@@ -19,10 +19,10 @@ interface Props {
 
 export const OTPModal: FC<Props> = ({ email, onClose, onSuccess, phone }) => {
   const theme = useTheme();
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState('');
   const [lastSent, setLastSent] = useState(new Date());
   const [canResend, setCanResend] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const sendOtp = useSendOTP();
   const otpLogin = useOTPLogin();
   const { t } = useTranslation();
@@ -40,7 +40,7 @@ export const OTPModal: FC<Props> = ({ email, onClose, onSuccess, phone }) => {
             console.log({ roshiErr });
             setError(roshiErr.error.code);
           }
-        },
+        }
       }
     );
   };
@@ -51,11 +51,11 @@ export const OTPModal: FC<Props> = ({ email, onClose, onSuccess, phone }) => {
         <Typography>A verification code has been sent to your email</Typography>
         <FormControl error={!!error}>
           <Input
-            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+            onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
             value={otp}
             onChange={(e) => {
               setOtp(e.target.value);
-              setError("");
+              setError('');
             }}
             data-testid={TEST_IDS.otpInput}
           />
@@ -74,11 +74,11 @@ export const OTPModal: FC<Props> = ({ email, onClose, onSuccess, phone }) => {
           }}
         >
           {canResend ? (
-            "Resend verification code"
+            'Resend verification code'
           ) : (
             <>
-              Haven't received email? Try again in:{" "}
-              <Countdown endDate={addSeconds(lastSent, 60)} onEnd={() => setCanResend(true)} /> seconds
+              Haven't received email? Try again in: <Countdown endDate={addSeconds(lastSent, 60)} onEnd={() => setCanResend(true)} />{' '}
+              seconds
             </>
           )}
         </Link>

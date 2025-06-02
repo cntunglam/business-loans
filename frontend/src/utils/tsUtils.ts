@@ -7,7 +7,7 @@ export function hasNestedProperty<T extends Record<string, unknown>, K extends s
   let current: unknown = obj;
 
   for (const key of keys) {
-    if (typeof current !== "object" || current === null || !(key in (current as Record<string, string>))) {
+    if (typeof current !== 'object' || current === null || !(key in (current as Record<string, string>))) {
       return false;
     }
     current = (current as Record<string, string>)[key];

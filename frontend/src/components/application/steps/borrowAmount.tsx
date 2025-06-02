@@ -1,9 +1,9 @@
-import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
-import { ApplicationStepsEnum, MinMaxSettings } from "@roshi/shared";
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
-import { useVisitorContext } from "../../../context/visitorContext";
-import { TEST_IDS } from "../../../utils/testUtils";
-import { RsSlider } from "../../shared/rsSlider";
+import { ApplicationSteps } from '@roshi/backend/services/applicationSteps.service';
+import { ApplicationStepsEnum, MinMaxSettings } from '@roshi/shared';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import { useVisitorContext } from '../../../context/visitorContext';
+import { TEST_IDS } from '../../../utils/testUtils';
+import { RsSlider } from '../../shared/rsSlider';
 
 export const BorrowAmountStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const { visitor, currentStepData } = useVisitorContext();
@@ -14,10 +14,7 @@ export const BorrowAmountStep = forwardRef<{ getValue: () => unknown }>((_, ref)
   useEffect(() => {
     if (!visitor) return;
     try {
-       const stepData = ApplicationSteps[ApplicationStepsEnum.borrowAmount].validation(
-        visitor[ApplicationStepsEnum.borrowAmount],
-        settings
-      );
+      const stepData = ApplicationSteps[ApplicationStepsEnum.borrowAmount].validation(visitor[ApplicationStepsEnum.borrowAmount], settings);
       setValue(stepData);
     } catch (error) {
       // do nothing
@@ -25,7 +22,7 @@ export const BorrowAmountStep = forwardRef<{ getValue: () => unknown }>((_, ref)
   }, [settings, visitor]);
 
   useImperativeHandle(ref, () => ({
-    getValue: () => value,
+    getValue: () => value
   }));
 
   return (
@@ -41,4 +38,4 @@ export const BorrowAmountStep = forwardRef<{ getValue: () => unknown }>((_, ref)
   );
 });
 
-BorrowAmountStep.displayName = "BorrowAmountStep";
+BorrowAmountStep.displayName = 'BorrowAmountStep';

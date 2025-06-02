@@ -1,10 +1,10 @@
-import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
-import { ApplicationStepsEnum, MinMaxSettings } from "@roshi/shared";
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { ApplicationSteps } from '@roshi/backend/services/applicationSteps.service';
+import { ApplicationStepsEnum, MinMaxSettings } from '@roshi/shared';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useVisitorContext } from "../../../context/visitorContext";
+import { useVisitorContext } from '../../../context/visitorContext';
 import { TEST_IDS } from '../../../utils/testUtils';
-import { RsSlider } from "../../shared/rsSlider";
+import { RsSlider } from '../../shared/rsSlider';
 
 export const BorrowTermStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const { t } = useTranslation();
@@ -14,10 +14,7 @@ export const BorrowTermStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
   useEffect(() => {
     if (!visitor) return;
     try {
-      const stepData = ApplicationSteps[ApplicationStepsEnum.borrowPeriod].validation(
-        visitor[ApplicationStepsEnum.borrowPeriod],
-        settings
-      );
+      const stepData = ApplicationSteps[ApplicationStepsEnum.borrowPeriod].validation(visitor[ApplicationStepsEnum.borrowPeriod], settings);
       setValue(stepData);
     } catch (e) {
       // do nothing
@@ -25,14 +22,14 @@ export const BorrowTermStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
   }, [settings, visitor]);
 
   useImperativeHandle(ref, () => ({
-    getValue: () => value,
+    getValue: () => value
   }));
 
   return (
     <RsSlider
       data-testid={TEST_IDS.borrowTermSlider}
       step={1}
-      suffix={t("month")}
+      suffix={t('month')}
       min={settings.min}
       max={settings.max}
       value={value}
@@ -41,4 +38,4 @@ export const BorrowTermStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
   );
 });
 
-BorrowTermStep.displayName = "BorrowTermStep";
+BorrowTermStep.displayName = 'BorrowTermStep';

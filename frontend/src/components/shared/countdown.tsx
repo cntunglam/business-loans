@@ -1,5 +1,5 @@
-import { differenceInSeconds } from "date-fns";
-import { FC, useEffect, useState } from "react";
+import { differenceInSeconds } from 'date-fns';
+import { FC, useEffect, useState } from 'react';
 
 interface Props {
   endDate: Date;

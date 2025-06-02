@@ -25,12 +25,14 @@ export const DocumentTypeEnumDescriptions = {
     "Giấy xác nhận tạm trú (nếu đang sống ngoài địa chỉ trong sổ hộ khẩu)",
 
   // Proof of Living Expenses/Residency
-  [DocumentTypeEnum.UTILITY_BILL]: "Hóa đơn điện, nước, internet hoặc truyền hình cáp trong vòng 3 tháng gần nhất",
+  [DocumentTypeEnum.UTILITY_BILL]:
+    "Hóa đơn điện, nước, internet hoặc truyền hình cáp trong vòng 3 tháng gần nhất",
 
   // Employment & Income Verification
   [DocumentTypeEnum.EMPLOYMENT_CONTRACT]: "Hợp đồng lao động hiện tại của bạn",
   [DocumentTypeEnum.SALARY_SLIP]: "Phiếu lương gần nhất",
-  [DocumentTypeEnum.BANK_STATEMENT]: "Sao kê tài khoản ngân hàng thể hiện lương trong 3 tháng gần đây",
+  [DocumentTypeEnum.BANK_STATEMENT]:
+    "Sao kê tài khoản ngân hàng thể hiện lương trong 3 tháng gần đây",
 } as const;
 
 export const DocumentTypeEnumLabels = {
@@ -84,7 +86,8 @@ export const ActivityLogEnumLabels = {
   [ActivityLogEnum.OFFER_REJECTED]: "Marked an offer as LOST",
   [ActivityLogEnum.OFFER_SET]: "Given an offer",
 
-  [ActivityLogEnum.REJECTED_FROM_ZERO_INTEREST]: "Converted to normal loan request",
+  [ActivityLogEnum.REJECTED_FROM_ZERO_INTEREST]:
+    "Converted to normal loan request",
 
   [ActivityLogEnum.LOAN_REQUEST_ACTIVATED]: "Activated a loan request",
 };

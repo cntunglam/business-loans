@@ -1,24 +1,24 @@
-import { ErrorResponse } from "@roshi/shared";
-import axios, { AxiosError } from "axios";
-import qs from "qs";
-import { useMemo } from "react";
-import { toast } from "react-toastify";
-import { CONSTANTS, KEYS } from "../data/constants";
-import { handleError } from "../utils/errorHandler";
-import { getFromLocalStorage } from "../utils/localStorageHelper";
+import { ErrorResponse } from '@roshi/shared';
+import axios, { AxiosError } from 'axios';
+import qs from 'qs';
+import { useMemo } from 'react';
+import { toast } from 'react-toastify';
+import { CONSTANTS, KEYS } from '../data/constants';
+import { handleError } from '../utils/errorHandler';
+import { getFromLocalStorage } from '../utils/localStorageHelper';
 
 function dateTransformer(data: object): object {
   // Check if a string looks like a date
   function isDateString(value: unknown): value is string {
     const dateRegex = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(.\d{3}Z?)?)$/;
-    return typeof value === "string" && dateRegex.test(value);
+    return typeof value === 'string' && dateRegex.test(value);
   }
 
   // Recursive function to traverse and transform the data
   function transform(obj: object | object[]): object | object[] {
     if (Array.isArray(obj)) {
       return obj.map((item) => transform(item));
-    } else if (typeof obj === "object" && obj !== null) {
+    } else if (typeof obj === 'object' && obj !== null) {
       const transformedObj: Record<string, unknown> = {};
       for (const key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
@@ -41,7 +41,7 @@ export const useAxios = (
     apiVersion: 1,
     noErrorToast: false,
     successToast: false,
-    skipDateTransformation: false,
+    skipDateTransformation: false
   }
 ) => {
   const axiosInstance = useMemo(() => {
@@ -49,18 +49,17 @@ export const useAxios = (
       baseURL: `${CONSTANTS.API_BASE_URL}/api/v${options.apiVersion || 1}`,
       paramsSerializer: (params) => {
         const parsed = qs.stringify(params, {
-          arrayFormat: "brackets", // Use brackets for array format (e.g., filter[offerStatus]=[REJECTED])
-          encode: false, // Do not encode values
+          arrayFormat: 'brackets', // Use brackets for array format (e.g., filter[offerStatus]=[REJECTED])
+          encode: false // Do not encode values
         });
         return parsed;
-      },
+      }
     });
 
     if (!options.skipDateTransformation) {
       const axiosTransformers = (() => {
         if (!axios.defaults.transformResponse) return [dateTransformer];
-        if (Array.isArray(axios.defaults.transformResponse))
-          return [...axios.defaults.transformResponse, dateTransformer];
+        if (Array.isArray(axios.defaults.transformResponse)) return [...axios.defaults.transformResponse, dateTransformer];
         else return [axios.defaults.transformResponse, dateTransformer];
       })();
 
@@ -68,7 +67,7 @@ export const useAxios = (
     }
 
     instance.interceptors.request.use(async (config) => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       const shortUrlCode = getFromLocalStorage<string>(KEYS.ROSHI_SHORT_URL_CODE);
 
       if (token) {
@@ -76,7 +75,7 @@ export const useAxios = (
       }
 
       if (shortUrlCode) {
-        config.headers.set("X-Short-Url", shortUrlCode);
+        config.headers.set('X-Short-Url', shortUrlCode);
       }
 
       return config;
@@ -84,7 +83,7 @@ export const useAxios = (
 
     instance.interceptors.response.use(
       (response) => {
-        if (options.successToast) toast.success("Success");
+        if (options.successToast) toast.success('Success');
         return response;
       },
       (error: AxiosError<ErrorResponse>) => {

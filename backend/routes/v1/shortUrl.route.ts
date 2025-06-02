@@ -1,7 +1,5 @@
 import { Router } from 'express';
-import {
-  getShortUrlHandler,
-} from '../../controllers/v1/shortUrl.controller';
+import { getShortUrlHandler } from '../../controllers/v1/shortUrl.controller';
 
 export const shortUrlRouter = Router();
 

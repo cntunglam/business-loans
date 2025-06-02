@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 const SCROLL_VALUE = window.innerWidth * 0.8;
 
@@ -26,7 +26,7 @@ export const useScrollableTable = (isLoading?: boolean) => {
     if (tableRef.current) {
       tableRef.current.scrollBy({
         left: -SCROLL_VALUE,
-        behavior: "smooth",
+        behavior: 'smooth'
       });
     }
   };
@@ -36,7 +36,7 @@ export const useScrollableTable = (isLoading?: boolean) => {
     if (tableRef.current) {
       tableRef.current.scrollBy({
         left: SCROLL_VALUE,
-        behavior: "smooth",
+        behavior: 'smooth'
       });
     }
   };
@@ -44,11 +44,11 @@ export const useScrollableTable = (isLoading?: boolean) => {
   useEffect(() => {
     const tableElement = tableRef.current;
 
-    tableElement && tableElement.addEventListener("scroll", checkScrollPosition);
+    tableElement && tableElement.addEventListener('scroll', checkScrollPosition);
     checkScrollPosition();
 
     return () => {
-      tableElement && tableElement.removeEventListener("scroll", checkScrollPosition);
+      tableElement && tableElement.removeEventListener('scroll', checkScrollPosition);
     };
   }, [isLoading]);
 

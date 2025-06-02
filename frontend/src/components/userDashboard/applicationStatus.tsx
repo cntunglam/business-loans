@@ -1,18 +1,18 @@
-import { Box, Step, stepClasses, Stepper, Typography } from "@mui/joy";
+import { Box, Step, stepClasses, Stepper, Typography } from '@mui/joy';
 
-import { formatWithoutTz, LoanResponseStatusEnum } from "@roshi/shared";
-import { FC } from "react";
+import { formatWithoutTz, LoanResponseStatusEnum } from '@roshi/shared';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from "react-router-dom";
-import { useDeleteMyLoanRequest, useGetMyLoanRequest } from "../../api/useLoanRequestApi";
-import { OpenDialog } from "../../context/DialogContainer";
-import { ASSETS } from "../../data/assets";
-import useMediaQueries from "../../hooks/useMediaQueries";
-import { Flex } from "../shared/flex";
-import { ApplicationDetailsModal } from "./applicationDetailsModal";
-import { UserOverviewModalType } from "./useUserOverview";
+import { useSearchParams } from 'react-router-dom';
+import { useDeleteMyLoanRequest, useGetMyLoanRequest } from '../../api/useLoanRequestApi';
+import { OpenDialog } from '../../context/DialogContainer';
+import { ASSETS } from '../../data/assets';
+import useMediaQueries from '../../hooks/useMediaQueries';
+import { Flex } from '../shared/flex';
+import { ApplicationDetailsModal } from './applicationDetailsModal';
+import { UserOverviewModalType } from './useUserOverview';
 interface Props {
-  application: NonNullable<ReturnType<typeof useGetMyLoanRequest>["data"]>;
+  application: NonNullable<ReturnType<typeof useGetMyLoanRequest>['data']>;
   openModal: (loanResponseId: string, modal: UserOverviewModalType) => void;
   highlightOffers: () => void;
 }
@@ -31,17 +31,17 @@ export const ApplicationStatus: FC<Props> = ({ application, openModal, highlight
       submit: () => {
         deleteApplication.mutateAsync().then(() => window.location.reload());
       },
-      type: "delete",
-      title: "Are you sure you want to withdraw your loan application? aaaaa",
-      body: "Withdrawing your loan application means you will lose all progress. Are you sure you want to proceed?",
+      type: 'delete',
+      title: 'Are you sure you want to withdraw your loan application? aaaaa',
+      body: 'Withdrawing your loan application means you will lose all progress. Are you sure you want to proceed?'
     });
   };
 
-  const queryMedia = useMediaQueries(["sm"]);
+  const queryMedia = useMediaQueries(['sm']);
 
   return (
     <>
-      {params.get("applicationReview") === "true" && application && (
+      {params.get('applicationReview') === 'true' && application && (
         <ApplicationDetailsModal
           loanRequest={application}
           applicantInfo={application.applicantInfo!}
@@ -53,103 +53,86 @@ export const ApplicationStatus: FC<Props> = ({ application, openModal, highlight
       )}
       <Box
         sx={{
-          backgroundColor: "background.body",
-          boxShadow: "md",
-          borderRadius: "md",
+          backgroundColor: 'background.body',
+          boxShadow: 'md',
+          borderRadius: 'md',
           p: 2,
-          paddingBottom: { sm: "35px" },
+          paddingBottom: { sm: '35px' }
         }}
       >
-        <Flex x yc sx={{ height: "100%" }}>
+        <Flex x yc sx={{ height: '100%' }}>
           <Stepper
-            orientation={!queryMedia.sm ? "vertical" : "horizontal"}
+            orientation={!queryMedia.sm ? 'vertical' : 'horizontal'}
             sx={{
-              width: "100%",
+              width: '100%',
               [`& .${stepClasses.root}::after`]: {
                 backgroundColor: {
-                  sm: "transparent",
+                  sm: 'transparent'
                 },
                 backgroundImage: {
-                  sm: "radial-gradient(currentColor 2px, transparent 2px)",
+                  sm: 'radial-gradient(currentColor 2px, transparent 2px)'
                 },
                 backgroundSize: {
-                  sm: "7px 7px",
+                  sm: '7px 7px'
                 },
                 backgroundPosition: {
-                  sm: "center left",
-                },
-              },
+                  sm: 'center left'
+                }
+              }
             }}
           >
             <Step
-              indicator={
-                <img
-                  src={ASSETS.CHECKMARK}
-                  style={{ width: 20, height: 20, filter: offersFound ? undefined : "saturate(0%)" }}
-                />
-              }
+              indicator={<img src={ASSETS.CHECKMARK} style={{ width: 20, height: 20, filter: offersFound ? undefined : 'saturate(0%)' }} />}
             >
-              <Flex gap1 yc sx={{ justifyContent: { xs: "space-between" } }}>
-                <Typography level="body-sm" fontWeight={"normal"}>
-                {t("form:applicationStatus.offers")}
+              <Flex gap1 yc sx={{ justifyContent: { xs: 'space-between' } }}>
+                <Typography level="body-sm" fontWeight={'normal'}>
+                  {t('form:applicationStatus.offers')}
                 </Typography>
 
                 <Typography
                   level="body-xs"
-                  color={offersFound ? "lightPrimary" : "neutral"}
-                  fontWeight={"bold"}
-                  sx={{ top: 25, position: { sm: "absolute" }, whiteSpace: "nowrap" }}
+                  color={offersFound ? 'lightPrimary' : 'neutral'}
+                  fontWeight={'bold'}
+                  sx={{ top: 25, position: { sm: 'absolute' }, whiteSpace: 'nowrap' }}
                 >
-                  {!offersFound 
-                    ? t("form:applicationStatus.searching") 
-                    : `${offersFound} ${t("form:applicationStatus.offers-found")}`
-                  }
+                  {!offersFound ? t('form:applicationStatus.searching') : `${offersFound} ${t('form:applicationStatus.offers-found')}`}
                 </Typography>
               </Flex>
             </Step>
             <Step
-              indicator={
-                <img
-                  src={ASSETS.CHECKMARK}
-                  style={{ width: 20, height: 20, filter: appointment ? undefined : "saturate(0%)" }}
-                />
-              }
+              indicator={<img src={ASSETS.CHECKMARK} style={{ width: 20, height: 20, filter: appointment ? undefined : 'saturate(0%)' }} />}
             >
-              <Flex gap1 sx={{ justifyContent: { xs: "space-between" } }}>
-                <Typography level="body-sm" fontWeight={"normal"}>
-                  {t("form:applicationStatus.appointment")}
+              <Flex gap1 sx={{ justifyContent: { xs: 'space-between' } }}>
+                <Typography level="body-sm" fontWeight={'normal'}>
+                  {t('form:applicationStatus.appointment')}
                 </Typography>
-                <Flex y xe sx={{ top: 25, position: { sm: "absolute" } }}>
+                <Flex y xe sx={{ top: 25, position: { sm: 'absolute' } }}>
                   {offersFound ? (
                     appointment?.scheduledTime && !appointment.cancelledAt ? (
                       <Typography
                         level="body-xs"
-                        onClick={() => openModal(appointment.loanResponseId, "appointment")}
-                        sx={{ textDecoration: "underline", cursor: "pointer", whiteSpace: "nowrap" }}
+                        onClick={() => openModal(appointment.loanResponseId, 'appointment')}
+                        sx={{ textDecoration: 'underline', cursor: 'pointer', whiteSpace: 'nowrap' }}
                         color="primary"
                       >
-                        {formatWithoutTz(appointment.scheduledTime, "dd MMM HH:mm")}
+                        {formatWithoutTz(appointment.scheduledTime, 'dd MMM HH:mm')}
                       </Typography>
                     ) : (
                       <Flex x yst gap={1} flex={1} onClick={highlightOffers}>
                         <Typography
                           level="body-xs"
-                          sx={{ textDecoration: "underline", cursor: "pointer", whiteSpace: "nowrap" }}
+                          sx={{ textDecoration: 'underline', cursor: 'pointer', whiteSpace: 'nowrap' }}
                           color="primary"
-                          fontWeight={"bold"}
+                          fontWeight={'bold'}
                         >
-                          {t("form:applicationStatus.booking")}
+                          {t('form:applicationStatus.booking')}
                         </Typography>
-                        <img
-                          onClick={highlightOffers}
-                          src={ASSETS.ARROW_FORWARD}
-                          style={{ width: 20, height: 20, cursor: "pointer" }}
-                        />
+                        <img onClick={highlightOffers} src={ASSETS.ARROW_FORWARD} style={{ width: 20, height: 20, cursor: 'pointer' }} />
                       </Flex>
                     )
                   ) : (
-                    <Typography level="body-xs" color="neutral" sx={{ whiteSpace: "nowrap" }}>
-                        {t("form:applicationStatus.waitingforoffers")}
+                    <Typography level="body-xs" color="neutral" sx={{ whiteSpace: 'nowrap' }}>
+                      {t('form:applicationStatus.waitingforoffers')}
                     </Typography>
                   )}
                 </Flex>

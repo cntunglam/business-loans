@@ -1,6 +1,6 @@
-import { Grid, GridProps } from "@mui/joy";
-import { SxProps } from "@mui/joy/styles/types";
-import { forwardRef, type ReactNode } from "react";
+import { Grid, GridProps } from '@mui/joy';
+import { SxProps } from '@mui/joy/styles/types';
+import { forwardRef, type ReactNode } from 'react';
 
 interface Props extends GridProps {
   children?: ReactNode;
@@ -74,20 +74,20 @@ const FlexGrid = forwardRef<HTMLDivElement, Props>(
     },
     ref
   ) => {
-    const style: SxProps = { display: "flex" };
-    if (x) style.flexDirection = "row";
-    if (y) style.flexDirection = "column";
-    if (xst) style[x ? "justifyContent" : "alignItems"] = "flex-start";
-    if (xc) style[x ? "justifyContent" : "alignItems"] = "center";
-    if (xe) style[x ? "justifyContent" : "alignItems"] = "flex-end";
-    if (xsb) style[x ? "justifyContent" : "alignItems"] = "space-between";
-    if (xsa) style[x ? "justifyContent" : "alignItems"] = "space-around";
+    const style: SxProps = { display: 'flex' };
+    if (x) style.flexDirection = 'row';
+    if (y) style.flexDirection = 'column';
+    if (xst) style[x ? 'justifyContent' : 'alignItems'] = 'flex-start';
+    if (xc) style[x ? 'justifyContent' : 'alignItems'] = 'center';
+    if (xe) style[x ? 'justifyContent' : 'alignItems'] = 'flex-end';
+    if (xsb) style[x ? 'justifyContent' : 'alignItems'] = 'space-between';
+    if (xsa) style[x ? 'justifyContent' : 'alignItems'] = 'space-around';
 
-    if (yst) style[y ? "justifyContent" : "alignItems"] = "flex-start";
-    if (yc) style[y ? "justifyContent" : "alignItems"] = "center";
-    if (ye) style[y ? "justifyContent" : "alignItems"] = "flex-end";
-    if (ysb) style[y ? "justifyContent" : "alignItems"] = "space-between";
-    if (ysa) style[y ? "justifyContent" : "alignItems"] = "space-around";
+    if (yst) style[y ? 'justifyContent' : 'alignItems'] = 'flex-start';
+    if (yc) style[y ? 'justifyContent' : 'alignItems'] = 'center';
+    if (ye) style[y ? 'justifyContent' : 'alignItems'] = 'flex-end';
+    if (ysb) style[y ? 'justifyContent' : 'alignItems'] = 'space-between';
+    if (ysa) style[y ? 'justifyContent' : 'alignItems'] = 'space-around';
 
     if (gap1) {
       style.columnGap = 1;
@@ -110,11 +110,11 @@ const FlexGrid = forwardRef<HTMLDivElement, Props>(
     }
 
     if (fullwidth) {
-      style.width = "100%";
+      style.width = '100%';
     }
 
     if (wrap) {
-      style.flexWrap = "wrap";
+      style.flexWrap = 'wrap';
     }
 
     if (grow) {
@@ -123,8 +123,8 @@ const FlexGrid = forwardRef<HTMLDivElement, Props>(
 
     if (growChildren) {
       // @ts-expect-error this exists on MUI sx Props
-      style["& > *"] = {
-        flex: 1,
+      style['& > *'] = {
+        flex: 1
       };
     }
 
@@ -133,13 +133,13 @@ const FlexGrid = forwardRef<HTMLDivElement, Props>(
     }
 
     if (pointer) {
-      style.cursor = "pointer";
+      style.cursor = 'pointer';
     }
 
     if (hover) {
       // @ts-expect-error this exists on MUI sx Props
-      style["&:hover"] = {
-        backgroundColor: "neutral.100",
+      style['&:hover'] = {
+        backgroundColor: 'neutral.100'
       };
     }
 
@@ -151,5 +151,5 @@ const FlexGrid = forwardRef<HTMLDivElement, Props>(
   }
 );
 
-FlexGrid.displayName = "FlexGrid";
+FlexGrid.displayName = 'FlexGrid';
 export { FlexGrid };

@@ -27,4 +27,5 @@ export const VALIDATION_MESSAGES = {
 
 // Type for better intellisense
 export type ValidationMessageKey = keyof typeof VALIDATION_MESSAGES;
-export type ValidationMessageValue = (typeof VALIDATION_MESSAGES)[ValidationMessageKey];
+export type ValidationMessageValue =
+  (typeof VALIDATION_MESSAGES)[ValidationMessageKey];

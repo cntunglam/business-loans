@@ -1,20 +1,20 @@
-import { Button, FormControl, Link, Typography } from "@mui/material";
-import { ApplicationStepsEnum } from "@roshi/shared";
-import { useEffect, useRef, useState } from "react";
+import { Button, FormControl, Link, Typography } from '@mui/material';
+import { ApplicationStepsEnum } from '@roshi/shared';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSendOTP } from "../../../api/useAccountApi";
-import { useCheckPhoneExistence } from "../../../api/useVisitorApi";
-import { useUserContext } from "../../../context/userContext";
-import { useVisitorContext } from "../../../context/visitorContext";
-import { ASSETS } from "../../../data/assets";
-import { CONSTANTS } from "../../../data/constants";
-import { TEST_IDS } from "../../../utils/testUtils";
-import { OTPModal } from "../../authentication/OTPModal";
-import { WhatsappOTPModal } from "../../authentication/WhatsAppOTPModal";
-import WarningIcon from "../../icons/warningIcon";
-import { Flex } from "../../shared/flex";
-import { NumericFormatAdapter } from "../../shared/numericFormatAdapter";
-import { ApplicationStyledInput } from "../styled/applicationStyledInput";
+import { useSendOTP } from '../../../api/useAccountApi';
+import { useCheckPhoneExistence } from '../../../api/useVisitorApi';
+import { useUserContext } from '../../../context/userContext';
+import { useVisitorContext } from '../../../context/visitorContext';
+import { ASSETS } from '../../../data/assets';
+import { CONSTANTS } from '../../../data/constants';
+import { TEST_IDS } from '../../../utils/testUtils';
+import { OTPModal } from '../../authentication/OTPModal';
+import { WhatsappOTPModal } from '../../authentication/WhatsAppOTPModal';
+import WarningIcon from '../../icons/warningIcon';
+import { Flex } from '../../shared/flex';
+import { NumericFormatAdapter } from '../../shared/numericFormatAdapter';
+import { ApplicationStyledInput } from '../styled/applicationStyledInput';
 
 interface Props {
   onSuccess: () => Promise<void>;
@@ -26,9 +26,9 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
   const { visitor, goBack } = useVisitorContext();
   const [isPhoneValid, setIsPhoneValid] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(!!user);
-  const [emailValue, setEmailValue] = useState(user?.email || "");
-  const [phoneValue, setPhoneValue] = useState("");
-  const [error, setError] = useState("");
+  const [emailValue, setEmailValue] = useState(user?.email || '');
+  const [phoneValue, setPhoneValue] = useState('');
+  const [error, setError] = useState('');
   const [isShowWhatsappOTPModal, setIsShowWhatsappOTPModal] = useState(false);
   const [isShowOTPModal, setIsShowOTPModal] = useState(false);
   const checkPhoneExistence = useCheckPhoneExistence();
@@ -40,15 +40,15 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
     if (userIsLoading) return;
     if (user) {
       setIsEmailValid(true);
-      setEmailValue(user.email || "");
+      setEmailValue(user.email || '');
     }
   }, [user, userIsLoading]);
 
   useEffect(() => {
     if (visitor && !isPhoneValid && !isLoaded.current) {
-      const data = visitor[ApplicationStepsEnum.phoneNumber]
+      const data = visitor[ApplicationStepsEnum.phoneNumber];
       if (data) {
-        const phone = (data as string).startsWith("65") ? (data as string).slice(2) : (data as string);
+        const phone = (data as string).startsWith('65') ? (data as string).slice(2) : (data as string);
         setPhoneValue(phone);
         setIsPhoneValid(true);
         isLoaded.current = true;
@@ -59,7 +59,7 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
   const handleCheckPhone = () => {
     if (!phoneValue) return;
     if (!visitor?.id) {
-      console.error("Visitor id not found");
+      console.error('Visitor id not found');
       return;
     }
     checkPhoneExistence.mutateAsync({ phone: `65${phoneValue}`, visitorId: visitor.id }).then((res) => {
@@ -73,7 +73,7 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
 
   const handleCheckEmail = () => {
     if (!emailValue) {
-      setError("Email is required");
+      setError('Email is required');
       return;
     }
 
@@ -127,14 +127,14 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
           phone={`65${phoneValue}`}
         />
       )}
-      <Flex y xc sx={{ textAlign: "center" }} gap3>
-        <Flex y gap2 xc sx={{ maxWidth: "400px" }}>
+      <Flex y xc sx={{ textAlign: 'center' }} gap3>
+        <Flex y gap2 xc sx={{ maxWidth: '400px' }}>
           <FormControl error={!!error}>
             <ApplicationStyledInput
               data-testid={TEST_IDS.phoneNumberInput}
               disabled={isPhoneValid}
               fullWidth
-              placeholder={t("phone-number")}
+              placeholder={t('phone-number')}
               startDecorator={
                 <Typography textColor="primary.500" level="title-lg">
                   +{CONSTANTS.PHONE_PREFIX}
@@ -144,13 +144,13 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
               slotProps={{
                 input: {
                   component: NumericFormatAdapter,
-                  thousandSeparator: false,
-                },
+                  thousandSeparator: false
+                }
               }}
-              sx={{ width: "300px" }}
+              sx={{ width: '300px' }}
               onChange={(e) => {
                 setPhoneValue(e.target.value);
-                setError("");
+                setError('');
               }}
               endDecorator={isPhoneValid ? <img src={ASSETS.CHECKMARK} style={{ width: 20, height: 20 }} /> : undefined}
             />
@@ -165,10 +165,8 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
                 fullWidth
                 disabled={isEmailValid}
                 value={emailValue}
-                endDecorator={
-                  isEmailValid ? <img src={ASSETS.CHECKMARK} style={{ width: 20, height: 20 }} /> : undefined
-                }
-                sx={{ width: "300px" }}
+                endDecorator={isEmailValid ? <img src={ASSETS.CHECKMARK} style={{ width: 20, height: 20 }} /> : undefined}
+                sx={{ width: '300px' }}
                 onChange={(e) => {
                   setEmailValue(e.target.value);
                 }}
@@ -179,29 +177,29 @@ export const RegisterStep = ({ onSuccess, isLoading }: Props) => {
         {error && (
           <Flex x xc mt={1} gap1>
             <WarningIcon color="danger" />
-            <Typography textAlign={"center"} textColor="danger.500">
+            <Typography textAlign={'center'} textColor="danger.500">
               {error}
             </Typography>
           </Flex>
         )}
       </Flex>
 
-      <Flex y yst xc gap3 minHeight={"100px"}>
+      <Flex y yst xc gap3 minHeight={'100px'}>
         <Button
           data-testid={TEST_IDS.nextStepButton}
           onClick={handleNext}
           loading={checkPhoneExistence.isPending || isLoading}
           sx={{
             width: 230,
-            outline: "none !important",
+            outline: 'none !important'
           }}
           size="lg"
         >
-          {isPhoneValid && isEmailValid ? t("submit") : t("next")}
+          {isPhoneValid && isEmailValid ? t('submit') : t('next')}
         </Button>
         {!isLoading && !sendOtp.isPending && (
-          <Link textColor={"neutral.400"} onClick={handleBack}>
-            {t("back")}
+          <Link textColor={'neutral.400'} onClick={handleBack}>
+            {t('back')}
           </Link>
         )}
       </Flex>

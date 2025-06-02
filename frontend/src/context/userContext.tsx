@@ -1,13 +1,13 @@
-import { JwtPayload } from "@roshi/shared/models/api.model";
-import { QueryObserverResult } from "@tanstack/react-query";
-import { jwtDecode } from "jwt-decode";
-import { ReactNode, createContext, useCallback, useContext, useMemo } from "react";
-import { useGetCurrentUser } from "../api/useAccountApi";
-import { CONSTANTS, KEYS } from "../data/constants";
+import { JwtPayload } from '@roshi/shared/models/api.model';
+import { QueryObserverResult } from '@tanstack/react-query';
+import { jwtDecode } from 'jwt-decode';
+import { ReactNode, createContext, useCallback, useContext, useMemo } from 'react';
+import { useGetCurrentUser } from '../api/useAccountApi';
+import { CONSTANTS, KEYS } from '../data/constants';
 
 interface UserContextType {
-  user?: Partial<ReturnType<typeof useGetCurrentUser>["data"] & { id: string; email: string; role: string }>;
-  refetch?: () => Promise<QueryObserverResult<ReturnType<typeof useGetCurrentUser>["data"]>>;
+  user?: Partial<ReturnType<typeof useGetCurrentUser>['data'] & { id: string; email: string; role: string }>;
+  refetch?: () => Promise<QueryObserverResult<ReturnType<typeof useGetCurrentUser>['data']>>;
   isLoading?: boolean;
   logout?: () => Promise<void>;
   isSuperAdmin?: boolean;
@@ -43,7 +43,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       isSuperAdmin: user?.email === CONSTANTS.SUPERADMIN_EMAIL,
       refetch,
       isLoading,
-      logout,
+      logout
     }),
     [user, token, refetch, isLoading, logout]
   );

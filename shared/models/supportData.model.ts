@@ -8,7 +8,9 @@ export const SupportDataSchema = z.object({
       voucherPendingSentAt: zodNullableDateTime.nullable().optional(),
       voucherPaidSentAt: zodNullableDateTime.nullable().optional(),
       appointmentReminderSentAt: zodNullableDateTime.nullable().optional(),
-      appointmentReminderLenderSentAt: zodNullableDateTime.nullable().optional(),
+      appointmentReminderLenderSentAt: zodNullableDateTime
+        .nullable()
+        .optional(),
     })
     .nullable()
     .optional(),

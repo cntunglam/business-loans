@@ -6,7 +6,7 @@ interface StoragePayload<T> {
 export const saveToLocalStorage = <T>(key: string, value: T, expiry: number) => {
   const payload: StoragePayload<T> = {
     value,
-    expiry: Date.now() + expiry,
+    expiry: Date.now() + expiry
   };
 
   localStorage.setItem(key, JSON.stringify(payload));

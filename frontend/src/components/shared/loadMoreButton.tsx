@@ -1,7 +1,7 @@
-import Button from "@mui/joy/Button";
-import { FC, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
-import { Flex } from "./flex";
+import Button from '@mui/joy/Button';
+import { FC, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { Flex } from './flex';
 
 interface Props {
   query?: {

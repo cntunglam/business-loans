@@ -1,5 +1,5 @@
-import { Tooltip, TooltipProps } from "@mui/joy";
-import { FC, useState } from "react";
+import { Tooltip, TooltipProps } from '@mui/joy';
+import { FC, useState } from 'react';
 
 export const RsTooltip: FC<TooltipProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);

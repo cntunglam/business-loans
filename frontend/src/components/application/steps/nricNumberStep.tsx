@@ -1,22 +1,20 @@
-import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.service";
-import { ApplicationStepsEnum } from "@roshi/shared";
-import { VALIDATION_MESSAGES } from "@roshi/shared/locales/vi/validation";
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { useVisitorContext } from "../../../context/visitorContext";
-import { TEST_IDS } from "../../../utils/testUtils";
-import { Flex } from "../../shared/flex";
-import { ApplicationStyledInput } from "../styled/applicationStyledInput";
+import { ApplicationSteps } from '@roshi/backend/services/applicationSteps.service';
+import { ApplicationStepsEnum } from '@roshi/shared';
+import { VALIDATION_MESSAGES } from '@roshi/shared/locales/vi/validation';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { useVisitorContext } from '../../../context/visitorContext';
+import { TEST_IDS } from '../../../utils/testUtils';
+import { Flex } from '../../shared/flex';
+import { ApplicationStyledInput } from '../styled/applicationStyledInput';
 
 export const CccdNumberStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const { error, setError, visitor } = useVisitorContext();
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>('');
 
   useEffect(() => {
     if (!visitor) return;
     try {
-      const stepData = ApplicationSteps[ApplicationStepsEnum.cccdNumber].validation(
-        visitor[ApplicationStepsEnum.cccdNumber],
-      );
+      const stepData = ApplicationSteps[ApplicationStepsEnum.cccdNumber].validation(visitor[ApplicationStepsEnum.cccdNumber]);
       setValue(stepData);
     } catch (e) {
       // do nothing
@@ -30,7 +28,7 @@ export const CccdNumberStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
         return;
       }
       return value;
-    },
+    }
   }));
 
   return (
@@ -43,9 +41,9 @@ export const CccdNumberStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
         onChange={(e) => {
           const value = e.target.value.replace(/\D/g, '').slice(0, 12);
           setValue(value);
-          setError("");
+          setError('');
         }}
-        sx={{ maxWidth: 400, mx: "auto" }}
+        sx={{ maxWidth: 400, mx: 'auto' }}
       />
     </Flex>
   );
