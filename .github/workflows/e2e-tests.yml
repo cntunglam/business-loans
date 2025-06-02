@@ -2,9 +2,9 @@ name: E2E Tests
 
 on:
   push:
-    branches: [dev]
+    branches: [master]
   pull_request:
-    branches: [dev]
+    branches: [master]
 
 jobs:
   test:
@@ -86,9 +86,6 @@ jobs:
           npm run dev & sleep 15 # Wait for the app to boot
         env:
           NODE_ENV: development
-
-      - name: Wait for backend to be ready
-        run: npx wait-on http://localhost:4000/api/v1/health-check --yes
 
       - name: Install Playwright & dependencies
         run: npx playwright install --with-deps

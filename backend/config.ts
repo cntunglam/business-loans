@@ -12,7 +12,7 @@ const envVars = {
   MAIL_FROM: 'marketplace@roshi.sg',
   JWT_SECRET: 'acb3ae125d1340ad15e00769dcd834749ea3ad20e75f52dce56996e2d5b0f5e8',
   AZURE_STORAGE_CONNECTION_STRING: '',
-  AZURE_STORAGE_BUCKET_PREFIX: 'roshi-dev',
+  AZURE_STORAGE_BUCKET_PREFIX: 'roshi-dev-vn',
   CLIENT_APP_URL: 'http://localhost:5173',
   TIMEZONE: 'Asia/Ho_Chi_Minh',
   WA_API_BASE_URL: '',
