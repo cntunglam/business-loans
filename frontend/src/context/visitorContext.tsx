@@ -32,8 +32,8 @@ const defaultContext: VisitorContextType = {
   init: () => Promise.reject(new Error("Context not initialized")),
   saveStep: () => Promise.reject(new Error("Context not initialized")),
   finalize: () => Promise.reject(new Error("Context not initialized")),
-  setError: () => {},
-  goBack: () => {},
+  setError: () => { },
+  goBack: () => { },
   steps: [],
 };
 
@@ -89,6 +89,16 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
         }
         setVisitorData(data.visitor);
         setSteps(data.steps);
+        if (!data.visitor?.currentStep) {
+          // example: visitor first time visit app but has url with step param -> redirect to step 0
+          setStep(0);
+        } else if (data.steps) {
+          const visitorCurrentStepIndex = data.steps.findIndex((step) => step.key === data.visitor.currentStep);
+          if (visitorCurrentStepIndex !== undefined) {
+            // example: visitor is on step 1 a edit url is on step 5 -> missing steps data between 1 and 5, redirect to step 1.
+            setStep(Math.min(currentStepIndex, visitorCurrentStepIndex))
+          }
+        }
         return data.visitor;
       } catch (err) {
         setError(err instanceof Error ? err.message : ERROR_KEYS.INTERNAL_ERROR);
@@ -97,7 +107,7 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
         setIsLoading(false);
       }
     },
-    [initializeVisitor, visitorData]
+    [initializeVisitor, visitorData, setStep, currentStepIndex]
   );
 
   const saveStep = useCallback(

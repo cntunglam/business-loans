@@ -2,6 +2,7 @@ import { ApplicationSteps } from "@roshi/backend/services/applicationSteps.servi
 import { ApplicationStepsEnum, MinMaxSettings } from "@roshi/shared";
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import { useVisitorContext } from "../../../context/visitorContext";
+import { TEST_IDS } from '../../../utils/testUtils';
 import { RsSlider } from "../../shared/rsSlider";
 
 export const BorrowTermStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
@@ -27,7 +28,7 @@ export const BorrowTermStep = forwardRef<{ getValue: () => unknown }>((_, ref) =
 
   return (
     <RsSlider
-      data-testid="borrow-term-slider"
+      data-testid={TEST_IDS.borrowTermSlider}
       step={1}
       suffix="months"
       min={settings.min}
