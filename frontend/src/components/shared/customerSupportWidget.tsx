@@ -49,7 +49,7 @@ export const CustomerSupportWidget = () => {
             <Typography textColor="neutral.500" level="body-sm">
               Need assistance? I'm here to help!
             </Typography>
-            <Typography level="body-sm">Steffanie (Loan Advisor)</Typography>
+            <Typography level="body-sm">Steffanie - Loan Advisor</Typography>
           </Flex>
         </Flex>
       }
