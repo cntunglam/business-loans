@@ -124,7 +124,7 @@ export const OfferCard: FC<Props> = ({
             <Typography fontWeight="600" fontSize="xs" textColor="neutral.500">
               {t('form:offer-card.up-to')}
             </Typography>
-            <Typography fontWeight={'500'} level="h4">
+            <Typography fontWeight={'600'} level="h4">
               {formatApplicationData({ property: 'amount', value: loanResponse?.loanOffer?.amount })}
             </Typography>
           </Flex>
@@ -132,7 +132,7 @@ export const OfferCard: FC<Props> = ({
             <Typography fontWeight="600" fontSize="xs" textColor="neutral.500">
               {t('form:offer-card.monthly')}
             </Typography>
-            <Typography fontWeight={'500'} level="h4">
+            <Typography fontWeight={'600'} level="h4">
               {formatApplicationData({ property: 'interestRate', value: loanResponse?.loanOffer?.monthlyInterestRate })}
             </Typography>
           </Flex>
