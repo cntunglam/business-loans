@@ -26,6 +26,7 @@ import { whatsppRouter } from './routes/v1/whatsapp.route';
 import { updateUserSettings } from './services/account.service';
 import { setupCronJobs } from './services/cronjob.service';
 import { getShortUrlByCode, isPathAllowed } from './services/shortUrl.service';
+import { createZohoCrmKeys } from './services/zohoCrm.service';
 import { asyncHandler, errorHandler } from './utils/errorHandler';
 import { wrapRoutes } from './utils/wrapRoutes';
 
@@ -133,9 +134,11 @@ app.use(errorHandler);
 setupCronJobs();
 // seedData();
 
-const server = app.listen(CONFIG.PORT, () => {
+const server = app.listen(CONFIG.PORT, async () => {
   console.log(`App listening on port ${CONFIG.PORT}`);
 });
+
+createZohoCrmKeys();
 
 // Graceful shutdown
 const gracefulShutdown = async () => {

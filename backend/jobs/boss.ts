@@ -6,6 +6,7 @@ import { initCheckLendersFiltersJob } from './jobHandlers/checkLenderFiltersJob'
 import { initEmailNotificationJob } from './jobHandlers/emailNotificationJob';
 import { initLoanRequestJob } from './jobHandlers/loanRequestJob';
 import { initReApplyJob } from './jobHandlers/reApplyJob';
+import { initSyncToZohoJob } from './jobHandlers/syncToZohoJob';
 import { initTelegramNotificationJob } from './jobHandlers/telegramNotificationJob';
 import { initWebhookNotificationJob } from './jobHandlers/webhookNotificationJob';
 import { JobPayload } from './jobsData';
@@ -62,6 +63,7 @@ process.on('SIGINT', async () => {
     initReApplyJob();
     initActivateReapplyLoanRequestJob(); // triggered when users go to dashboard or click email link (to go to dashboard)
     initLoanRequestJob();
+    initSyncToZohoJob();
 
     console.log('pg-boss connection successful!');
   } catch (error) {

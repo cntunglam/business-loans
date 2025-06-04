@@ -1,8 +1,9 @@
-import { ApplicationStepsEnum, getPhoneSchema, LoanRequestTypeEnum } from '@roshi/shared';
+import { ApplicationStepsEnum, getPhoneSchema, JobsEnum, LoanRequestTypeEnum } from '@roshi/shared';
 import { randomUUID } from 'crypto';
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { prismaClient } from '../../clients/prismaClient';
+import { createJob } from '../../jobs/boss';
 import { ApplicationSteps, loanRequestTypeToSteps } from '../../services/applicationSteps.service';
 import { createLoanRequestSchema, createNewLoanRequest } from '../../services/loanRequest.service';
 import { sendOtpToWhatsapp } from '../../services/otp.service';
@@ -163,6 +164,8 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
   };
 
   const createdLoanRequest = await createNewLoanRequest(combinedData, req.user!.sub, override);
+  createJob(JobsEnum.SYNC_TO_ZOHO, { applicantInfoId: createdLoanRequest.applicantInfoId || undefined });
+
   await prismaClient.visitorData.update({
     where: { id: visitorId },
     data: {
