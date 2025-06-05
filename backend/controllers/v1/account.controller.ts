@@ -1,8 +1,9 @@
-import { ERROR_KEYS } from '@roshi/shared';
+import { ERROR_KEYS, JobsEnum } from '@roshi/shared';
 import { UserRoleEnum } from '@roshi/shared/models/databaseEnums';
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { prismaClient } from '../../clients/prismaClient';
+import { createJob } from '../../jobs/boss';
 import { EmailTypeEnum, sendEmail } from '../../services/email.service';
 import { generateOtp, verifyOtp } from '../../services/otp.service';
 import { generateToken } from '../../services/token.service';
@@ -75,6 +76,7 @@ export const OTPLoginHandler = async (req: Request, res: Response) => {
       role: UserRoleEnum.BORROWER,
     },
   });
+  createJob(JobsEnum.SYNC_TO_ZOHO, { userId: user.id });
 
   const token = generateToken(user);
   return successResponse(res, token);

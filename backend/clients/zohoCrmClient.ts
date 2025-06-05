@@ -4,6 +4,7 @@ import { CONFIG } from '../config';
 export enum ZOHO_MODULES {
   LoanRequest = 'RoshiVN_LoanRequests',
   ApplicantInfo = 'RoshiVN_ApplicantInfo',
+  User = 'RoshiVN_Users',
 }
 
 export const MODULE_API_NAME = {
@@ -22,6 +23,16 @@ export const MODULE_API_NAME = {
     { api_name: 'employmentType', app_field: 'employmentType' },
     { api_name: 'currentAddress', app_field: 'currentAddress' },
     { api_name: 'residencyStatus', app_field: 'residencyStatus' },
+  ],
+  [ZOHO_MODULES.User]: [
+    { api_name: 'appUserId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'name' },
+    { api_name: 'Email', app_field: 'email' },
+    { api_name: 'cccd', app_field: 'cccd' },
+    { api_name: 'phone', app_field: 'phone' },
+    { api_name: 'role', app_field: 'role' },
+    { api_name: 'status', app_field: 'status' },
+    { api_name: 'lastLoginAt', app_field: 'lastLoginAt' },
   ],
 };
 
