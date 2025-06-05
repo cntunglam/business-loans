@@ -1,38 +1,80 @@
 import axios, { AxiosInstance } from 'axios';
+import { format } from 'date-fns';
 import { CONFIG } from '../config';
 
 export enum ZOHO_MODULES {
   LoanRequest = 'RoshiVN_LoanRequests',
   ApplicantInfo = 'RoshiVN_ApplicantInfo',
   User = 'RoshiVN_Users',
+  LoanResponse = 'RoshiVN_LoanResponses',
 }
 
-export const MODULE_API_NAME = {
+export type ZohoCrmFieldFormat = {
+  api_name: string;
+  app_field?: string;
+  format?: (val: any) => string;
+};
+
+const dateTime = (val: Date) => format(val, "yyyy-MM-dd'T'HH:mm:ssxxx");
+const date = (val: Date) => format(val, 'yyyy-MM-dd');
+
+export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
   [ZOHO_MODULES.ApplicantInfo]: [
     { api_name: 'appApplicantInfoId', app_field: 'id' },
     { api_name: 'Name', app_field: 'fullName' },
     { api_name: 'Email', app_field: 'email' },
-    { api_name: 'amount', app_field: 'amount' },
-    { api_name: 'term', app_field: 'term' },
-    { api_name: 'purpose', app_field: 'purpose' },
-    { api_name: 'phoneNumber', app_field: 'phoneNumber' },
-    { api_name: 'cccdNumber', app_field: 'cccdNumber' },
-    { api_name: 'dateOfBirth', app_field: 'dateOfBirth' },
-    { api_name: 'monthlyIncome', app_field: 'monthlyIncome' },
-    { api_name: 'hasLaborContract', app_field: 'hasLaborContract' },
-    { api_name: 'employmentType', app_field: 'employmentType' },
-    { api_name: 'currentAddress', app_field: 'currentAddress' },
-    { api_name: 'residencyStatus', app_field: 'residencyStatus' },
+    { api_name: 'amount' },
+    { api_name: 'term' },
+    { api_name: 'purpose' },
+    { api_name: 'phoneNumber' },
+    { api_name: 'cccdNumber' },
+    { api_name: 'dateOfBirth', format: date },
+    { api_name: 'monthlyIncome' },
+    { api_name: 'hasLaborContract' },
+    { api_name: 'employmentType' },
+    { api_name: 'currentAddress' },
+    { api_name: 'residencyStatus' },
   ],
   [ZOHO_MODULES.User]: [
     { api_name: 'appUserId', app_field: 'id' },
     { api_name: 'Name', app_field: 'name' },
     { api_name: 'Email', app_field: 'email' },
-    { api_name: 'cccd', app_field: 'cccd' },
-    { api_name: 'phone', app_field: 'phone' },
-    { api_name: 'role', app_field: 'role' },
-    { api_name: 'status', app_field: 'status' },
-    { api_name: 'lastLoginAt', app_field: 'lastLoginAt' },
+    { api_name: 'cccd' },
+    { api_name: 'phone' },
+    { api_name: 'role' },
+    { api_name: 'status' },
+    { api_name: 'lastLoginAt', format: dateTime },
+  ],
+  [ZOHO_MODULES.LoanRequest]: [
+    { api_name: 'appLoanRequestId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'user.name' },
+    { api_name: 'amount' },
+    { api_name: 'term' },
+    { api_name: 'purpose' },
+    { api_name: 'approvedAt', format: dateTime },
+    { api_name: 'isFavorite' },
+    { api_name: 'isLowQuality' },
+    { api_name: 'isSpam' },
+    { api_name: 'status' },
+    { api_name: 'applicantInfoId' },
+    { api_name: 'guarantorInfoId' },
+    { api_name: 'userId' },
+  ],
+  [ZOHO_MODULES.LoanResponse]: [
+    { api_name: 'appLoanResponseId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'lender.name' },
+    { api_name: 'acceptedAt', format: dateTime },
+    { api_name: 'comment' },
+    { api_name: 'contactedByBorrowerAt', format: dateTime },
+    { api_name: 'contactedByLenderAt', format: dateTime },
+    { api_name: 'disbursementDate', format: date },
+    { api_name: 'invoiceId' },
+    { api_name: 'isAuto' },
+    { api_name: 'lenderId' },
+    { api_name: 'loanRequestId' },
+    { api_name: 'outcomeStatus' },
+    { api_name: 'rejectionReasons' },
+    { api_name: 'status' },
   ],
 };
 
@@ -94,12 +136,17 @@ export class ZohoCrmClient {
     }
   }
 
-  public async createRecord(module: string, data: any): Promise<any> {
+  public async createRecord(module: string, data: any): Promise<string | null> {
     try {
       const response = await this.client.post(`/${module}`, {
         data: [data],
       });
-      return response.data.data[0];
+
+      const createdRecord = response.data.data?.[0];
+      if (createdRecord && createdRecord.details && createdRecord.details.id) {
+        return createdRecord.details.id;
+      }
+      throw new Error(`[ZohoCRM] No ID returned after creating record in module ${module}`);
     } catch (error: any) {
       console.error(
         `[ZohoCRM] Failed to create record in ${module}:`,
@@ -133,6 +180,17 @@ export class ZohoCrmClient {
     } catch (error: any) {
       console.error(`[ZohoCRM] Failed to search ${module} with criteria: ${criteria}`);
       return [];
+    }
+  }
+
+  public async getRecord(module: string, recordId?: string): Promise<any> {
+    if (!recordId) return null;
+    try {
+      const response = await this.client.get(`/${module}/${recordId}`);
+      return response.data.data ? response.data.data[0] : null;
+    } catch (error: any) {
+      console.error(`[ZohoCRM] Failed to get record ${recordId} in ${module}:`, error.response?.data || error.message);
+      return null;
     }
   }
 

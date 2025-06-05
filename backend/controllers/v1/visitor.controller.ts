@@ -135,7 +135,6 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
     },
   };
   const createdLoanRequest = await createNewLoanRequest(combinedData, req.user!.sub, override);
-  createJob(JobsEnum.SYNC_TO_ZOHO, { applicantInfoId: createdLoanRequest.applicantInfoId });
   await prismaClient.visitorData.update({
     where: { id: visitorId },
     data: {
@@ -151,7 +150,6 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
       name: combinedData.applicantInfo.fullName,
     },
   });
-
   if (affiliateVisitorId) {
     await prismaClient.affiliateVisitor.update({
       where: { id: affiliateVisitorId },
@@ -161,6 +159,6 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
       },
     });
   }
-
+  createJob(JobsEnum.SYNC_TO_ZOHO, { applicantInfoId: createdLoanRequest.applicantInfoId }, { startAfter: 5 });
   return successResponse(res, { success: true, loanRequestId: createdLoanRequest.id });
 };

@@ -28,6 +28,8 @@ model ApplicantInfo {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    zohoCrmId String?
+
     @@index([cccdNumber])
     @@index([phoneNumber])
     @@schema("public")

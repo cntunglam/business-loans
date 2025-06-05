@@ -51,6 +51,8 @@ model LoanRequest {
 
   isAutoReapply Boolean @default(false)
 
+  zohoCrmId String?
+
   @@schema("public")
 }
 
