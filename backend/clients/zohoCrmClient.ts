@@ -9,11 +9,11 @@ export enum ZOHO_MODULES {
 export const MODULE_API_NAME = {
   [ZOHO_MODULES.ApplicantInfo]: [
     { api_name: 'appApplicantInfoId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'id' },
+    { api_name: 'Name', app_field: 'fullName' },
     { api_name: 'Email', app_field: 'email' },
-    { api_name: 'borrowAmount', app_field: 'amount' },
-    { api_name: 'borrowPeriod', app_field: 'term' },
-    { api_name: 'borrowPurpose', app_field: 'purpose' },
+    { api_name: 'amount', app_field: 'amount' },
+    { api_name: 'term', app_field: 'term' },
+    { api_name: 'purpose', app_field: 'purpose' },
     { api_name: 'phoneNumber', app_field: 'phoneNumber' },
     { api_name: 'cccdNumber', app_field: 'cccdNumber' },
     { api_name: 'dateOfBirth', app_field: 'dateOfBirth' },

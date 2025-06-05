@@ -115,57 +115,27 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
   if (!visitor.currentStep) {
     throw new Error('No step data found');
   }
-  const requiredSteps = loanRequestTypeToSteps[visitor.loanRequestType as LoanRequestTypeEnum];
-  const stepDataMap: Record<string, any> = {};
-  requiredSteps.forEach((data) => {
-    const stepKey = data.key;
-    if (data.fixedValue) {
-      stepDataMap[data.key] = data.fixedValue;
-      return;
-    }
-    if (visitor)
-      stepDataMap[stepKey] = visitor.hasOwnProperty(stepKey) ? visitor[stepKey as keyof typeof visitor] : undefined;
-  });
   const user = await prismaClient.user.findFirstOrThrow({ where: { id: req.user!.sub } });
-
-  const {
-    phoneNumber,
-    fullName,
-    cccdNumber,
-    email,
-    dateOfBirth,
-    monthlyIncome,
-    hasLaborContract,
-    employmentType,
-    currentAddress,
-    residencyStatus,
-  } = visitor;
-
-  const applicantInfo = {
-    fullName: fullName!,
-    phoneNumber: phoneNumber!,
-    cccdNumber: cccdNumber!,
-    email: email!,
-    dateOfBirth: dateOfBirth!,
-    monthlyIncome: monthlyIncome!,
-    hasLaborContract: hasLaborContract!,
-    employmentType: employmentType!,
-    currentAddress: currentAddress!,
-    residencyStatus: residencyStatus,
-  };
-
   const combinedData: z.infer<typeof createLoanRequestSchema> = {
-    amount: stepDataMap[ApplicationStepsEnum.borrowAmount],
-    term: stepDataMap[ApplicationStepsEnum.borrowPeriod],
-    purpose: stepDataMap[ApplicationStepsEnum.borrowPurpose],
+    amount: visitor.borrowAmount!,
+    term: visitor.borrowPeriod!,
+    purpose: visitor.borrowPurpose!,
     type: visitor.loanRequestType as LoanRequestTypeEnum,
     referrer: visitor.referrer || undefined,
-    applicantInfo,
+    applicantInfo: {
+      fullName: visitor.fullName!,
+      phoneNumber: visitor.phoneNumber!,
+      cccdNumber: visitor.cccdNumber!,
+      dateOfBirth: visitor.dateOfBirth!,
+      monthlyIncome: visitor.monthlyIncome!,
+      hasLaborContract: visitor.hasLaborContract!,
+      employmentType: visitor.employmentType!,
+      currentAddress: visitor.currentAddress!,
+      residencyStatus: visitor.residencyStatus,
+    },
   };
-
   const createdLoanRequest = await createNewLoanRequest(combinedData, req.user!.sub, override);
-  createJob(JobsEnum.SYNC_TO_ZOHO, { applicantInfoId: createdLoanRequest.applicantInfoId || undefined });
-
+  createJob(JobsEnum.SYNC_TO_ZOHO, { applicantInfoId: createdLoanRequest.applicantInfoId });
   await prismaClient.visitorData.update({
     where: { id: visitorId },
     data: {
@@ -177,7 +147,7 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
   await prismaClient.user.update({
     where: { id: user.id },
     data: {
-      phone: phoneNumber,
+      phone: visitor.phoneNumber,
       name: combinedData.applicantInfo.fullName,
     },
   });

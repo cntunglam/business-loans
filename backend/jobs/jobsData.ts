@@ -12,7 +12,7 @@ type JobPayloadMap = {
   [JobsEnum.REAPPLY_LOAN_REQUEST]: { userId: string };
   [JobsEnum.TELEGRAM_NOTIFICATION]: { notificationId: string };
   [JobsEnum.ACTIVATE_REAPPLY_LOAN_REQUEST]: { loanRequestId: string };
-  [JobsEnum.SYNC_TO_ZOHO]: { loanRequestId?: string; applicantInfoId?: string };
+  [JobsEnum.SYNC_TO_ZOHO]: { loanRequestId?: string | null; applicantInfoId?: string | null };
 };
 
 export type JobPayload<T extends JobsEnum> = JobPayloadMap[T];

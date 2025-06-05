@@ -23,6 +23,7 @@ import { shortUrlRouter } from './routes/v1/shortUrl.route';
 import { tokenRouter } from './routes/v1/token.route';
 import { visitorRouter } from './routes/v1/visitor.route';
 import { whatsppRouter } from './routes/v1/whatsapp.route';
+import { seedData } from './scripts/seedData';
 import { updateUserSettings } from './services/account.service';
 import { setupCronJobs } from './services/cronjob.service';
 import { getShortUrlByCode, isPathAllowed } from './services/shortUrl.service';
@@ -132,13 +133,12 @@ app.get(
 app.use(errorHandler);
 
 setupCronJobs();
-// seedData();
+createZohoCrmKeys();
+seedData();
 
 const server = app.listen(CONFIG.PORT, async () => {
   console.log(`App listening on port ${CONFIG.PORT}`);
 });
-
-createZohoCrmKeys();
 
 // Graceful shutdown
 const gracefulShutdown = async () => {

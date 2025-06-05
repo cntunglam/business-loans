@@ -168,6 +168,11 @@ export async function seedData() {
   const totalCompanies = 100;
   const batchSize = 10;
   console.log(`Creating ${totalCompanies} companies with their users...`);
+  const existingCompanies = await prismaClient.company.count();
+  if (existingCompanies > 0) {
+    console.log('Skipping seed as there are already companies in the database');
+    return;
+  }
   for (let i = 0; i < totalCompanies; i += batchSize) {
     const batchPromises = [];
     const currentBatchSize = Math.min(batchSize, totalCompanies - i);

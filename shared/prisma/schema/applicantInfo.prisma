@@ -1,13 +1,12 @@
 model ApplicantInfo {
-    borrowAmount  Float?
-    borrowPeriod  Int?
-    borrowPurpose String?
+    amount  Float?
+    term    Int?
+    purpose String?
 
     // Required fields only
     fullName    String?
     cccdNumber  String?
     phoneNumber String?
-    email       String?
     dateOfBirth DateTime?
 
     // Current Address
@@ -31,6 +30,5 @@ model ApplicantInfo {
 
     @@index([cccdNumber])
     @@index([phoneNumber])
-    @@index([email])
     @@schema("public")
 }

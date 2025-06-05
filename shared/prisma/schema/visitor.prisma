@@ -18,7 +18,6 @@ model VisitorData {
   fullName    String?
   cccdNumber  String?
   phoneNumber String?
-  email       String?
   dateOfBirth DateTime?
 
   // Current Address

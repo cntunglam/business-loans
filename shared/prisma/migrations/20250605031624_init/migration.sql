@@ -45,13 +45,12 @@ CREATE TABLE "public"."AffiliateVisitor" (
 
 -- CreateTable
 CREATE TABLE "public"."ApplicantInfo" (
-    "borrowAmount" DOUBLE PRECISION,
-    "borrowPeriod" INTEGER,
-    "borrowPurpose" TEXT,
+    "amount" DOUBLE PRECISION,
+    "term" INTEGER,
+    "purpose" TEXT,
     "fullName" TEXT,
     "cccdNumber" TEXT,
     "phoneNumber" TEXT,
-    "email" TEXT,
     "dateOfBirth" TIMESTAMP(3),
     "currentAddress" TEXT,
     "monthlyIncome" DOUBLE PRECISION NOT NULL DEFAULT 0,
@@ -149,6 +148,17 @@ CREATE TABLE "public"."CompanySettings" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "CompanySettings_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."Keys" (
+    "id" TEXT NOT NULL,
+    "key" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Keys_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -461,7 +471,6 @@ CREATE TABLE "public"."VisitorData" (
     "fullName" TEXT,
     "cccdNumber" TEXT,
     "phoneNumber" TEXT,
-    "email" TEXT,
     "dateOfBirth" TIMESTAMP(3),
     "currentAddress" TEXT,
     "monthlyIncome" DOUBLE PRECISION DEFAULT 0,
@@ -488,13 +497,13 @@ CREATE INDEX "ApplicantInfo_cccdNumber_idx" ON "public"."ApplicantInfo"("cccdNum
 CREATE INDEX "ApplicantInfo_phoneNumber_idx" ON "public"."ApplicantInfo"("phoneNumber");
 
 -- CreateIndex
-CREATE INDEX "ApplicantInfo_email_idx" ON "public"."ApplicantInfo"("email");
-
--- CreateIndex
 CREATE UNIQUE INDEX "CompanyLeadSettings_companyId_key" ON "public"."CompanyLeadSettings"("companyId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "CompanySettings_companyId_key_key" ON "public"."CompanySettings"("companyId", "key");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Keys_key_key" ON "public"."Keys"("key");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "LoanRequest_applicantInfoId_key" ON "public"."LoanRequest"("applicantInfoId");

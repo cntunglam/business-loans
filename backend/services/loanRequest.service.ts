@@ -415,7 +415,6 @@ export const createLoanRequestSchema = z.object({
   type: z.nativeEnum(LoanRequestTypeEnum),
   referrer: z.string().optional(),
   override: z.boolean().optional(),
-
   applicantInfo: SgManualFormSchema,
 });
 
@@ -441,7 +440,12 @@ export const createNewLoanRequest = async (
 
   const newApplication = await prismaClient.$transaction(async (tx) => {
     const applicantInfo = await tx.applicantInfo.create({
-      data: data.applicantInfo,
+      data: {
+        ...data.applicantInfo,
+        amount: data.amount,
+        term: data.term,
+        purpose: data.purpose,
+      },
     });
     const now = new Date();
 
