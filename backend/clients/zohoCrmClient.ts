@@ -7,6 +7,13 @@ export enum ZOHO_MODULES {
   ApplicantInfo = 'R_ApplicantInfo',
   User = 'R_Users',
   LoanResponse = 'R_LoanResponses',
+  Company = 'R_Companies',
+  CompanyLeadSettings = 'R_CompanyLeadSettings',
+  Appointment = 'R_Appointments',
+  CompanySettings = 'R_CompanySettings',
+  Document = 'R_Documents',
+  OpeningHours = 'R_OpeningHours',
+  LoanOffer = 'R_LoanOffers',
 }
 
 export const TABLES_TO_SYNC = Object.keys(ZOHO_MODULES);
@@ -21,7 +28,7 @@ export type ZohoCrmFieldFormat = {
 const dateTime = (val: Date) => format(val, "yyyy-MM-dd'T'HH:mm:ssxxx");
 const date = (val: Date) => format(val, 'yyyy-MM-dd');
 
-export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
+export const MODULE_API_NAME: Partial<Record<ZOHO_MODULES, ZohoCrmFieldFormat[]>> = {
   [ZOHO_MODULES.ApplicantInfo]: [
     { api_name: 'appId', app_field: 'id' },
     { api_name: 'Name', app_field: 'fullName', fallback_field: 'email' },
@@ -78,6 +85,34 @@ export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
     { api_name: 'outcomeStatus' },
     { api_name: 'rejectionReasons' },
     { api_name: 'status' },
+  ],
+  [ZOHO_MODULES.Company]: [
+    { api_name: 'appId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'name', fallback_field: 'email' },
+  ],
+  [ZOHO_MODULES.CompanyLeadSettings]: [
+    { api_name: 'appId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'id' },
+  ],
+  [ZOHO_MODULES.Appointment]: [
+    { api_name: 'appId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'id' },
+  ],
+  [ZOHO_MODULES.CompanySettings]: [
+    { api_name: 'appId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'id' },
+  ],
+  [ZOHO_MODULES.Document]: [
+    { api_name: 'appId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'id' },
+  ],
+  [ZOHO_MODULES.OpeningHours]: [
+    { api_name: 'appId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'id' },
+  ],
+  [ZOHO_MODULES.LoanOffer]: [
+    { api_name: 'appId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'id' },
   ],
 };
 

@@ -13,7 +13,7 @@ type ZohoSyncConfig<T> = {
 
 const formatFields = async <T>(record: T, module: ZOHO_MODULES) => {
   const data: Record<string, any> = {};
-  MODULE_API_NAME[module].forEach((el) => {
+  MODULE_API_NAME[module]?.forEach((el) => {
     if (el.format) {
       const value = get(record, el.app_field || el.api_name);
       data[el.api_name] = value ? el.format(value) : null;

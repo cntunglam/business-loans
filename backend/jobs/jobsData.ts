@@ -1,4 +1,5 @@
 import { JobsEnum, WhatsappMessage } from '@roshi/shared';
+import { ZOHO_MODULES } from '../clients/zohoCrmClient';
 
 type JobPayloadMap = {
   [JobsEnum.EMAIL_NOTIFICATION]: { notificationId: string };
@@ -18,7 +19,13 @@ type JobPayloadMap = {
     User?: string | null;
     Company?: string | null;
     LoanResponse?: string | null;
-  }; // table name
+    CompanyLeadSettings?: string | null;
+    Appointment?: string | null;
+    CompanySettings?: string | null;
+    Document?: string | null;
+    OpeningHours?: string | null;
+    LoanOffer?: string | null;
+  } & Partial<Record<keyof typeof ZOHO_MODULES, string | null>>;
 };
 
 export type JobPayload<T extends JobsEnum> = JobPayloadMap[T];
