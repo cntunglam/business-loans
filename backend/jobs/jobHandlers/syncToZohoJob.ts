@@ -1,4 +1,4 @@
-import { ApplicantInfo, JobsEnum, LoanRequest, User } from '@roshi/shared';
+import { ApplicantInfo, JobsEnum, LoanRequest, LoanResponse, User } from '@roshi/shared';
 import { get } from 'lodash';
 import { prismaClient } from '../../clients/prismaClient';
 import { MODULE_API_NAME, ZOHO_MODULES, zohoCrmClient } from '../../clients/zohoCrmClient';
@@ -15,9 +15,17 @@ const formatFields = async <T>(record: T, module: ZOHO_MODULES) => {
   const data: Record<string, any> = {};
   MODULE_API_NAME[module].forEach((el) => {
     if (el.format) {
-      data[el.api_name] = el.format(get(record, el.app_field || el.api_name));
+      const value = get(record, el.app_field || el.api_name);
+      data[el.api_name] = value ? el.format(value) : null;
     } else {
-      data[el.api_name] = get(record, el.app_field || el.api_name) || get(record, el.fallback_field || el.api_name);
+      const expectedValue = get(record, el.app_field || el.api_name);
+      const fallbackValue = get(record, el.fallback_field || el.api_name);
+      const value = expectedValue || fallbackValue || null;
+      if (value && (Array.isArray(value) || typeof value === 'object')) {
+        data[el.api_name] = JSON.stringify(value);
+      } else {
+        data[el.api_name] = value;
+      }
     }
   });
   return data;
@@ -59,8 +67,20 @@ const loanRequestSyncConfig: ZohoSyncConfig<LoanRequest> = {
   formatFields: async (record) => await formatFields(record, ZOHO_MODULES.LoanRequest),
 };
 
+const loanResponseSyncConfig: ZohoSyncConfig<LoanResponse> = {
+  module: ZOHO_MODULES.LoanResponse,
+  getDbRecord: (id) => prismaClient.loanResponse.findUnique({ where: { id }, include: { lender: true } }),
+  formatFields: async (record) => await formatFields(record, ZOHO_MODULES.LoanResponse),
+};
+
 export async function syncToZohoHandler(job: JobPayload<JobsEnum.SYNC_TO_ZOHO>) {
-  const { LoanRequest: loanRequestId, ApplicantInfo: applicantInfoId, User: userId } = job;
+  const {
+    LoanRequest: loanRequestId,
+    ApplicantInfo: applicantInfoId,
+    User: userId,
+    Company: companyId,
+    LoanResponse: loanResponseId,
+  } = job;
   try {
     if (applicantInfoId) {
       console.log('Triggered sync to zoho for applicant info', applicantInfoId);
@@ -92,8 +112,18 @@ export async function syncToZohoHandler(job: JobPayload<JobsEnum.SYNC_TO_ZOHO>) 
         });
       }
     }
+    if (loanResponseId) {
+      console.log('Triggered sync to zoho for loan response', loanResponseId);
+      const zohoCrmId = await syncRecordToZoho(loanResponseId, loanResponseSyncConfig);
+      if (zohoCrmId) {
+        await prismaClient.loanResponse.update({
+          where: { id: loanResponseId },
+          data: { zohoCrmId },
+        });
+      }
+    }
   } catch (error: any) {
-    console.error('Error syncing to Zoho', error?.message);
+    console.error('Error syncing to Zoho: ', error?.message);
   }
 }
 

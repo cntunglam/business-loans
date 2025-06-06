@@ -41,11 +41,11 @@ const generatePhoneNumber = () => {
 };
 
 const generateCompanyType = () => {
-  return faker.helpers.arrayElement(['LENDER', 'BROKER', 'BANK']);
+  return faker.helpers.arrayElement(['MONEYLENDER', 'BANK']);
 };
 
 const generateCompanyStatus = () => {
-  return faker.helpers.arrayElement(['ACTIVE', 'INACTIVE', 'PENDING']);
+  return faker.helpers.arrayElement(['ACTIVE', 'DELETED']);
 };
 
 async function createCompany(index: number) {
