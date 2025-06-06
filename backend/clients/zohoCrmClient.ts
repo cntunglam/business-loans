@@ -14,6 +14,7 @@ export enum ZOHO_MODULES {
   Document = 'R_Documents',
   OpeningHours = 'R_OpeningHours',
   LoanOffer = 'R_LoanOffers',
+  VisitorData = 'R_Visitors',
 }
 
 export const TABLES_TO_SYNC = Object.keys(ZOHO_MODULES);
@@ -45,6 +46,28 @@ export const MODULE_API_NAME: Partial<Record<ZOHO_MODULES, ZohoCrmFieldFormat[]>
     { api_name: 'currentAddress' },
     { api_name: 'residencyStatus' },
   ],
+  [ZOHO_MODULES.LoanRequest]: [
+    { api_name: 'appId', app_field: 'id' },
+    { api_name: 'Name', app_field: 'user.name', fallback_field: 'user.name' },
+    { api_name: 'amount' },
+    { api_name: 'term' },
+    { api_name: 'purpose' },
+    { api_name: 'phoneNumber' },
+    { api_name: 'cccdNumber' },
+    { api_name: 'dateOfBirth', format: date },
+    { api_name: 'monthlyIncome' },
+    { api_name: 'hasLaborContract' },
+    { api_name: 'employmentType' },
+    { api_name: 'currentAddress' },
+    { api_name: 'residencyStatus' },
+    { api_name: 'status' },
+    { api_name: 'userId' },
+    { api_name: 'isFavorite' },
+    { api_name: 'isLowQuality' },
+    { api_name: 'isSpam' },
+    { api_name: 'appReferrer', app_field: 'referrer' },
+    { api_name: 'approvedAt', format: dateTime },
+  ],
   [ZOHO_MODULES.User]: [
     { api_name: 'appId', app_field: 'id' },
     { api_name: 'Name', app_field: 'name', fallback_field: 'email' },
@@ -55,65 +78,73 @@ export const MODULE_API_NAME: Partial<Record<ZOHO_MODULES, ZohoCrmFieldFormat[]>
     { api_name: 'status' },
     { api_name: 'lastLoginAt', format: dateTime },
   ],
-  [ZOHO_MODULES.LoanRequest]: [
+  [ZOHO_MODULES.VisitorData]: [
     { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'user.name', fallback_field: 'user.email' },
-    { api_name: 'amount' },
-    { api_name: 'term' },
-    { api_name: 'purpose' },
-    { api_name: 'approvedAt', format: dateTime },
-    { api_name: 'isFavorite' },
-    { api_name: 'isLowQuality' },
-    { api_name: 'isSpam' },
-    { api_name: 'status' },
-    { api_name: 'applicantInfoId' },
-    { api_name: 'guarantorInfoId' },
+    { api_name: 'Name', app_field: 'fullName', fallback_field: 'id' },
+    { api_name: 'Email', app_field: 'email' },
     { api_name: 'userId' },
+    { api_name: 'currentStep' },
+    { api_name: 'appReferrer', app_field: 'referrer' },
+    { api_name: 'isCompleted' },
+
+    { api_name: 'borrowAmount' },
+    { api_name: 'borrowPeriod' },
+    { api_name: 'borrowPurpose' },
+
+    { api_name: 'cccdNumber' },
+    { api_name: 'fullName' },
+    { api_name: 'dateOfBirth', format: date },
+    { api_name: 'currentAddress' },
+    { api_name: 'monthlyIncome' },
+    { api_name: 'employmentType' },
+    { api_name: 'hasLaborContract' },
+    { api_name: 'residencyStatus' },
+    { api_name: 'lastActiveAt', format: dateTime },
   ],
-  [ZOHO_MODULES.LoanResponse]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'lender.name', fallback_field: 'lender.email' },
-    { api_name: 'acceptedAt', format: dateTime },
-    { api_name: 'comment' },
-    { api_name: 'contactedByBorrowerAt', format: dateTime },
-    { api_name: 'contactedByLenderAt', format: dateTime },
-    { api_name: 'disbursementDate', format: date },
-    { api_name: 'invoiceId' },
-    { api_name: 'isAuto' },
-    { api_name: 'lenderId' },
-    { api_name: 'loanRequestId' },
-    { api_name: 'outcomeStatus' },
-    { api_name: 'rejectionReasons' },
-    { api_name: 'status' },
-  ],
-  [ZOHO_MODULES.Company]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'name', fallback_field: 'email' },
-  ],
-  [ZOHO_MODULES.CompanyLeadSettings]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'id' },
-  ],
-  [ZOHO_MODULES.Appointment]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'id' },
-  ],
-  [ZOHO_MODULES.CompanySettings]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'id' },
-  ],
-  [ZOHO_MODULES.Document]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'id' },
-  ],
-  [ZOHO_MODULES.OpeningHours]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'id' },
-  ],
-  [ZOHO_MODULES.LoanOffer]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'id' },
-  ],
+  // [ZOHO_MODULES.LoanResponse]: [
+  //   { api_name: 'appId', app_field: 'id' },
+  //   { api_name: 'Name', app_field: 'lender.name', fallback_field: 'lender.email' },
+  //   { api_name: 'acceptedAt', format: dateTime },
+  //   { api_name: 'comment' },
+  //   { api_name: 'contactedByBorrowerAt', format: dateTime },
+  //   { api_name: 'contactedByLenderAt', format: dateTime },
+  //   { api_name: 'disbursementDate', format: date },
+  //   { api_name: 'invoiceId' },
+  //   { api_name: 'isAuto' },
+  //   { api_name: 'lenderId' },
+  //   { api_name: 'loanRequestId' },
+  //   { api_name: 'outcomeStatus' },
+  //   { api_name: 'rejectionReasons' },
+  //   { api_name: 'status' },
+  // ],
+  // [ZOHO_MODULES.Company]: [
+  //   { api_name: 'appId', app_field: 'id' },
+  //   { api_name: 'Name', app_field: 'name', fallback_field: 'email' },
+  // ],
+  // [ZOHO_MODULES.CompanyLeadSettings]: [
+  //   { api_name: 'appId', app_field: 'id' },
+  //   { api_name: 'Name', app_field: 'id' },
+  // ],
+  // [ZOHO_MODULES.Appointment]: [
+  //   { api_name: 'appId', app_field: 'id' },
+  //   { api_name: 'Name', app_field: 'id' },
+  // ],
+  // [ZOHO_MODULES.CompanySettings]: [
+  //   { api_name: 'appId', app_field: 'id' },
+  //   { api_name: 'Name', app_field: 'id' },
+  // ],
+  // [ZOHO_MODULES.Document]: [
+  //   { api_name: 'appId', app_field: 'id' },
+  //   { api_name: 'Name', app_field: 'id' },
+  // ],
+  // [ZOHO_MODULES.OpeningHours]: [
+  //   { api_name: 'appId', app_field: 'id' },
+  //   { api_name: 'Name', app_field: 'id' },
+  // ],
+  // [ZOHO_MODULES.LoanOffer]: [
+  //   { api_name: 'appId', app_field: 'id' },
+  //   { api_name: 'Name', app_field: 'id' },
+  // ],
 };
 
 export enum ZOHO_KEYS {
@@ -179,7 +210,6 @@ export class ZohoCrmClient {
       const response = await this.client.post(`/${module}`, {
         data: [data],
       });
-
       const createdRecord = response.data.data?.[0];
       if (createdRecord && createdRecord.details && createdRecord.details.id) {
         return createdRecord.details.id;

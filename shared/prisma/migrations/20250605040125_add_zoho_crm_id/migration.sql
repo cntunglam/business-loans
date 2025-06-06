@@ -9,3 +9,6 @@ ALTER TABLE "public"."User" ADD COLUMN     "zohoCrmId" TEXT;
 
 -- AlterTable
 ALTER TABLE "public"."LoanResponse" ADD COLUMN     "zohoCrmId" TEXT;
+
+-- AlterTable
+ALTER TABLE "public"."VisitorData" ADD COLUMN     "zohoCrmId" TEXT;
