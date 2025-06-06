@@ -96,7 +96,7 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
           const visitorCurrentStepIndex = data.steps.findIndex((step) => step.key === data.visitor.currentStep);
           if (visitorCurrentStepIndex !== undefined) {
             // example: visitor is on step 1 a edit url is on step 5 -> missing steps data between 1 and 5, redirect to step 1.
-            setStep(Math.min(currentStepIndex, visitorCurrentStepIndex));
+            setStep(Math.max(0, Math.min(currentStepIndex, visitorCurrentStepIndex)));
           }
         }
         return data.visitor;
