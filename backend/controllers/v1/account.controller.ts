@@ -75,7 +75,6 @@ export const OTPLoginHandler = async (req: Request, res: Response) => {
       role: UserRoleEnum.BORROWER,
     },
   });
-
   const token = generateToken(user);
   return successResponse(res, token);
 };

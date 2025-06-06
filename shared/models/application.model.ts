@@ -30,20 +30,13 @@ export const SgManualFormSchema = z.object({
     .string()
     .min(9, { message: "Số CCCD phải có ít nhất 9 ký tự" })
     .max(12, { message: "Số CCCD không được vượt quá 12 ký tự" }),
-  email: z.string().email({ message: "Email không hợp lệ" }),
   dateOfBirth: z.coerce.date({
     invalid_type_error: "Ngày sinh không hợp lệ",
   }),
-  monthlyIncome: z.coerce
-    .number()
-    .nonnegative({ message: "Thu nhập hàng tháng không được âm" }),
-  hasLaborContract: z
-    .boolean({ invalid_type_error: "Giá trị phải là true hoặc false" })
-    .optional(),
+  monthlyIncome: z.coerce.number().nonnegative({ message: "Thu nhập hàng tháng không được âm" }),
+  hasLaborContract: z.boolean({ invalid_type_error: "Giá trị phải là true hoặc false" }).optional(),
   currentAddress: z.string().max(255, { message: "Địa chỉ quá dài" }),
-  employmentType: z
-    .string()
-    .min(2, { message: "Công việc phải có ít nhất 1 ký tự" }),
+  employmentType: z.string().min(2, { message: "Công việc phải có ít nhất 1 ký tự" }),
   residencyStatus: z.string().optional().nullable(),
 });
 
@@ -51,16 +44,14 @@ export const formTypeToSchema: Record<ApplicationTypesEnum, ZodSchema> = {
   [ApplicationTypesEnum.SG_MANUAL]: SgManualFormSchema,
 };
 
-export const SgManualFormSchemaKeys: (keyof typeof SgManualFormSchema.shape)[] =
-  [
-    "fullName",
-    "cccdNumber",
-    "phoneNumber",
-    "email",
-    "dateOfBirth",
-    "monthlyIncome",
-    "hasLaborContract",
-    "currentAddress",
-    "residencyStatus",
-    "employmentType",
-  ];
+export const SgManualFormSchemaKeys: (keyof typeof SgManualFormSchema.shape)[] = [
+  "fullName",
+  "cccdNumber",
+  "phoneNumber",
+  "dateOfBirth",
+  "monthlyIncome",
+  "hasLaborContract",
+  "currentAddress",
+  "residencyStatus",
+  "employmentType",
+];

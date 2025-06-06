@@ -23,9 +23,11 @@ import { shortUrlRouter } from './routes/v1/shortUrl.route';
 import { tokenRouter } from './routes/v1/token.route';
 import { visitorRouter } from './routes/v1/visitor.route';
 import { whatsppRouter } from './routes/v1/whatsapp.route';
+import { seedData } from './scripts/seedData';
 import { updateUserSettings } from './services/account.service';
 import { setupCronJobs } from './services/cronjob.service';
 import { getShortUrlByCode, isPathAllowed } from './services/shortUrl.service';
+import { createZohoCrmKeys } from './services/zohoCrm.service';
 import { asyncHandler, errorHandler } from './utils/errorHandler';
 import { wrapRoutes } from './utils/wrapRoutes';
 
@@ -131,9 +133,11 @@ app.get(
 app.use(errorHandler);
 
 setupCronJobs();
-// seedData();
+createZohoCrmKeys();
+seedData();
+// testZohoCrm();
 
-const server = app.listen(CONFIG.PORT, () => {
+const server = app.listen(CONFIG.PORT, async () => {
   console.log(`App listening on port ${CONFIG.PORT}`);
 });
 
