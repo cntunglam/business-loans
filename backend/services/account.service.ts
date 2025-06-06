@@ -25,7 +25,6 @@ export const updateUserLastLogin = async (userId: string) => {
       where: { id: userId },
       data: { lastLoginAt: new Date() },
     });
-    // createJob(JobsEnum.SYNC_TO_ZOHO, { userId });
   } catch (error) {
     console.warn(`Failed to update lastLoginAt for user ${userId}.`);
   }

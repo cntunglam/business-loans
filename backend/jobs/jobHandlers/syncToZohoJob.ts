@@ -61,7 +61,7 @@ const loanRequestSyncConfig: ZohoSyncConfig<LoanRequest> = {
 };
 
 export async function syncToZohoHandler(job: JobPayload<JobsEnum.SYNC_TO_ZOHO>) {
-  const { loanRequestId, applicantInfoId, userId } = job;
+  const { LoanRequest: loanRequestId, ApplicantInfo: applicantInfoId, User: userId } = job;
   try {
     if (applicantInfoId) {
       console.log('Triggered sync to zoho for applicant info', applicantInfoId);

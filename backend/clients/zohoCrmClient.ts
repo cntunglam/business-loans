@@ -9,6 +9,8 @@ export enum ZOHO_MODULES {
   LoanResponse = 'RoshiVN_LoanResponses',
 }
 
+export const TABLES_TO_SYNC = Object.keys(ZOHO_MODULES);
+
 export type ZohoCrmFieldFormat = {
   api_name: string;
   app_field?: string;
