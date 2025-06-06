@@ -19,15 +19,24 @@ const createAndSyncToZohoExtension = Prisma.defineExtension({
   name: 'createAndSyncToZoho',
   query: {
     $allModels: {
-      async create({ model, operation, args, query }) {
+      async create({ model, args, query }) {
         const result = await query(args);
         console.log(`Created ${model} ${result.id}`);
+        if (process.env.NODE_ENV === 'development') {
+          console.log(args);
+        }
         syncToZoho(model, result.id);
         return result;
       },
-      async update({ model, operation, args, query }) {
+      async update({ model, args, query }) {
         const result = await query(args);
         console.log(`Updated ${model} ${result.id}`);
+        if (process.env.NODE_ENV === 'development') {
+          console.log(args);
+        }
+        if ('zohoCrmId' in args.data) {
+          return result;
+        }
         syncToZoho(model, result.id);
         return result;
       },

@@ -141,11 +141,10 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
       userId: createdLoanRequest.userId,
     },
   });
-
   await prismaClient.user.update({
     where: { id: user.id },
     data: {
-      phone: visitor.phoneNumber,
+      phone: combinedData.applicantInfo.phoneNumber,
       name: combinedData.applicantInfo.fullName,
     },
   });

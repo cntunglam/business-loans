@@ -14,6 +14,7 @@ export const TABLES_TO_SYNC = Object.keys(ZOHO_MODULES);
 export type ZohoCrmFieldFormat = {
   api_name: string;
   app_field?: string;
+  fallback_field?: string;
   format?: (val: any) => string;
 };
 
@@ -23,7 +24,7 @@ const date = (val: Date) => format(val, 'yyyy-MM-dd');
 export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
   [ZOHO_MODULES.ApplicantInfo]: [
     { api_name: 'appApplicantInfoId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'fullName' },
+    { api_name: 'Name', app_field: 'fullName', fallback_field: 'email' },
     { api_name: 'Email', app_field: 'email' },
     { api_name: 'amount' },
     { api_name: 'term' },
@@ -39,7 +40,7 @@ export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
   ],
   [ZOHO_MODULES.User]: [
     { api_name: 'appUserId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'name' },
+    { api_name: 'Name', app_field: 'name', fallback_field: 'email' },
     { api_name: 'Email', app_field: 'email' },
     { api_name: 'cccd' },
     { api_name: 'phone' },
@@ -49,7 +50,7 @@ export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
   ],
   [ZOHO_MODULES.LoanRequest]: [
     { api_name: 'appLoanRequestId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'user.name' },
+    { api_name: 'Name', app_field: 'user.name', fallback_field: 'user.email' },
     { api_name: 'amount' },
     { api_name: 'term' },
     { api_name: 'purpose' },
@@ -64,7 +65,7 @@ export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
   ],
   [ZOHO_MODULES.LoanResponse]: [
     { api_name: 'appLoanResponseId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'lender.name' },
+    { api_name: 'Name', app_field: 'lender.name', fallback_field: 'lender.email' },
     { api_name: 'acceptedAt', format: dateTime },
     { api_name: 'comment' },
     { api_name: 'contactedByBorrowerAt', format: dateTime },
@@ -185,7 +186,7 @@ export class ZohoCrmClient {
     }
   }
 
-  public async getRecord(module: string, recordId?: string): Promise<any> {
+  public async getZohoRecord(module: string, recordId?: string): Promise<any> {
     if (!recordId) return null;
     try {
       const response = await this.client.get(`/${module}/${recordId}`);
