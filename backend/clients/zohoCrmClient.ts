@@ -3,10 +3,10 @@ import { format } from 'date-fns';
 import { CONFIG } from '../config';
 
 export enum ZOHO_MODULES {
-  LoanRequest = 'RoshiVN_LoanRequests',
-  ApplicantInfo = 'RoshiVN_ApplicantInfo',
-  User = 'RoshiVN_Users',
-  LoanResponse = 'RoshiVN_LoanResponses',
+  LoanRequest = 'R_LoanRequests',
+  ApplicantInfo = 'R_ApplicantInfo',
+  User = 'R_Users',
+  LoanResponse = 'R_LoanResponses',
 }
 
 export const TABLES_TO_SYNC = Object.keys(ZOHO_MODULES);
@@ -23,7 +23,7 @@ const date = (val: Date) => format(val, 'yyyy-MM-dd');
 
 export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
   [ZOHO_MODULES.ApplicantInfo]: [
-    { api_name: 'appApplicantInfoId', app_field: 'id' },
+    { api_name: 'appId', app_field: 'id' },
     { api_name: 'Name', app_field: 'fullName', fallback_field: 'email' },
     { api_name: 'Email', app_field: 'email' },
     { api_name: 'amount' },
@@ -39,7 +39,7 @@ export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
     { api_name: 'residencyStatus' },
   ],
   [ZOHO_MODULES.User]: [
-    { api_name: 'appUserId', app_field: 'id' },
+    { api_name: 'appId', app_field: 'id' },
     { api_name: 'Name', app_field: 'name', fallback_field: 'email' },
     { api_name: 'Email', app_field: 'email' },
     { api_name: 'cccd' },
@@ -49,7 +49,7 @@ export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
     { api_name: 'lastLoginAt', format: dateTime },
   ],
   [ZOHO_MODULES.LoanRequest]: [
-    { api_name: 'appLoanRequestId', app_field: 'id' },
+    { api_name: 'appId', app_field: 'id' },
     { api_name: 'Name', app_field: 'user.name', fallback_field: 'user.email' },
     { api_name: 'amount' },
     { api_name: 'term' },
@@ -64,7 +64,7 @@ export const MODULE_API_NAME: Record<ZOHO_MODULES, ZohoCrmFieldFormat[]> = {
     { api_name: 'userId' },
   ],
   [ZOHO_MODULES.LoanResponse]: [
-    { api_name: 'appLoanResponseId', app_field: 'id' },
+    { api_name: 'appId', app_field: 'id' },
     { api_name: 'Name', app_field: 'lender.name', fallback_field: 'lender.email' },
     { api_name: 'acceptedAt', format: dateTime },
     { api_name: 'comment' },
