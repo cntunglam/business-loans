@@ -7,10 +7,12 @@ export enum SYNCING_TABLE {
   ApplicantInfo = 'ApplicantInfo',
   User = 'User',
   LoanRequest = 'LoanRequest',
+  LoanResponse = 'LoanResponse',
 }
 
 export enum SYNCING_MODULES {
   Leads = 'Leads',
+  Deals = 'Deals',
 }
 
 export const TABLES_TO_SYNC = Object.keys(SYNCING_TABLE);
@@ -19,7 +21,7 @@ export type ZohoCrmFieldFormat = {
   api_name: string;
   app_field?: string;
   fallback_field?: string;
-  format?: (val: any) => string;
+  format?: (val: any) => string | any;
 };
 
 const dateTime = (val: Date) => format(val, "yyyy-MM-dd'T'HH:mm:ssxxx");
@@ -74,6 +76,30 @@ export const MODULE_API_NAME_CONVERTOR: Partial<Record<SYNCING_TABLE, ZohoCrmFie
     { api_name: 'userId', app_field: 'id' },
     { api_name: 'role' },
     { api_name: 'lastLoginAt', format: dateTime },
+  ],
+
+  [SYNCING_TABLE.LoanResponse]: [
+    { api_name: 'Deal_Name', app_field: 'lender.name' },
+    { api_name: 'loanResponseId', app_field: 'id' },
+    { api_name: 'loanRequestId', app_field: 'loanRequest.id' },
+    { api_name: 'contactedByBorrowerAt', format: date },
+    { api_name: 'contactedByLenderAt', format: date },
+    { api_name: 'disbursementDate', format: date },
+    { api_name: 'isAuto' },
+    { api_name: 'outcomeStatus' },
+    { api_name: 'status' },
+    { api_name: 'rejectionReasons', format: (val) => (Array.isArray(val) ? val.join(', ') : JSON.stringify(val)) },
+    { api_name: 'acceptedAt', format: dateTime },
+    { api_name: 'createdAt', format: dateTime },
+    { api_name: 'updatedAt', format: dateTime },
+    {
+      api_name: 'loanRequest',
+      app_field: 'loanRequest',
+      format: (val) => {
+        const zohoId = get(val, 'applicantInfo.zohoCrm.zohoId');
+        return zohoId ? { id: zohoId } : null;
+      },
+    },
   ],
 };
 
@@ -176,7 +202,7 @@ export class ZohoCrmClient {
       return [];
     }
   }
-  public async getZohoRecord(module: string, id?: string): Promise<any> {
+  public async getZohoRecord(module: string, id?: string | null): Promise<any> {
     if (!id) return null;
     try {
       const response = await this.client.get(`/${module}/${id}`);

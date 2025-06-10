@@ -86,6 +86,8 @@ model LoanResponse {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  zohoLoanResponseId String?
+
   @@unique([lenderId, loanRequestId])
   @@schema("public")
 }

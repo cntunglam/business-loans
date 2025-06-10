@@ -17,4 +17,10 @@ export const testZohoCrm = async () => {
   // if (user) {
   //   createJob(JobsEnum.SYNC_TO_ZOHO, { User: user.id });
   // }
+  // const lq = await prismaClient.loanResponse.findFirst({
+  //   orderBy: { createdAt: 'desc' },
+  // });
+  // if (lq) {
+  //   createJob(JobsEnum.SYNC_TO_ZOHO, { LoanResponse: lq.id });
+  // }
 };

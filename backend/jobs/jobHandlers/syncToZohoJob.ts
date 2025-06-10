@@ -1,4 +1,4 @@
-import { ApplicantInfo, JobsEnum, LoanRequest, User } from '@roshi/shared';
+import { ApplicantInfo, JobsEnum, LoanRequest, LoanResponse, User } from '@roshi/shared';
 import { get } from 'lodash';
 import { prismaClient } from '../../clients/prismaClient';
 import { MODULE_API_NAME_CONVERTOR, SYNCING_MODULES, SYNCING_TABLE, zohoCrmClient } from '../../clients/zohoCrmClient';
@@ -34,7 +34,7 @@ const formatFields = async <T>(record: T, table: SYNCING_TABLE) => {
 const syncRecordToZoho = async <T>(
   record: (T & { id: string }) | null,
   config: ZohoSyncConfig<T>,
-  zohoId?: string,
+  zohoId?: string | null,
 ): Promise<string | null> => {
   if (!record) return null;
   const existingRecord = await zohoCrmClient.getZohoRecord(config.module, zohoId);
@@ -70,8 +70,19 @@ const loanRequestSyncConfig: ZohoSyncConfig<LoanRequest> = {
   formatFields: async (record) => await formatFields(record, SYNCING_TABLE.LoanRequest),
 };
 
+const loanResponseSyncConfig: ZohoSyncConfig<LoanResponse> = {
+  module: SYNCING_MODULES.Deals,
+  table: SYNCING_TABLE.LoanResponse,
+  formatFields: async (record) => await formatFields(record, SYNCING_TABLE.LoanResponse),
+};
+
 export async function syncToZohoHandler(job: JobPayload<JobsEnum.SYNC_TO_ZOHO>) {
-  const { LoanRequest: loanRequestId, ApplicantInfo: applicantInfoId, User: userId } = job;
+  const {
+    LoanRequest: loanRequestId,
+    ApplicantInfo: applicantInfoId,
+    User: userId,
+    LoanResponse: loanResponseId,
+  } = job;
   try {
     if (applicantInfoId) {
       console.log('Triggered sync to zoho for applicant info', applicantInfoId);
@@ -81,7 +92,7 @@ export async function syncToZohoHandler(job: JobPayload<JobsEnum.SYNC_TO_ZOHO>) 
       });
       if (!applicantInfo?.phoneNumber) {
         console.log('Applicant info phone is null');
-        return;
+        return false;
       }
       const zohoId = await syncRecordToZoho(applicantInfo, applicantInfoSyncConfig, applicantInfo.zohoCrm?.zohoId);
       if (zohoId) {
@@ -125,10 +136,41 @@ export async function syncToZohoHandler(job: JobPayload<JobsEnum.SYNC_TO_ZOHO>) 
       });
       if (!loanRequest?.applicantInfo?.zohoCrm?.zohoId) {
         console.log('Loan request applicant info zoho id is null');
-        return;
+        return false;
       }
       await syncRecordToZoho(loanRequest, loanRequestSyncConfig, loanRequest.applicantInfo.zohoCrm.zohoId);
-      return;
+      return true;
+    }
+    if (loanResponseId) {
+      const loanResponse = await prismaClient.loanResponse.findUnique({
+        where: { id: loanResponseId },
+        include: {
+          loanRequest: {
+            include: {
+              applicantInfo: {
+                include: {
+                  zohoCrm: true,
+                },
+              },
+            },
+          },
+          lender: true,
+        },
+      });
+      if (!loanResponse?.loanRequest?.applicantInfo?.zohoCrm?.zohoId) {
+        console.log('Loan response applicant info zoho id is null');
+        return false;
+      }
+      const zohoId = await syncRecordToZoho(loanResponse, loanResponseSyncConfig, loanResponse?.zohoLoanResponseId);
+      if (zohoId) {
+        await prismaClient.loanResponse.update({
+          where: { id: loanResponseId },
+          data: {
+            zohoLoanResponseId: zohoId,
+          },
+        });
+      }
+      return true;
     }
   } catch (error: any) {
     console.error('Error syncing to Zoho: ', error?.message);

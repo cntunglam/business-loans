@@ -17,6 +17,7 @@ type JobPayloadMap = {
     LoanRequest?: string | null;
     ApplicantInfo?: string | null;
     User?: string | null;
+    LoanResponse?: string | null;
   } & Partial<Record<keyof typeof SYNCING_TABLE, string | null>>;
 };
 
