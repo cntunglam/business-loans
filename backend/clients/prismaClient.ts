@@ -1,17 +1,15 @@
 import { JobsEnum, Prisma, PrismaClient } from '@roshi/shared';
 import { createJob } from '../jobs/boss';
-import { TABLES_TO_SYNC } from './zohoCrmClient';
+import { SYNCING_TABLE, TABLES_TO_SYNC } from './zohoCrmClient';
 
 const syncToZoho = (model: string, id?: string) => {
-  if (id && TABLES_TO_SYNC.includes(model)) {
-    try {
-      console.log(`🚙 Syncing ${model} ${id} to Zoho`);
-      createJob(JobsEnum.SYNC_TO_ZOHO, {
-        [model]: id,
-      });
-    } catch (error) {
-      console.error(`Failed to sync ${model} ${id} to Zoho:`, error);
-    }
+  try {
+    console.log(`🚙 Syncing ${model} ${id} to Zoho`);
+    createJob(JobsEnum.SYNC_TO_ZOHO, {
+      [model]: id,
+    });
+  } catch (error) {
+    console.error(`Failed to sync ${model} ${id} to Zoho:`, error);
   }
 };
 
@@ -25,7 +23,9 @@ const createAndSyncToZohoExtension = Prisma.defineExtension({
         if (process.env.NODE_ENV === 'development') {
           console.log(args);
         }
-        syncToZoho(model, result.id);
+        if (TABLES_TO_SYNC.includes(model)) {
+          syncToZoho(model, result.id);
+        }
         return result;
       },
       async update({ model, args, query }) {
@@ -34,10 +34,9 @@ const createAndSyncToZohoExtension = Prisma.defineExtension({
         if (process.env.NODE_ENV === 'development') {
           console.log(args);
         }
-        if ('zohoCrmId' in args.data) {
-          return result;
+        if ([SYNCING_TABLE.User, SYNCING_TABLE.LoanRequest].includes(model as SYNCING_TABLE)) {
+          syncToZoho(model, result.id);
         }
-        syncToZoho(model, result.id);
         return result;
       },
     },

@@ -36,7 +36,5 @@ model VisitorData {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  zohoCrmId String?
-
   @@schema("public")
 }

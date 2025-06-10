@@ -34,7 +34,8 @@ model User {
   userSettings UserSettings?
   VisitorData  VisitorData[]
 
-  zohoCrmId String?
+  applicantInfoId String?        @unique
+  applicantInfo   ApplicantInfo? @relation(fields: [applicantInfoId], references: [id])
 
   @@schema("public")
 }

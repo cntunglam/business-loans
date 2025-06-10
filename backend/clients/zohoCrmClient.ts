@@ -1,150 +1,106 @@
 import axios, { AxiosInstance } from 'axios';
 import { format } from 'date-fns';
+import { get } from 'lodash';
 import { CONFIG } from '../config';
 
-export enum ZOHO_MODULES {
-  LoanRequest = 'R_LoanRequests',
-  ApplicantInfo = 'R_ApplicantInfo',
-  User = 'R_Users',
-  LoanResponse = 'R_LoanResponses',
-  Company = 'R_Companies',
-  CompanyLeadSettings = 'R_CompanyLeadSettings',
-  Appointment = 'R_Appointments',
-  CompanySettings = 'R_CompanySettings',
-  Document = 'R_Documents',
-  OpeningHours = 'R_OpeningHours',
-  LoanOffer = 'R_LoanOffers',
-  VisitorData = 'R_Visitors',
+export enum SYNCING_TABLE {
+  ApplicantInfo = 'ApplicantInfo',
+  User = 'User',
+  LoanRequest = 'LoanRequest',
+  LoanResponse = 'LoanResponse',
 }
 
-export const TABLES_TO_SYNC = Object.keys(ZOHO_MODULES);
+export enum SYNCING_MODULES {
+  Leads = 'Leads',
+  Deals = 'Deals',
+}
+
+export const TABLES_TO_SYNC = Object.keys(SYNCING_TABLE);
 
 export type ZohoCrmFieldFormat = {
   api_name: string;
   app_field?: string;
   fallback_field?: string;
-  format?: (val: any) => string;
+  format?: (val: any) => string | any;
 };
 
 const dateTime = (val: Date) => format(val, "yyyy-MM-dd'T'HH:mm:ssxxx");
 const date = (val: Date) => format(val, 'yyyy-MM-dd');
 
-export const MODULE_API_NAME: Partial<Record<ZOHO_MODULES, ZohoCrmFieldFormat[]>> = {
-  [ZOHO_MODULES.ApplicantInfo]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'fullName', fallback_field: 'email' },
+export const MODULE_API_NAME_CONVERTOR: Partial<Record<SYNCING_TABLE, ZohoCrmFieldFormat[]>> = {
+  [SYNCING_TABLE.ApplicantInfo]: [
+    // CRM default fields
+    {
+      api_name: 'Last_Name',
+      app_field: 'fullName',
+      fallback_field: 'email',
+      format: (val) => val.split(' ')[1] || val,
+    },
+    { api_name: 'First_Name', app_field: 'fullName', fallback_field: 'email', format: (val) => val.split(' ')[0] },
     { api_name: 'Email', app_field: 'email' },
+    { api_name: 'Lead_Source', app_field: 'RoshiVN' },
+    { api_name: 'Phone', app_field: 'phoneNumber' },
+    { api_name: 'Street', app_field: 'currentAddress', format: (val) => get(JSON.parse(val), [0], '') },
+    { api_name: 'State', app_field: 'currentAddress', format: (val) => get(JSON.parse(val), [1], '') },
+    { api_name: 'City', app_field: 'currentAddress', format: (val) => get(JSON.parse(val), [2], '') },
+
+    { api_name: 'applicationId', app_field: 'id' },
     { api_name: 'amount' },
     { api_name: 'term' },
     { api_name: 'purpose' },
-    { api_name: 'phoneNumber' },
-    { api_name: 'cccdNumber' },
-    { api_name: 'dateOfBirth', format: date },
+    { api_name: 'cccd', app_field: 'cccdNumber' },
+
+    { api_name: 'dob', app_field: 'dateOfBirth', format: date },
     { api_name: 'monthlyIncome' },
     { api_name: 'hasLaborContract' },
     { api_name: 'employmentType' },
-    { api_name: 'currentAddress' },
     { api_name: 'residencyStatus' },
   ],
-  [ZOHO_MODULES.LoanRequest]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'user.name', fallback_field: 'user.name' },
-    { api_name: 'amount' },
-    { api_name: 'term' },
-    { api_name: 'purpose' },
-    { api_name: 'phoneNumber' },
-    { api_name: 'cccdNumber' },
-    { api_name: 'dateOfBirth', format: date },
-    { api_name: 'monthlyIncome' },
-    { api_name: 'hasLaborContract' },
-    { api_name: 'employmentType' },
-    { api_name: 'currentAddress' },
-    { api_name: 'residencyStatus' },
-    { api_name: 'status' },
-    { api_name: 'userId' },
+  [SYNCING_TABLE.LoanRequest]: [
+    { api_name: 'loanRequestId', app_field: 'id' },
+    { api_name: 'loanRequestStatus', app_field: 'status' },
     { api_name: 'isFavorite' },
     { api_name: 'isLowQuality' },
     { api_name: 'isSpam' },
-    { api_name: 'appReferrer', app_field: 'referrer' },
     { api_name: 'approvedAt', format: dateTime },
+    { api_name: 'createdAt', format: dateTime },
+    { api_name: 'updatedAt', format: dateTime },
   ],
-  [ZOHO_MODULES.User]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'name', fallback_field: 'email' },
+  [SYNCING_TABLE.User]: [
+    { api_name: 'Last_Name', app_field: 'name', fallback_field: 'email', format: (val) => val.split(' ')[1] || val },
+    { api_name: 'First_Name', app_field: 'name', fallback_field: 'email', format: (val) => val.split(' ')[0] },
     { api_name: 'Email', app_field: 'email' },
-    { api_name: 'cccd' },
-    { api_name: 'phone' },
+    { api_name: 'Phone', app_field: 'phone' },
+
+    { api_name: 'userStatus', app_field: 'status' },
+    { api_name: 'userId', app_field: 'id' },
     { api_name: 'role' },
-    { api_name: 'status' },
     { api_name: 'lastLoginAt', format: dateTime },
   ],
-  [ZOHO_MODULES.VisitorData]: [
-    { api_name: 'appId', app_field: 'id' },
-    { api_name: 'Name', app_field: 'fullName', fallback_field: 'id' },
-    { api_name: 'Email', app_field: 'email' },
-    { api_name: 'userId' },
-    { api_name: 'currentStep' },
-    { api_name: 'appReferrer', app_field: 'referrer' },
-    { api_name: 'isCompleted' },
 
-    { api_name: 'borrowAmount' },
-    { api_name: 'borrowPeriod' },
-    { api_name: 'borrowPurpose' },
-
-    { api_name: 'cccdNumber' },
-    { api_name: 'fullName' },
-    { api_name: 'dateOfBirth', format: date },
-    { api_name: 'currentAddress' },
-    { api_name: 'monthlyIncome' },
-    { api_name: 'employmentType' },
-    { api_name: 'hasLaborContract' },
-    { api_name: 'residencyStatus' },
-    { api_name: 'lastActiveAt', format: dateTime },
+  [SYNCING_TABLE.LoanResponse]: [
+    { api_name: 'Deal_Name', app_field: 'lender.name' },
+    { api_name: 'loanResponseId', app_field: 'id' },
+    { api_name: 'loanRequestId', app_field: 'loanRequest.id' },
+    { api_name: 'contactedByBorrowerAt', format: date },
+    { api_name: 'contactedByLenderAt', format: date },
+    { api_name: 'disbursementDate', format: date },
+    { api_name: 'isAuto' },
+    { api_name: 'outcomeStatus' },
+    { api_name: 'status' },
+    { api_name: 'rejectionReasons', format: (val) => (Array.isArray(val) ? val.join(', ') : JSON.stringify(val)) },
+    { api_name: 'acceptedAt', format: dateTime },
+    { api_name: 'createdAt', format: dateTime },
+    { api_name: 'updatedAt', format: dateTime },
+    {
+      api_name: 'loanRequest',
+      app_field: 'loanRequest',
+      format: (val) => {
+        const zohoId = get(val, 'applicantInfo.zohoCrm.zohoId');
+        return zohoId ? { id: zohoId } : null;
+      },
+    },
   ],
-  // [ZOHO_MODULES.LoanResponse]: [
-  //   { api_name: 'appId', app_field: 'id' },
-  //   { api_name: 'Name', app_field: 'lender.name', fallback_field: 'lender.email' },
-  //   { api_name: 'acceptedAt', format: dateTime },
-  //   { api_name: 'comment' },
-  //   { api_name: 'contactedByBorrowerAt', format: dateTime },
-  //   { api_name: 'contactedByLenderAt', format: dateTime },
-  //   { api_name: 'disbursementDate', format: date },
-  //   { api_name: 'invoiceId' },
-  //   { api_name: 'isAuto' },
-  //   { api_name: 'lenderId' },
-  //   { api_name: 'loanRequestId' },
-  //   { api_name: 'outcomeStatus' },
-  //   { api_name: 'rejectionReasons' },
-  //   { api_name: 'status' },
-  // ],
-  // [ZOHO_MODULES.Company]: [
-  //   { api_name: 'appId', app_field: 'id' },
-  //   { api_name: 'Name', app_field: 'name', fallback_field: 'email' },
-  // ],
-  // [ZOHO_MODULES.CompanyLeadSettings]: [
-  //   { api_name: 'appId', app_field: 'id' },
-  //   { api_name: 'Name', app_field: 'id' },
-  // ],
-  // [ZOHO_MODULES.Appointment]: [
-  //   { api_name: 'appId', app_field: 'id' },
-  //   { api_name: 'Name', app_field: 'id' },
-  // ],
-  // [ZOHO_MODULES.CompanySettings]: [
-  //   { api_name: 'appId', app_field: 'id' },
-  //   { api_name: 'Name', app_field: 'id' },
-  // ],
-  // [ZOHO_MODULES.Document]: [
-  //   { api_name: 'appId', app_field: 'id' },
-  //   { api_name: 'Name', app_field: 'id' },
-  // ],
-  // [ZOHO_MODULES.OpeningHours]: [
-  //   { api_name: 'appId', app_field: 'id' },
-  //   { api_name: 'Name', app_field: 'id' },
-  // ],
-  // [ZOHO_MODULES.LoanOffer]: [
-  //   { api_name: 'appId', app_field: 'id' },
-  //   { api_name: 'Name', app_field: 'id' },
-  // ],
 };
 
 export enum ZOHO_KEYS {
@@ -168,21 +124,18 @@ export class ZohoCrmClient {
       return config;
     });
   }
-
   public static getInstance(): ZohoCrmClient {
     if (!ZohoCrmClient.instance) {
       ZohoCrmClient.instance = new ZohoCrmClient();
     }
     return ZohoCrmClient.instance;
   }
-
   private async ensureAccessToken(): Promise<void> {
     const now = Date.now();
     if (!this.accessToken || now >= this.tokenExpiry) {
       await this.authenticate();
     }
   }
-
   private async authenticate(): Promise<void> {
     console.log('[ZohoCRM] Refreshing access token...');
     try {
@@ -238,7 +191,6 @@ export class ZohoCrmClient {
       throw error;
     }
   }
-
   public async searchRecords(module: string, criteria: string): Promise<any[]> {
     try {
       const response = await this.client.get(`/${module}/search`, {
@@ -250,14 +202,16 @@ export class ZohoCrmClient {
       return [];
     }
   }
-
-  public async getZohoRecord(module: string, recordId?: string): Promise<any> {
-    if (!recordId) return null;
+  public async getZohoRecord(module: string, id?: string | null): Promise<any> {
+    if (!id) return null;
     try {
-      const response = await this.client.get(`/${module}/${recordId}`);
+      const response = await this.client.get(`/${module}/${id}`);
       return response.data.data ? response.data.data[0] : null;
     } catch (error: any) {
-      console.error(`[ZohoCRM] Failed to get record ${recordId} in ${module}:`, error.response?.data || error.message);
+      console.error(
+        `[ZohoCRM] Failed to get record with id ${id} in ${module}:`,
+        error.response?.data || error.message,
+      );
       return null;
     }
   }

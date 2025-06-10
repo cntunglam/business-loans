@@ -1,4 +1,4 @@
-import { bankLoanCriteria, ERROR_KEYS, JobsEnum, SgManualFormSchema, zodPageNumber } from '@roshi/shared';
+import { bankLoanCriteria, ERROR_KEYS, SgManualFormSchema, zodPageNumber } from '@roshi/shared';
 import { ActivityLogEnum, LoanRequestStatusEnum, StatusEnum, TargetTypeEnum } from '@roshi/shared/models/databaseEnums';
 import { randomUUID } from 'crypto';
 import { endOfMonth, startOfMonth, subMonths } from 'date-fns';
@@ -7,8 +7,6 @@ import _ from 'lodash';
 import { z } from 'zod';
 import { prismaClient } from '../../clients/prismaClient';
 import { CONFIG } from '../../config';
-import { createJob } from '../../jobs/boss';
-import { updateUserLastLogin } from '../../services/account.service';
 import { createActivityLog } from '../../services/activityLog.service';
 import { formatApplicantInfoForLender } from '../../services/applicantInfo.service';
 import { getCompanyFromUserId } from '../../services/company.service';
@@ -25,16 +23,16 @@ import { RoshiError } from '../../utils/roshiError';
 import { successResponse } from '../../utils/successResponse';
 
 export const getMyLoanRequest = async (req: Request, res: Response) => {
-  await updateUserLastLogin(req.user!.sub);
+  // await updateUserLastLogin(req.user!.sub);
 
   const application = await getUserLastLoanRequest(req.user!.sub);
 
   if (!application) return errorResponse(res, 404, ERROR_KEYS.NOT_FOUND);
 
   // If this is an inactive auto-reapply loan request, create activation job
-  if (application.approvedAt === null) {
-    createJob(JobsEnum.ACTIVATE_REAPPLY_LOAN_REQUEST, { loanRequestId: application.id });
-  }
+  // if (application.approvedAt === null) {
+  //   createJob(JobsEnum.ACTIVATE_REAPPLY_LOAN_REQUEST, { loanRequestId: application.id });
+  // }
 
   return successResponse(res, formatLoanRequestForBorrower(application));
 };

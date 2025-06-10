@@ -146,6 +146,11 @@ export const finalizeLoanRequestHandler = async (req: Request, res: Response) =>
     data: {
       phone: combinedData.applicantInfo.phoneNumber,
       name: combinedData.applicantInfo.fullName,
+      applicantInfo: {
+        connect: {
+          id: createdLoanRequest.applicantInfoId!,
+        },
+      },
     },
   });
   if (affiliateVisitorId) {

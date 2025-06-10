@@ -51,8 +51,6 @@ model LoanRequest {
 
   isAutoReapply Boolean @default(false)
 
-  zohoCrmId String?
-
   @@schema("public")
 }
 
@@ -88,7 +86,7 @@ model LoanResponse {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  zohoCrmId String?
+  zohoLoanResponseId String?
 
   @@unique([lenderId, loanRequestId])
   @@schema("public")
