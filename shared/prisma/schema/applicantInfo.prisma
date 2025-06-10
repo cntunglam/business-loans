@@ -28,9 +28,19 @@ model ApplicantInfo {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    zohoCrmId String?
+    user    User?
+    zohoCrm ZohoCrm?
 
     @@index([cccdNumber])
     @@index([phoneNumber])
+    @@schema("public")
+}
+
+model ZohoCrm {
+    id              String         @id @default(uuid())
+    zohoId          String         @unique
+    applicantInfoId String?        @unique
+    applicantInfo   ApplicantInfo? @relation(fields: [applicantInfoId], references: [id])
+
     @@schema("public")
 }

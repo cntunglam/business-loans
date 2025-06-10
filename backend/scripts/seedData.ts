@@ -45,7 +45,7 @@ const generateCompanyType = () => {
 };
 
 const generateCompanyStatus = () => {
-  return faker.helpers.arrayElement(['ACTIVE', 'DELETED']);
+  return faker.helpers.arrayElement(['ACTIVE']);
 };
 
 async function createCompany(index: number) {
@@ -98,7 +98,7 @@ async function createCompany(index: number) {
         },
       },
       stores: {
-        create: Array.from({ length: faker.number.int({ min: 1, max: 3 }) }, (_, i) => ({
+        create: Array.from({ length: faker.number.int({ min: 1, max: 1 }) }, (_, i) => ({
           name: `${companyName} - Chi nhánh ${i + 1}`,
           address: generateAddress(),
           phoneNumber: generatePhoneNumber(),
@@ -140,7 +140,7 @@ async function createCompany(index: number) {
   });
 
   // Create 1-3 lender users for each company
-  const numLenders = faker.number.int({ min: 1, max: 3 });
+  const numLenders = faker.number.int({ min: 1, max: 1 });
   for (let i = 0; i < numLenders; i++) {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
@@ -165,8 +165,8 @@ async function createCompany(index: number) {
 
 export async function seedData() {
   console.log('Starting seed...');
-  const totalCompanies = 100;
-  const batchSize = 10;
+  const totalCompanies = 5;
+  const batchSize = 5;
   console.log(`Creating ${totalCompanies} companies with their users...`);
   const existingCompanies = await prismaClient.company.count();
   if (existingCompanies > 0) {
