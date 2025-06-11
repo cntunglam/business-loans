@@ -8,6 +8,7 @@ export enum SYNCING_TABLE {
   User = 'User',
   LoanRequest = 'LoanRequest',
   LoanResponse = 'LoanResponse',
+  LoanOffer = 'LoanOffer',
 }
 
 export enum SYNCING_MODULES {
@@ -100,6 +101,15 @@ export const MODULE_API_NAME_CONVERTOR: Partial<Record<SYNCING_TABLE, ZohoCrmFie
         return zohoId ? { id: zohoId } : null;
       },
     },
+  ],
+  [SYNCING_TABLE.LoanOffer]: [
+    { api_name: 'Amount', app_field: 'amount' },
+
+    { api_name: 'loanOfferId', app_field: 'id' },
+    { api_name: 'term' },
+    { api_name: 'monthlyInterestRate' },
+    { api_name: 'fixedUpfrontFees' },
+    { api_name: 'variableUpfrontFees' },
   ],
 };
 

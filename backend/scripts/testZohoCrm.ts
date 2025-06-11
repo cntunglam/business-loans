@@ -19,8 +19,16 @@ export const testZohoCrm = async () => {
   // }
   // const lq = await prismaClient.loanResponse.findFirst({
   //   orderBy: { createdAt: 'desc' },
+  //   where: {
+  //     loanOffer: {
+  //       isNot: null,
+  //     },
+  //   },
+  //   include: {
+  //     loanOffer: true,
+  //   },
   // });
-  // if (lq) {
-  //   createJob(JobsEnum.SYNC_TO_ZOHO, { LoanResponse: lq.id });
+  // if (lq?.loanOffer) {
+  //   createJob(JobsEnum.SYNC_TO_ZOHO, { LoanOffer: lq.loanOffer.id });
   // }
 };
