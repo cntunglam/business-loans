@@ -79,7 +79,7 @@ export const ApplicationSteps = {
     validation: (data: unknown) => z.string().max(255).parse(data),
   },
   [ApplicationStepsEnum.residencyStatus]: {
-    validation: (data: unknown) => z.string().optional().nullable(),
+    validation: (_data: unknown) => z.string().optional().nullable(),
   },
 } as const;
 

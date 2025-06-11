@@ -7,8 +7,8 @@ type ResidencyStatus = keyof typeof residencyStatusesEnum;
 // Helper function to create a filter condition for a single field
 const createFilterCondition = <T>(
   field: string,
-  values: T[] | undefined,
-  path: string[] = [field],
+  _values: T[] | undefined,
+  _path: string[] = [field],
 ): Prisma.ApplicantInfoWhereInput | null => {
   return null;
   //   if (!values || values.length === 0) return null;
@@ -61,17 +61,17 @@ export const mappLeadFilters = (
   if (propertyOwnershipFilter) AND.push(propertyOwnershipFilter);
 
   // Process income filters based on residency status
-  const localResidencyStatuses: ResidencyStatus[] = [
-    residencyStatusesEnum.SINGAPOREAN,
-    residencyStatusesEnum.PERMANANT_RESIDENT,
-  ];
+  // const localResidencyStatuses: ResidencyStatus[] = [
+  //   residencyStatusesEnum.SINGAPOREAN,
+  //   residencyStatusesEnum.PERMANANT_RESIDENT,
+  // ];
 
-  const foreignerResidencyStatuses: ResidencyStatus[] = [
-    residencyStatusesEnum.EMPLOYMENT_PASS,
-    residencyStatusesEnum.FOREIGNER,
-    residencyStatusesEnum.LONG_TERM_VISIT,
-    residencyStatusesEnum.S_PASS_WORK_PERMIT,
-  ];
+  // const foreignerResidencyStatuses: ResidencyStatus[] = [
+  //   residencyStatusesEnum.EMPLOYMENT_PASS,
+  //   residencyStatusesEnum.FOREIGNER,
+  //   residencyStatusesEnum.LONG_TERM_VISIT,
+  //   residencyStatusesEnum.S_PASS_WORK_PERMIT,
+  // ];
 
   const incomeFilters: Prisma.ApplicantInfoWhereInput[] = [];
 
