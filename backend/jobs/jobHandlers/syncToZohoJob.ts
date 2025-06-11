@@ -1,4 +1,4 @@
-import { ApplicantInfo, JobsEnum, LoanRequest, LoanResponse, User } from '@roshi/shared';
+import { ApplicantInfo, JobsEnum, LoanOffer, LoanRequest, LoanResponse, User } from '@roshi/shared';
 import { get } from 'lodash';
 import { prismaClient } from '../../clients/prismaClient';
 import { MODULE_API_NAME_CONVERTOR, SYNCING_MODULES, SYNCING_TABLE, zohoCrmClient } from '../../clients/zohoCrmClient';
@@ -76,12 +76,19 @@ const loanResponseSyncConfig: ZohoSyncConfig<LoanResponse> = {
   formatFields: async (record) => await formatFields(record, SYNCING_TABLE.LoanResponse),
 };
 
+const loanOfferSyncConfig: ZohoSyncConfig<LoanOffer> = {
+  module: SYNCING_MODULES.Deals,
+  table: SYNCING_TABLE.LoanOffer,
+  formatFields: async (record) => await formatFields(record, SYNCING_TABLE.LoanOffer),
+};
+
 export async function syncToZohoHandler(job: JobPayload<JobsEnum.SYNC_TO_ZOHO>) {
   const {
     LoanRequest: loanRequestId,
     ApplicantInfo: applicantInfoId,
     User: userId,
     LoanResponse: loanResponseId,
+    LoanOffer: loanOfferId,
   } = job;
   try {
     if (applicantInfoId) {
@@ -170,6 +177,20 @@ export async function syncToZohoHandler(job: JobPayload<JobsEnum.SYNC_TO_ZOHO>) 
           },
         });
       }
+      return true;
+    }
+    if (loanOfferId) {
+      const loanOffer = await prismaClient.loanOffer.findUnique({
+        where: { id: loanOfferId },
+        include: {
+          loanResponse: true,
+        },
+      });
+      if (!loanOffer?.loanResponse?.zohoLoanResponseId) {
+        console.log('Loan offer loan response zoho id is null');
+        return false;
+      }
+      await syncRecordToZoho(loanOffer, loanOfferSyncConfig, loanOffer.loanResponse.zohoLoanResponseId);
       return true;
     }
   } catch (error: any) {
