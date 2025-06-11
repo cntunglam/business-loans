@@ -1,0 +1,17 @@
+Dockerfile
+backend.Dockerfile
+frontend.Dockerfile
+.dockerignore
+node_modules
+frontend/node_modules
+frontend/.env
+backend/node_modules
+backend/dist
+backend/build
+backend/.env
+frontend/.next
+data
+npm-debug.log
+README.md
+.git
+.vscode

@@ -15,6 +15,8 @@
     "build-server": "npm run build -w backend",
     "start-server": "npm run start -w backend",
     "docker:push-wa": "docker build -t roshi.azurecr.io/whatsapp-web:v1 -f docker/whatsapp-web/dockerfile docker/whatsapp-web/ && docker push roshi.azurecr.io/whatsapp-web:v1",
+    "docker:frontend": "docker build -f frontend.Dockerfile -t registry.digitalocean.com/lamcao/business-loans:v1 .",
+    "docker:push": "docker push registry.digitalocean.com/lamcao/business-loans:v1",
     "test": "node --import tsx --test **/*.test.ts",
     "test:e2e": "npm run test:e2e -w frontend",
     "precommit": "npm run precommit -w frontend",
