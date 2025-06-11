@@ -20,7 +20,7 @@ jobs:
       - name: Generate Build Environment Variables
         run: |
           echo "DO_USERNAME=caongoctunglam@gmail.com" >> $GITHUB_ENV
-          echo "DO_TOKEN=dop_v1_936eb0ef0adca7a5049065ca963b679e2b4f3602ab19eaa53b256b97494bfef6" >> $GITHUB_ENV
+          echo "DO_TOKEN=dop_v1_e2d201eba843dfcd77eb5d92edf55b5e8be8bd6afa8e82d41ea2579b84775550" >> $GITHUB_ENV
           echo "DOCR_REGISTRY=registry.digitalocean.com" >> $GITHUB_ENV
           echo "DOCR_REPO=lamcao/roshi-vn-fe-dev" >> $GITHUB_ENV
           echo "DOCR_TAG=v1" >> $GITHUB_ENV
@@ -54,7 +54,7 @@ jobs:
 
       - name: Generate Build Environment Variables
         run: |
-          echo "DO_TOKEN=dop_v1_936eb0ef0adca7a5049065ca963b679e2b4f3602ab19eaa53b256b97494bfef6" >> $GITHUB_ENV
+          echo "DO_TOKEN=dop_v1_e2d201eba843dfcd77eb5d92edf55b5e8be8bd6afa8e82d41ea2579b84775550" >> $GITHUB_ENV
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
