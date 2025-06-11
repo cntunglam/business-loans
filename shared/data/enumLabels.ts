@@ -104,13 +104,33 @@ export const LeadComputedStatusLabels = {
 };
 
 export const ApplyingStepRequireErrorLabels = {
-  [ApplicationStepsEnum.fullName]: "Vui lòng nhập tên của bạn",
-  [ApplicationStepsEnum.employmentType]: "Vui lòng chọn một công việc",
-  [ApplicationStepsEnum.cccdNumber]: "Vui lòng nhập số CCCD",
   [ApplicationStepsEnum.borrowPurpose]: "Vui lòng chọn mục đích vay",
+  [ApplicationStepsEnum.companyName]: "Vui lòng nhập tên công ty",
+  [ApplicationStepsEnum.companyUENumber]: "Vui lòng nhập số UEN của công ty",
+  [ApplicationStepsEnum.companyEmployeeInfo]: "Vui lòng nhập thông tin nhân viên công ty",
+  [ApplicationStepsEnum.borrowAmount]: "Vui lòng nhập số tiền vay",
+  [ApplicationStepsEnum.borrowPeriod]: "Vui lòng nhập thời gian vay",
+  [ApplicationStepsEnum.phoneNumber]: "Vui lòng nhập số điện thoại",
+  [ApplicationStepsEnum.currentAddress]: "Vui lòng nhập địa chỉ hiện tại",
+  [ApplicationStepsEnum.dateOfBirth]: "Vui lòng nhập ngày sinh",
+  [ApplicationStepsEnum.hasLaborContract]: "Vui lòng chọn có hợp đồng lao động hay không",
+  [ApplicationStepsEnum.monthlyIncome]: "Vui lòng nhập thu nhập hàng tháng",
+  [ApplicationStepsEnum.cccdNumber]: "Vui lòng nhập số CCCD/CMND",
+  [ApplicationStepsEnum.employmentType]: "Vui lòng chọn loại hình công việc",
 };
 
 export const ApplyingStepErrorLabels = {
-  [ApplicationStepsEnum.cccdNumber]: "Số CCCD không hợp lệ",
-  [ApplicationStepsEnum.fullName]: "Tên quá ngắn, vui lòng nhập đầy đủ họ tên",
+  [ApplicationStepsEnum.borrowAmount]: "Số tiền vay không hợp lệ",
+  [ApplicationStepsEnum.borrowPeriod]: "Thời gian vay không hợp lệ",
+  [ApplicationStepsEnum.borrowPurpose]: "Mục đích vay không hợp lệ",
+  [ApplicationStepsEnum.companyName]: "Tên công ty không hợp lệ",
+  [ApplicationStepsEnum.companyUENumber]: "Số UEN của công ty không hợp lệ",
+  [ApplicationStepsEnum.companyEmployeeInfo]: "Thông tin nhân viên công ty không hợp lệ",
+  [ApplicationStepsEnum.phoneNumber]: "Số điện thoại không hợp lệ",
+  [ApplicationStepsEnum.currentAddress]: "Địa chỉ hiện tại không hợp lệ",
+  [ApplicationStepsEnum.dateOfBirth]: "Ngày sinh không hợp lệ",
+  [ApplicationStepsEnum.hasLaborContract]: "Lựa chọn hợp đồng lao động không hợp lệ",
+  [ApplicationStepsEnum.monthlyIncome]: "Thu nhập hàng tháng không hợp lệ",
+  [ApplicationStepsEnum.cccdNumber]: "Số CCCD/CMND không hợp lệ",
+  [ApplicationStepsEnum.employmentType]: "Loại hình công việc không hợp lệ",
 };

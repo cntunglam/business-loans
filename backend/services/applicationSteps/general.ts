@@ -1,25 +1,19 @@
-import {
-  ApplicationStepsEnum,
-  ApplicationStepsImagesEnum,
-  employmentTypeEnum,
-  loanPurposesEnum,
-  StepDetails,
-} from '@roshi/shared';
+import { ApplicationStepsEnum, ApplicationStepsImagesEnum, loanPurposesEnum, StepDetails } from '@roshi/shared';
 
 export const ApplicationStepsLabels: Record<ApplicationStepsEnum, string> = {
   [ApplicationStepsEnum.borrowAmount]: 'Bạn muốn vay bao nhiêu?',
   [ApplicationStepsEnum.borrowPeriod]: 'Bạn muốn trả trong bao lâu?',
   [ApplicationStepsEnum.borrowPurpose]: 'Mục đích vay là gì?',
-  [ApplicationStepsEnum.fullName]: 'Tên đầy đủ của bạn là gì?',
-  [ApplicationStepsEnum.cccdNumber]: 'Số CCCD/CMND của bạn là gì?',
+  [ApplicationStepsEnum.companyName]: 'Tên công ty của bạn là gì?',
+  [ApplicationStepsEnum.companyUENumber]: 'Số UEN của công ty bạn là gì?',
+  [ApplicationStepsEnum.companyEmployeeInfo]: 'Thông tin nhân viên công ty bạn',
   [ApplicationStepsEnum.phoneNumber]: 'Số điện thoại của bạn là gì?',
-  [ApplicationStepsEnum.email]: 'Địa chỉ email của bạn là gì?',
-  [ApplicationStepsEnum.dateOfBirth]: 'Ngày sinh của bạn là gì?',
-  [ApplicationStepsEnum.monthlyIncome]: 'Thu nhập hàng tháng của bạn là bao nhiêu?',
+  [ApplicationStepsEnum.currentAddress]: 'Địa chỉ hiện tại của bạn là gì?',
+  [ApplicationStepsEnum.dateOfBirth]: 'Ngày sinh của bạn là khi nào?',
   [ApplicationStepsEnum.hasLaborContract]: 'Bạn có hợp đồng lao động không?',
-  [ApplicationStepsEnum.currentAddress]: 'Địa chỉ hiện tại của bạn?',
-  [ApplicationStepsEnum.residencyStatus]: 'Giá trị công dân?',
-  [ApplicationStepsEnum.employmentType]: 'Công việc của bạn là gì?',
+  [ApplicationStepsEnum.monthlyIncome]: 'Thu nhập hàng tháng của bạn là bao nhiêu?',
+  [ApplicationStepsEnum.cccdNumber]: 'Số CCCD/CMND của bạn là gì?',
+  [ApplicationStepsEnum.employmentType]: 'Loại hình công việc của bạn là gì?',
 };
 export const regularPersonalLoanSteps: StepDetails[] = [
   {
@@ -39,37 +33,15 @@ export const regularPersonalLoanSteps: StepDetails[] = [
     settings: { options: Object.values(loanPurposesEnum) },
   },
   {
-    key: ApplicationStepsEnum.cccdNumber,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.cccdNumber],
+    key: ApplicationStepsEnum.companyName,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.companyName],
   },
   {
-    key: ApplicationStepsEnum.employmentType,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.employmentType],
-    settings: { options: Object.values(employmentTypeEnum) },
+    key: ApplicationStepsEnum.companyUENumber,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.companyUENumber],
   },
   {
-    key: ApplicationStepsEnum.dateOfBirth,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.dateOfBirth],
-    settings: { min: 21, max: 65 },
-  },
-  {
-    key: ApplicationStepsEnum.monthlyIncome,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.monthlyIncome],
-    image: ApplicationStepsImagesEnum.cashback,
-    settings: { min: 1_000_000, max: 100_000_000 },
-  },
-  {
-    key: ApplicationStepsEnum.hasLaborContract,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.hasLaborContract],
-    settings: { options: ['YES', 'NO'] },
-  },
-  {
-    key: ApplicationStepsEnum.currentAddress,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.currentAddress],
-  },
-  {
-    key: ApplicationStepsEnum.fullName,
-    title: ApplicationStepsLabels[ApplicationStepsEnum.fullName],
-    image: ApplicationStepsImagesEnum.bestOffers,
+    key: ApplicationStepsEnum.companyEmployeeInfo,
+    title: ApplicationStepsLabels[ApplicationStepsEnum.companyEmployeeInfo],
   },
 ];

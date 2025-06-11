@@ -102,7 +102,7 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
         return data.visitor;
       } catch (err) {
         setError(err instanceof Error ? err.message : ERROR_KEYS.INTERNAL_ERROR);
-        throw err;
+        return null;
       } finally {
         setIsLoading(false);
       }
@@ -130,9 +130,10 @@ export const VisitorProvider = ({ children }: { children: ReactNode }) => {
           setVisitorData(updatedVisitorData);
           if (steps && currentStepIndex < steps.length) setStep(currentStepIndex + 1);
         }
+        if (steps && currentStepIndex < steps.length) setStep(currentStepIndex + 1);
       } catch (err) {
         setError(isErrorResponse(err) ? getErrorMessage(err) : 'An error occured');
-        throw err;
+        // throw err;
       } finally {
         setIsLoading(false);
       }

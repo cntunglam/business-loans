@@ -83,29 +83,33 @@ export const residencyStatusesLabels = {
 } as const;
 
 export enum loanPurposesEnum {
-  CREDIT_CARD_DEBT = "CREDIT_CARD_DEBT",
-  REPAY_FAMILY_OR_FRIENDS = "REPAY_FAMILY_OR_FRIENDS",
+  WORKING_CAPITAL_LOAN = "WORKING_CAPITAL_LOAN",
+  INVOICE_FINANCING = "INVOICE_FINANCING",
+  PURCHASE_ORDER_FINANCING = "PURCHASE_ORDER_FINANCING",
+  PAYROLL_FINANCING = "PAYROLL_FINANCING",
+  BRIDGING_LOAN = "BRIDGING_LOAN",
+  EXPANSION_FINANCING = "EXPANSION_FINANCING",
+  REVENUE_BASED_FINANCE = "REVENUE_BASED_FINANCE",
+  BUSINESS_LINE_OF_CREDIT = "BUSINESS_LINE_OF_CREDIT",
+  DEBT_CONSOLIDATION = "DEBT_CONSOLIDATION",
   EDUCATION = "EDUCATION",
   HOME = "HOME",
-  DEBT_CONSOLIDATION = "DEBT_CONSOLIDATION",
-  HOBBIES = "HOBBIES",
-  INVESTMENTS = "INVESTMENTS",
-  LINE_OF_CREDIT = "LINE_OF_CREDIT",
-  BUSINESS_EXPANSION = "BUSINESS_EXPANSION",
   OTHER = "OTHER",
 }
 
 export const loanPurposesLabels = {
-  [loanPurposesEnum.CREDIT_CARD_DEBT]: "Nợ thẻ tín dụng",
-  [loanPurposesEnum.REPAY_FAMILY_OR_FRIENDS]: "Trả nợ cho gia đình hoặc bạn bè",
-  [loanPurposesEnum.EDUCATION]: "Giáo dục",
-  [loanPurposesEnum.HOME]: "Nhà ở",
-  [loanPurposesEnum.DEBT_CONSOLIDATION]: "Hợp nhất nợ",
-  [loanPurposesEnum.HOBBIES]: "Sở thích",
-  [loanPurposesEnum.INVESTMENTS]: "Đầu tư",
-  [loanPurposesEnum.LINE_OF_CREDIT]: "Hạn mức tín dụng",
-  [loanPurposesEnum.BUSINESS_EXPANSION]: "Mở rộng kinh doanh",
-  [loanPurposesEnum.OTHER]: "Khác",
+  [loanPurposesEnum.WORKING_CAPITAL_LOAN]: "Working Capital Loan",
+  [loanPurposesEnum.INVOICE_FINANCING]: "Invoice Financing",
+  [loanPurposesEnum.PURCHASE_ORDER_FINANCING]: "Purchase Order Financing",
+  [loanPurposesEnum.PAYROLL_FINANCING]: "Payroll Financing",
+  [loanPurposesEnum.BRIDGING_LOAN]: "Bridging Loan",
+  [loanPurposesEnum.EXPANSION_FINANCING]: "Expansion Financing",
+  [loanPurposesEnum.REVENUE_BASED_FINANCE]: "Revenue Based Finance",
+  [loanPurposesEnum.BUSINESS_LINE_OF_CREDIT]: "Business Line of Credit",
+  [loanPurposesEnum.DEBT_CONSOLIDATION]: "Debt Consolidation",
+  [loanPurposesEnum.EDUCATION]: "Education",
+  [loanPurposesEnum.HOME]: "Home",
+  [loanPurposesEnum.OTHER]: "Other",
 };
 
 export enum EmploymentTimeEnum {

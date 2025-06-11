@@ -1,11 +1,9 @@
 import {
   ApplicationStepsEnum,
-  ApplyingStepErrorLabels,
   ApplyingStepRequireErrorLabels,
   LoanRequestTypeEnum,
   MinMaxSettings,
 } from '@roshi/shared';
-import { getPhoneSchema } from '@roshi/shared/models/common.model';
 import { z } from 'zod';
 import { regularPersonalLoanSteps } from './applicationSteps/general';
 import { zeroInterestLoanSteps } from './applicationSteps/zeroInterest';
@@ -30,56 +28,64 @@ export const ApplicationSteps = {
         .max(255)
         .parse(data),
   },
-  [ApplicationStepsEnum.fullName]: {
+  [ApplicationStepsEnum.companyName]: {
     validation: (data: unknown) =>
       z
         .string({
-          message: ApplyingStepRequireErrorLabels[ApplicationStepsEnum.fullName],
+          message: ApplyingStepRequireErrorLabels[ApplicationStepsEnum.companyName],
         })
-        .min(3, {
-          message: ApplyingStepErrorLabels[ApplicationStepsEnum.fullName],
-        })
+        .min(3)
         .max(255)
         .parse(data),
   },
-  [ApplicationStepsEnum.cccdNumber]: {
+  [ApplicationStepsEnum.companyUENumber]: {
     validation: (data: unknown) =>
       z
-        .string({ message: ApplyingStepRequireErrorLabels[ApplicationStepsEnum.cccdNumber] })
-        .min(9, { message: ApplyingStepErrorLabels[ApplicationStepsEnum.cccdNumber] })
-        .max(12)
+        .string({
+          message: ApplyingStepRequireErrorLabels[ApplicationStepsEnum.companyUENumber],
+        })
+        .min(9)
+        .max(9)
+        .parse(data),
+  },
+  [ApplicationStepsEnum.companyEmployeeInfo]: {
+    validation: (data: unknown) =>
+      z
+        .string({
+          message: ApplyingStepRequireErrorLabels[ApplicationStepsEnum.companyEmployeeInfo],
+        })
+        .min(3)
+        .max(255)
         .parse(data),
   },
   [ApplicationStepsEnum.phoneNumber]: {
-    validation: (data: unknown) => getPhoneSchema().nullable().optional().parse(data),
+    validation: (data: unknown) => z.string().min(8).max(15).parse(data),
   },
-  [ApplicationStepsEnum.email]: {
-    validation: (data: unknown) => z.string().email().parse(data),
+  [ApplicationStepsEnum.currentAddress]: {
+    validation: (data: unknown) =>
+      z
+        .object({
+          detail: z.string().min(1),
+          provinceId: z.string().optional(),
+          districtId: z.string().optional(),
+        })
+        .parse(data),
   },
   [ApplicationStepsEnum.dateOfBirth]: {
     validation: (data: unknown) => z.coerce.date().parse(data),
+  },
+  [ApplicationStepsEnum.hasLaborContract]: {
+    validation: (data: unknown) => z.boolean().parse(data),
   },
   [ApplicationStepsEnum.monthlyIncome]: {
     validation: (data: unknown, settings: MinMaxSettings) =>
       z.coerce.number().int().min(settings.min).max(settings.max).parse(data),
   },
+  [ApplicationStepsEnum.cccdNumber]: {
+    validation: (data: unknown) => z.string().length(12).parse(data),
+  },
   [ApplicationStepsEnum.employmentType]: {
-    validation: (data: unknown) =>
-      z
-        .string({
-          message: ApplyingStepRequireErrorLabels[ApplicationStepsEnum.employmentType],
-        })
-        .max(255)
-        .parse(data),
-  },
-  [ApplicationStepsEnum.hasLaborContract]: {
-    validation: (data: unknown) => z.boolean().parse(data),
-  },
-  [ApplicationStepsEnum.currentAddress]: {
-    validation: (data: unknown) => z.string().max(255).parse(data),
-  },
-  [ApplicationStepsEnum.residencyStatus]: {
-    validation: (_data: unknown) => z.string().optional().nullable(),
+    validation: (data: unknown) => z.string().min(1).max(255).parse(data),
   },
 } as const;
 

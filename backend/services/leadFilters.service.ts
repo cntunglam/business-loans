@@ -61,6 +61,7 @@ export const mappLeadFilters = (
   if (propertyOwnershipFilter) AND.push(propertyOwnershipFilter);
 
   // Process income filters based on residency status
+  // Note: These constants are kept for future use when the filter logic is implemented
   // const localResidencyStatuses: ResidencyStatus[] = [
   //   residencyStatusesEnum.SINGAPOREAN,
   //   residencyStatusesEnum.PERMANANT_RESIDENT,
