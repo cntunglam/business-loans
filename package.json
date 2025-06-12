@@ -7,20 +7,11 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "backend": "npm run dev -w backend",
     "frontend": "npm run dev -w frontend",
-    "server": "npm run start -w backend",
-    "migrate": "npm run migrate -w shared",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "build-server": "npm run build -w backend",
-    "start-server": "npm run start -w backend",
-    "docker:push-wa": "docker build -t roshi.azurecr.io/whatsapp-web:v1 -f docker/whatsapp-web/dockerfile docker/whatsapp-web/ && docker push roshi.azurecr.io/whatsapp-web:v1",
-    "docker:frontend": "docker build -f frontend.Dockerfile -t registry.digitalocean.com/lamcao/business-loans:v1 .",
-    "docker:push": "docker push registry.digitalocean.com/lamcao/business-loans:v1",
-    "test": "node --import tsx --test **/*.test.ts",
-    "test:e2e": "npm run test:e2e -w frontend",
+    "dev": "concurrently \"npm run frontend\"",
+    "docker:frontend": "docker build -f frontend.Dockerfile -t registry.digitalocean.com/lamcao/roshi-vn-fe-dev:v1 .",
+    "docker:push": "docker push registry.digitalocean.com/lamcao/roshi-vn-fe-dev:v1",
     "precommit": "npm run precommit -w frontend",
-    "migration:generate:push": "npm run postinstall -w shared && npm run push -w shared",
     "prepare": "husky"
   },
   "author": "",
@@ -28,12 +19,8 @@
   "workspaces": [
     "frontend"
   ],
-  "dependencies": {
-    "zod": "^3.23.8"
-  },
   "devDependencies": {
     "@types/jest": "^29.5.14",
-    "@vercel/ncc": "^0.38.1",
     "concurrently": "^8.2.2",
     "husky": "^9.1.7"
   },
