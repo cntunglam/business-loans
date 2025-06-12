@@ -4,7 +4,7 @@ import { BorrowTermStep } from '../components/application/steps/borrowTerm';
 import { CompanyEmployeeInfoStep } from '../components/application/steps/companyEmployeeInfoStep';
 import { CompanyNameStep } from '../components/application/steps/companyNameStep';
 import { CompanyUENumberStep } from '../components/application/steps/companyUENumberStep';
-import { ApplicationStepsEnum, ApplicationStepsImagesEnum } from '../components/shared/applicationStep';
+import { ApplicationStepsEnum, ApplicationStepsImagesEnum } from '../constants/applicationStep';
 import { ASSETS } from './assets';
 
 export const ApplicationStepsImages = {

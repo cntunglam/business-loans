@@ -1,3 +1,5 @@
+import { ApplicationStepsEnum, ApplicationStepsImagesEnum, StepDetails } from './applicationStep';
+
 export enum loanPurposesEnum {
   WORKING_CAPITAL_LOAN = 'WORKING_CAPITAL_LOAN',
   INVOICE_FINANCING = 'INVOICE_FINANCING',
@@ -27,3 +29,32 @@ export const loanPurposesLabels = {
   [loanPurposesEnum.HOME]: 'Home',
   [loanPurposesEnum.OTHER]: 'Other'
 };
+
+export const DEFAULT_APPLICATION_STEPS: StepDetails[] = [
+  {
+    title: 'How much do you want to borrow?',
+    key: ApplicationStepsEnum.borrowAmount,
+    image: ApplicationStepsImagesEnum.loanOffers
+  },
+  {
+    title: 'Over what period would you like to pay?',
+    key: ApplicationStepsEnum.borrowPeriod
+  },
+  {
+    title: 'What is the purpose of the loan?',
+    key: ApplicationStepsEnum.borrowPurpose,
+    image: ApplicationStepsImagesEnum.free
+  },
+  {
+    title: 'What is the company’s legal name?',
+    key: ApplicationStepsEnum.companyName
+  },
+  {
+    title: 'What is the company’s UEN?',
+    key: ApplicationStepsEnum.companyUENumber
+  },
+  {
+    title: 'What is your name and position in the company?',
+    key: ApplicationStepsEnum.companyEmployeeInfo
+  }
+];

@@ -1,42 +1,14 @@
 import { Box, Button, LinearProgress, Link, Typography } from '@mui/material';
 import { cloneElement, ReactElement, useMemo, useState } from 'react';
 import Balancer from 'react-wrap-balancer';
+import { DEFAULT_APPLICATION_STEPS } from '../../constants/applicationData';
+import { ApplicationStepsImagesEnum } from '../../constants/applicationStep';
 import { ApplicationStepsComponents, ApplicationStepsImages } from '../../data/applicationStepsComponents';
-import { ApplicationStepsEnum, ApplicationStepsImagesEnum, StepDetails } from '../shared/applicationStep';
 import { Flex } from '../shared/flex';
 import FinishStep from './steps/finishStep';
 
-const DEFAULT_STEPS: StepDetails[] = [
-  {
-    title: 'How much do you want to borrow?',
-    key: ApplicationStepsEnum.borrowAmount,
-    image: ApplicationStepsImagesEnum.loanOffers
-  },
-  {
-    title: 'Over what period would you like to pay?',
-    key: ApplicationStepsEnum.borrowPeriod
-  },
-  {
-    title: 'What is the purpose of the loan?',
-    key: ApplicationStepsEnum.borrowPurpose,
-    image: ApplicationStepsImagesEnum.free
-  },
-  {
-    title: 'What is the company’s legal name?',
-    key: ApplicationStepsEnum.companyName
-  },
-  {
-    title: 'What is the company’s UEN?',
-    key: ApplicationStepsEnum.companyUENumber
-  },
-  {
-    title: 'What is your name and position in the company?',
-    key: ApplicationStepsEnum.companyEmployeeInfo
-  }
-];
-
 export const LoanApplication = () => {
-  const steps = useMemo(() => DEFAULT_STEPS, []);
+  const steps = useMemo(() => DEFAULT_APPLICATION_STEPS, []);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const currentStepData = useMemo(() => steps[currentStepIndex], [steps, currentStepIndex]);
 

@@ -8,6 +8,7 @@ export const AppRouter = () => {
       path: '/',
       element: <MainLayout />,
       children: [
+        { index: true, element: <Navigate replace to="apply" /> },
         { path: 'apply', element: <LoanApplicationView /> },
         { path: '*', element: <Navigate replace to="apply" /> }
       ]
