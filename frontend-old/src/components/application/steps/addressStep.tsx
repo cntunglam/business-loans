@@ -24,21 +24,17 @@ export const AddressStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
     if (!visitor) return;
     try {
       const stepData = ApplicationSteps[ApplicationStepsEnum.currentAddress].validation(visitor[ApplicationStepsEnum.currentAddress]);
-      if (typeof stepData === 'string') {
-        const address = JSON.parse(stepData);
-        if (address && Array.isArray(address) && address.length === 3) {
-          const districtId = districts.find((d) => d.name === address[1])?.districtId;
-          const provinceId = provinces.find((p) => p.name === address[2])?.provinceId;
-          setValue({
-            province: provinceId,
-            district: districtId,
-            detail: address[0]
-          });
-          const filtered = districts.filter((d) => d.provinceId === provinceId);
-          setFilteredDistricts(filtered);
-        }
-      } else if (stepData && typeof stepData === 'object' && 'detail' in stepData) {
-        setValue(stepData as AddressValue);
+      const address = JSON.parse(stepData);
+      if (address && Array.isArray(address) && address.length === 3) {
+        const districtId = districts.find((d) => d.name === address[1])?.districtId;
+        const provinceId = provinces.find((p) => p.name === address[2])?.provinceId;
+        setValue({
+          province: provinceId,
+          district: districtId,
+          detail: address[0]
+        });
+        const filtered = districts.filter((d) => d.provinceId === provinceId);
+        setFilteredDistricts(filtered);
       }
     } catch (error) {
       setValue({ detail: '' });

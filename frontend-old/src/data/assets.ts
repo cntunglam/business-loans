@@ -31,7 +31,5 @@ export const ASSETS = {
   ONE_PERCENT_CASHBACK: '/images/one-percent-cashback.webp',
   COMPLETELY_FREE: '/images/completely-free.webp',
   MATCH_YOU_WITH_BEST_OFFERS: '/images/match-you-with-best-offers.webp',
-  PROTECTING_YOUR_INFO: '/images/protecting-your-information.webp',
-  FACEBOOK_COLOR_CIRCLE: '/icons/FacebookColorCircle.svg',
-  GOOGLE_COLOR_CIRCLE: '/icons/Google.png'
+  PROTECTING_YOUR_INFO: '/images/protecting-your-information.webp'
 };

@@ -36,7 +36,7 @@ export const Header = () => {
       {!user ? (
         <Flex x xe>
           <JoyLink component={Link} color="secondary" to="/signin">
-            {'Login'}
+            {t('login')}
           </JoyLink>
         </Flex>
       ) : (

@@ -1,12 +1,21 @@
-import { LoanRequestTypeEnum } from '@roshi/shared';
-import React from 'react';
+import { LoanRequestTypeEnum, UserRoleEnum } from '@roshi/shared';
 import { Navigate, useRoutes } from 'react-router-dom';
+import { Authorization } from './components/authentication/authorization';
 import { MainLayout } from './components/layout/mainLayout';
+import { UserLayout } from './components/layout/userLayout';
+import MatomoTagManager from './components/shared/MatomoTagManager';
+import { ApplicantInfoView } from './views/applicantInfoView';
+import { BookingView } from './views/bookingView';
+import { ErrorView } from './views/error.view';
 import { LoanApplicationView } from './views/loanApplication.view';
+import { SigninView } from './views/signin.view';
+import { UserDocumentsView } from './views/userDocuments.view';
+import { UserOverviewView } from './views/userOverview.view';
+import { UserUnsubscribeView } from './views/userUnsubscribe.view';
 
 export const AppRouter = () => {
   const routes = useRoutes([
-    /* {
+    {
       path: 'error/:code',
       element: <ErrorView />
     },
@@ -21,27 +30,25 @@ export const AppRouter = () => {
           <SigninView />
         </Authorization>
       )
-    }, */
+    },
     {
       path: '/',
       element: (
-        <React.Fragment>
-          {/* <Authorization> */}
-          {/* <MatomoTagManager /> */}
+        <Authorization>
+          <MatomoTagManager />
           <MainLayout />
-          {/* </Authorization> */}
-        </React.Fragment>
+        </Authorization>
       ),
       children: [
         { path: 'apply', element: <LoanApplicationView loanRequestType={LoanRequestTypeEnum.GENERAL} /> },
-        /* {
+        {
           path: 'apply-for-zero-interest-loan',
           element: <LoanApplicationView loanRequestType={LoanRequestTypeEnum.ZERO_INTEREST} />
-        }, */
+        },
         { path: '*', element: <Navigate replace to="apply" /> }
       ]
     },
-    /* {
+    {
       path: '/user',
       element: (
         <Authorization requiredRole={[UserRoleEnum.BORROWER, UserRoleEnum.ADMIN]}>
@@ -67,7 +74,7 @@ export const AppRouter = () => {
     {
       path: '/unsubscribe/:code',
       element: <UserUnsubscribeView />
-    }, */
+    },
     {
       path: '*',
       element: <Navigate replace to="/" />
