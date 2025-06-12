@@ -1,0 +1,97 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16.3
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: roshi-dev-vn
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      mailhog:
+        image: mailhog/mailhog
+        ports:
+          - 1025:1025
+          - 8025:8025
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          echo "Waiting for postgres to be ready..."
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            sleep 2
+          done
+          echo "Postgres is ready."
+
+      - name: Create superuser roles
+        run: |
+          PGPASSWORD=postgres psql -h localhost -U postgres -d roshi-dev-vn -c "CREATE ROLE roshiadmin WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD 'password';"
+          PGPASSWORD=postgres psql -h localhost -U postgres -d roshi-dev-vn -c "CREATE ROLE azure_pg_admin WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD 'password';"
+        env:
+          PGPASSWORD: postgres
+
+      - name: Create database roshi_jobs_dev
+        run: |
+          echo "Creating database roshi_jobs_dev if not exists..."
+          PGPASSWORD=postgres psql -h localhost -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'roshi_jobs_dev'" | grep -q 1 || \
+          PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE roshi_jobs_dev;"
+        env:
+          PGPASSWORD: postgres
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create .env from .env.example (frontend)
+        run: cp frontend/.env.example frontend/.env
+
+      - name: Create .env from .env.example (backend)
+        run: cp backend/.env.example backend/.env
+
+      - name: Create .env from .env.example (shared)
+        run: cp shared/.env.example shared/.env
+
+      - name: Run DB migrations
+        run: |
+          echo "Running migrations..."
+          DATABASE_URL=postgres://postgres:postgres@localhost:5432/roshi-dev-vn npm run migration:generate:push
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/roshi-dev-vn
+
+      - name: Start application
+        run: |
+          npm run dev & sleep 15 # Wait for the app to boot
+        env:
+          NODE_ENV: development
+
+      - name: Install Playwright & dependencies
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+        env:
+          NODE_ENV: development
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/roshi-dev-vn

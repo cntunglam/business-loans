@@ -1,0 +1,20 @@
+model ActivityLog {
+    //user who initiated the action
+    userId String?
+    user   User?   @relation(fields: [userId], references: [id])
+
+    loanRequestId String?
+    loanRequest   LoanRequest? @relation(fields: [loanRequestId], references: [id])
+
+    // ActivityEnum
+    activityType String
+    // TargetTypeEnum
+    targetType   String?
+    targetId     String?
+
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@schema("public")
+}

@@ -1,0 +1,111 @@
+model Company {
+  name                 String
+  logo                 String
+  users                User[]
+  loanResponses        LoanResponse[]
+  country              String                      @db.VarChar(2)
+  salesPhoneNumber     String?
+  //CompanyTypeEnum
+  type                 String
+  //CompanyStatusEnum
+  status               String                      @default("ACTIVE")
+  description          String?
+  commission           Float                       @default(0.05)
+  stores               CompanyStore[]
+  notificationSettings CompanyNotificationSetting?
+  notifications        Notification[]
+  companySettings      CompanySettings[]
+
+  zohoCustomerId String?
+
+  //Frozen means cannot access new leads, but still can access the platform and update outcome
+  isFrozenAt DateTime?
+
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  companyLeadSettings CompanyLeadSettings?
+
+  @@schema("public")
+}
+
+model CompanyStore {
+  name        String
+  address     String
+  phoneNumber String?
+  email       String?
+
+  mapsUrl      String
+  mapsEmbedUrl String?
+  imageUrl     String
+  gPlaceId     String? // Google Place Id
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+  ratings   Int?
+
+  openingHours OpeningHours[]
+
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("public")
+}
+
+model OpeningHours {
+  storeId String
+  store   CompanyStore @relation(fields: [storeId], references: [id])
+
+  isOpen       Boolean
+  dayOfWeek    Int // 0: Monday, 1: Tuesday, ..., 6: Sunday
+  openHour     String // opening time HH:MM
+  closeHour    String // closing time HH:MM
+  maxCustomers Int // max number of customers per hour
+
+  appointments Appointment[]
+
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("public")
+}
+
+model CompanyLeadSettings {
+  minMonthlyIncomeForeigner Int?
+  minMonthlyIncomeLocal     Int?
+  minLoanAmount             Int?
+  maxDebtIncomeRatio        Float?
+  employmentStatus          String[]
+  employmentTime            String[]
+  residencyStatus           String[]
+  propertyOwnerships        String[]
+  documents                 String[]
+  documentCount             Int?
+  isApprovedByRoshi         Boolean  @default(false)
+
+  companyId String  @unique
+  company   Company @relation(fields: [companyId], references: [id])
+
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("public")
+}
+
+model CompanySettings {
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+  key       String
+  value     Json
+
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, key])
+  @@schema("public")
+}
