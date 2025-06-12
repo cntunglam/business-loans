@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import bootstrapRoutes from './routes/index.route';
 const app = express();
 const isDevelopment = process.env.NODE_ENV !== 'production';
 // Force port 3001 in development for Vite proxy
@@ -39,11 +40,7 @@ if (!isDevelopment) {
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Define a route for the root path
-app.get('/', (_, res) => {
-  res.send('Hello, world!');
-});
+bootstrapRoutes(app);
 
 // Start the server
 app.listen(port, () => {
