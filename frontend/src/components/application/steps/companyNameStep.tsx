@@ -1,9 +1,16 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
+import { useVisitorContext } from '../../../context/visitorContext';
 import { Flex } from '../../shared/flex';
 import { ApplicationStyledInput } from '../styled/applicationStyledInput';
 
-export const CompanyNameStep = forwardRef<{ getValue: () => unknown }>(() => {
-  const [value, setValue] = useState<string>('');
+export const CompanyNameStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
+  const { visitor } = useVisitorContext();
+
+  const [value, setValue] = useState<string>(visitor?.companyName || '');
+
+  useImperativeHandle(ref, () => ({
+    getValue: () => value
+  }));
 
   return (
     <Flex y xc gap2 px={{ xs: 3, sm: 2, md: 0 }}>

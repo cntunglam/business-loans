@@ -1,19 +1,21 @@
 import { Box, Button, LinearProgress, Link, Typography } from '@mui/material';
-import { cloneElement, ReactElement, useMemo, useState } from 'react';
+import { cloneElement, ReactElement, useMemo, useRef } from 'react';
 import Balancer from 'react-wrap-balancer';
-import { DEFAULT_APPLICATION_STEPS } from '../../constants/applicationData';
 import { ApplicationStepsImagesEnum } from '../../constants/applicationStep';
+import { useVisitorContext } from '../../context/visitorContext';
 import { ApplicationStepsComponents, ApplicationStepsImages } from '../../data/applicationStepsComponents';
+import WarningIcon from '../icons/warningIcon';
 import { Flex } from '../shared/flex';
 import FinishStep from './steps/finishStep';
 
 export const LoanApplication = () => {
-  const steps = useMemo(() => DEFAULT_APPLICATION_STEPS, []);
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const currentStepData = useMemo(() => steps[currentStepIndex], [steps, currentStepIndex]);
+  const { currentStepData, currentStepIndex, steps, saveStep, goBack, error } = useVisitorContext();
+
+  const currentStepRef = useRef<{
+    getValue: () => unknown;
+  }>(null);
 
   const stepProgress = useMemo(() => (currentStepIndex + 1) * (100 / steps.length), [currentStepIndex, steps.length]);
-
   const [stepComponent, imgToRender] = useMemo(() => {
     if (!currentStepData) {
       return [null, null];
@@ -24,6 +26,14 @@ export const LoanApplication = () => {
       currentStepData.image ? ApplicationStepsImages[currentStepData.image as ApplicationStepsImagesEnum] : null
     ];
   }, [currentStepData]);
+
+  const onNextStep = () => {
+    const value = currentStepRef.current?.getValue();
+
+    if (currentStepData) {
+      saveStep(currentStepData.key, value);
+    }
+  };
 
   return (
     <Flex>
@@ -70,10 +80,22 @@ export const LoanApplication = () => {
           {currentStepIndex >= steps.length && <FinishStep />}
           {currentStepIndex < steps.length && (
             <>
-              <Flex y>{stepComponent && cloneElement(stepComponent as ReactElement)}</Flex>
+              <Flex y>
+                {stepComponent && cloneElement(stepComponent as ReactElement, { ref: currentStepRef })}
+
+                {error && (
+                  <Flex x xc mt={1} gap1>
+                    <WarningIcon color="danger" />
+                    <Typography textAlign={'center'} textColor="danger.500">
+                      {error}
+                    </Typography>
+                  </Flex>
+                )}
+              </Flex>
+
               <Flex y yst xc gap3 minHeight={'100px'}>
                 <Button
-                  onClick={() => setCurrentStepIndex((prev) => prev + 1)}
+                  onClick={onNextStep}
                   sx={{
                     width: 320,
                     outline: 'none !important',
@@ -84,12 +106,9 @@ export const LoanApplication = () => {
                 >
                   {'Next'}
                 </Button>
+
                 {currentStepIndex !== 0 && (
-                  <Link
-                    textColor={'neutral.600'}
-                    sx={{ textDecorationColor: 'var(--joy-palette-neutral-600)' }}
-                    onClick={() => setCurrentStepIndex((prev) => prev - 1)}
-                  >
+                  <Link textColor={'neutral.600'} sx={{ textDecorationColor: 'var(--joy-palette-neutral-600)' }} onClick={goBack}>
                     {'Back'}
                   </Link>
                 )}
