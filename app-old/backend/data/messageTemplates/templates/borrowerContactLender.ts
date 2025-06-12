@@ -1,1 +1,0 @@
-export default `Hi, I would like to move forward with your offer on ROSHI.`;

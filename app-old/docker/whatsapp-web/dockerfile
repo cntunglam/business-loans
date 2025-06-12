@@ -1,4 +1,0 @@
-FROM --platform=linux/amd64 aldinokemal2104/go-whatsapp-web-multidevice:latest
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
-ENTRYPOINT ["/start.sh"]
