@@ -1,6 +1,6 @@
 import { Option } from '@mui/joy';
-import { loanPurposesEnum, loanPurposesLabels } from '@roshi/shared';
 import { forwardRef, useMemo, useState } from 'react';
+import { loanPurposesEnum, loanPurposesLabels } from '../../shared/applicationData';
 import { Flex } from '../../shared/flex';
 import { ApplicationStyledInput } from '../styled/applicationStyledInput';
 import { ApplicationStyledSelect } from '../styled/applicationStyledSelect';

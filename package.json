@@ -26,10 +26,7 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "backend",
-    "frontend",
-    "shared",
-    "webook-watcher"
+    "frontend"
   ],
   "dependencies": {
     "zod": "^3.23.8"

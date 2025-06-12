@@ -1,8 +1,8 @@
 import { Box, Button, LinearProgress, Link, Typography } from '@mui/material';
-import { ApplicationStepsEnum, ApplicationStepsImagesEnum, StepDetails } from '@roshi/shared';
 import { cloneElement, ReactElement, useMemo, useState } from 'react';
 import Balancer from 'react-wrap-balancer';
 import { ApplicationStepsComponents, ApplicationStepsImages } from '../../data/applicationStepsComponents';
+import { ApplicationStepsEnum, ApplicationStepsImagesEnum, StepDetails } from '../shared/applicationStep';
 import { Flex } from '../shared/flex';
 import FinishStep from './steps/finishStep';
 
