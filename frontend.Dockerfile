@@ -4,47 +4,37 @@ FROM node:22.12.0-alpine AS base
 # Install dependencies only when needed
 FROM base AS deps
 # Install necessary dependencies for Alpine
-RUN apk add --no-cache libc6-compat openssl
+RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
-# Copy package files and source (needed for workspace dependencies)
-COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* ./
-COPY shared/ ./shared/
-COPY frontend/package.json ./frontend/package.json
-COPY backend/package.json ./backend/package.json
+# Copy package files (workspace root and frontend)
+COPY package.json package-lock.json* ./
+COPY frontend/package.json ./frontend/
 
-# Install all dependencies (including dev dependencies needed for build)
-RUN npm ci && npm cache clean --force
+# Install dependencies for the entire workspace (includes shared deps like zod)
+RUN npm install && npm cache clean --force
 
 # Build stage
 FROM base AS builder
 WORKDIR /app
 
-# Install openssl for Prisma
-RUN apk add --no-cache openssl
-
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/shared ./shared
 
-# Copy all source files
-COPY . .
-
-# Build the shared package first (handles Prisma generation)
-WORKDIR /app/shared
-RUN npm run build 2>/dev/null || echo "No build script for shared package"
+# Copy frontend source files
+COPY frontend/ ./frontend/
 
 # Build the frontend application
 WORKDIR /app/frontend
-# Skip TypeScript checking for missing dependencies and build with Vite directly
-RUN npx vite build --mode production
+RUN npm run build
 
 # Production image, use Node.js to serve static files
 FROM node:22.12.0-alpine AS runner
 
-# Install serve package globally for serving static files
-RUN npm install -g serve@14.2.3
+# Install serve package globally and curl for healthcheck
+RUN npm install -g serve@14.2.3 && \
+    apk add --no-cache curl
 
 # Create app directory
 WORKDIR /app
@@ -64,7 +54,7 @@ EXPOSE 3000
 
 # Add healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
+    CMD curl -f http://localhost:3000/ || exit 1
 
 # Start the application using serve
 CMD ["serve", "-s", "dist", "-l", "3000"]
