@@ -1,0 +1,71 @@
+model Notification {
+    //NotificationTransportEnum
+    transport String
+    //NotificationStatusEnum
+    status    String @default("PENDING")
+
+    // To prevent sending the same notification multiple times
+    // Value can be for ex: LOAN_OFFER_{loanRequestId}_{loanOfferId}
+    uniqueKey       String
+    //For email
+    recipientEmail  String?   @db.VarChar(255)
+    //For telegram
+    recipientTelegramChatId String? @db.VarChar(255)
+    //For webhook
+    webhookUrl      String?   @db.VarChar(500)
+    //For whatsapp
+    phoneNumber     String?
+    payload         Json
+    responsePayload Json?
+    errorMessage    String?
+    sentAt          DateTime?
+    openedAt        DateTime?
+    failedAt        DateTime?
+
+    //UserRoleEnum
+    targetType       String?
+    //NotificationTypeEnum
+    notificationType String
+
+    // Batching for loanOffers for example
+    batchId String?
+
+    loanRequestId String?
+    loanRequest   LoanRequest? @relation(fields: [loanRequestId], references: [id])
+
+    companyId String?
+    company   Company? @relation(fields: [companyId], references: [id])
+
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    //We want to allow sending both an email and a webhook notification with the same settings
+    @@unique([transport, uniqueKey])
+    @@schema("public")
+}
+
+model CompanyNotificationSetting {
+    companyId String  @unique
+    company   Company @relation(fields: [companyId], references: [id])
+
+    //List of notification types that the lender wants to receive
+    emailNotificationTypes   String[]
+    webhookNotificationTypes String[]
+    telegramNotificationTypes String[]
+
+    emailNotificationsEnabled   Boolean @default(false)
+    webhookNotificationsEnabled Boolean @default(false)
+    telegramNotificationsEnabled Boolean @default(false)
+
+    //List of emails on which notifications will be sent
+    emails   String[]
+    webhooks String[]
+    telegramChatIds String[]
+
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@schema("public")
+}
