@@ -19,7 +19,6 @@
   "workspaces": [
     "frontend"
   ],
-  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "concurrently": "^8.2.2",

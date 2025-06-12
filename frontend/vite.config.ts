@@ -5,18 +5,14 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3001,
-    allowedHosts: true
-  },
-  build: {
-    rollupOptions: {
-      external: ['date-fns-tz'],
-      onwarn(warning, warn) {
-        // Suppress warnings about missing dependencies that might not be available in production
-        if (warning.code === 'UNRESOLVED_IMPORT') {
-          return;
-        }
-        warn(warning);
+    port: 3000,
+    allowedHosts: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
   },
