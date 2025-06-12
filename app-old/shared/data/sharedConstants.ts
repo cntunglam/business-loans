@@ -1,4 +1,0 @@
-export const SHARED_CONSTANTS = {
-  ITEMS_PER_PAGE: 10,
-  APPOINTMENT_RESERVE_MINUTES: 60,
-} as const;
