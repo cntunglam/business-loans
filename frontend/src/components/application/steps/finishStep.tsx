@@ -272,22 +272,6 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
             </Button>
           </>
 
-          <Flex y xc>
-            <Typography textAlign={'center'} textColor={'text.tertiary'} mb={1.25}>
-              {'Or sign in with'}
-            </Typography>
-
-            <Flex gap={2.5} xc>
-              <Flex sx={{ cursor: 'pointer' }}>
-                <img src={ASSETS.FACEBOOK_COLOR_CIRCLE} alt="facebook-icon" width={24} height={24} />
-              </Flex>
-
-              <Flex sx={{ cursor: 'pointer' }}>
-                <img src={ASSETS.GOOGLE_COLOR_CIRCLE} alt="google-icon" width={24} height={24} />
-              </Flex>
-            </Flex>
-          </Flex>
-
           <Typography textAlign={'center'} textColor={'text.tertiary'} sx={{ maxWidth: 281, width: '100%' }}>
             By registering, you agree to ROSHI's{' '}
             <Link color="link" component={'span'}>
