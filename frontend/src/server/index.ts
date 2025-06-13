@@ -16,8 +16,8 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 // Force port 3001 in development for Vite proxy
 const port = process.env.PORT || 3001;
 
-// Only serve static files in production
-if (isDevelopment) {
+// Serve static files in production (NOT in development)
+if (!isDevelopment) {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   const distPath = path.resolve(__dirname, '../../dist');

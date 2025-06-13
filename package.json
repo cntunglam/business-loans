@@ -12,7 +12,8 @@
     "docker:frontend": "docker build -f frontend.Dockerfile -t registry.digitalocean.com/lamcao/roshi-vn-fe-dev:v1 .",
     "docker:push": "docker push registry.digitalocean.com/lamcao/roshi-vn-fe-dev:v1",
     "precommit": "npm run precommit -w frontend",
-    "prepare": "husky"
+    "prepare": "husky",
+    "start:prod": "node frontend/dist/server/index.js"
   },
   "author": "",
   "license": "ISC",

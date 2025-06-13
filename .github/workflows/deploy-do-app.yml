@@ -1,0 +1,21 @@
+name: Deploy to DigitalOcean App Platform
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: dop_v1_fd02135c3d2ecc53eaa96236026db51ce518dacf8dab03baaf388a8ec11898b3
+
+      - name: Deploy to DigitalOcean App Platform
+        run: doctl apps create-deployment 6f771ee3-2b1e-4ba6-8b2d-7aa607d7c05c --wait
