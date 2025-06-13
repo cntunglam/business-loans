@@ -26,7 +26,7 @@ const PersonalInfoValidator = {
 };
 
 const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
-  const { setError, error } = useVisitorContext();
+  const { setError, error, finalize, loading } = useVisitorContext();
 
   const tips = useMemo(
     () => [
@@ -53,6 +53,24 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
   const [email, setEmail] = useState<ValidationValue>({
     value: ''
   });
+
+  const submitHandler = () => {
+    const validation = PersonalInfoValidator.email.safeParse(email.value);
+
+    if (!validation.success) {
+      setError(JSON.parse(validation.error.message)?.[0]?.message);
+    }
+
+    setEmail(({ value }) => ({
+      value,
+      isValid: PersonalInfoValidator.email.safeParse(value).success
+    }));
+
+    finalize({
+      phoneNumber: phoneNumber.value,
+      email: email.value
+    });
+  };
 
   useImperativeHandle(ref, () => ({
     getValue: () => ({
@@ -220,18 +238,8 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
               color="primary"
               size="lg"
               sx={{ maxWidth: 300, width: '100%' }}
-              onClick={() => {
-                const validation = PersonalInfoValidator.email.safeParse(email.value);
-
-                if (!validation.success) {
-                  setError(JSON.parse(validation.error.message)?.[0]?.message);
-                }
-
-                setEmail(({ value }) => ({
-                  value,
-                  isValid: PersonalInfoValidator.email.safeParse(value).success
-                }));
-              }}
+              loading={loading}
+              onClick={submitHandler}
             >
               Launch your Application
             </Button>

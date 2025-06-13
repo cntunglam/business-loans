@@ -1,15 +1,23 @@
 import cors from 'cors';
+import * as dotenv from 'dotenv';
 import express from 'express';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import bootstrapRoutes from './routes/index.route';
+
 const app = express();
-const isDevelopment = process.env.NODE_ENV !== 'production';
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const isDevelopment = process.env.NODE_ENV === 'development';
 // Force port 3001 in development for Vite proxy
-const port = isDevelopment ? 3001 : process.env.PORT || 3001;
+const port = process.env.PORT || 3001;
 
 // Only serve static files in production
-if (!isDevelopment) {
+if (isDevelopment) {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   const distPath = path.resolve(__dirname, '../../dist');
@@ -27,8 +35,9 @@ if (!isDevelopment) {
 
   // Serve index.html for client-side routing in production
   app.get('*', (req, res, next) => {
-    // Skip non-HTML routes
-    if (req.path.startsWith('/api/')) {
+    // Skip non-HTML routes and ensure req.path is a valid route path
+    if (req.path.startsWith('/api/') || req.path.includes('://')) {
+      console.log('Skipping invalid path:', req.path);
       next();
       return;
     }
@@ -37,10 +46,33 @@ if (!isDevelopment) {
   });
 }
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-bootstrapRoutes(app);
+// Determine environment
+const env = process.env.NODE_ENV || 'development';
+const envFile = `.env.${env}`;
+const envPath = path.resolve(process.cwd(), envFile);
+
+// Check if the environment-specific file exists
+if (fs.existsSync(envPath)) {
+  console.log(`Loading environment from ${envFile}`);
+  dotenv.config({ path: envPath });
+} else {
+  console.log(`Environment file ${envFile} not found. Falling back to .env`);
+  dotenv.config();
+}
+
+try {
+  bootstrapRoutes(app);
+} catch (error) {
+  console.error('Error while setting up routes:', error);
+  process.exit(1);
+}
+
+// Error handling middleware
+app.use((err: Error, _req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Unhandled error:', err);
+  res.status(500).send('Server error');
+  next();
+});
 
 // Start the server
 app.listen(port, () => {

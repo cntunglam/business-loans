@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import z from 'zod';
+import useSendVisitorData from '../api/useSendVisitorData';
 import { DEFAULT_APPLICATION_STEPS } from '../constants/applicationData';
 import { ApplicationStepsEnum, StepDetails } from '../constants/applicationStep';
 
@@ -16,6 +17,13 @@ export type VisitorWithSteps = {
   };
   companyUENumber: string;
 };
+
+export type PersonalInfo = {
+  phoneNumber: string;
+  email: string;
+};
+
+export type EmailDataType = VisitorWithSteps & PersonalInfo;
 
 const validator = {
   [ApplicationStepsEnum.borrowAmount]: z
@@ -64,9 +72,10 @@ export enum LoanRequestTypeEnum {
 interface VisitorContextType {
   visitor?: VisitorWithSteps | null;
   error?: string;
+  loading?: boolean;
   init: () => Promise<unknown>;
   saveStep: (stepKey: string, stepData?: unknown) => Promise<void>;
-  finalize: (override?: boolean) => Promise<void>;
+  finalize: (personalInfo: PersonalInfo) => Promise<void>;
   steps: StepDetails[];
   currentStepIndex: number;
   currentStepData?: StepDetails;
@@ -102,11 +111,14 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
     },
     companyUENumber: ''
   });
-  const steps = useMemo(() => DEFAULT_APPLICATION_STEPS, []);
-  const [error, setError] = useState<string>();
 
+  const { sendVisitorData } = useSendVisitorData();
+
+  const [error, setError] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
+  const steps = useMemo(() => DEFAULT_APPLICATION_STEPS, []);
   const currentStepData = useMemo(() => (steps ? steps[currentStepIndex] : undefined), [steps, currentStepIndex]);
 
   const setStep = useCallback((step: number) => setCurrentStepIndex(step), []);
@@ -146,14 +158,25 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
     [currentStepData, error, currentStepIndex, steps.length, setStep]
   );
 
-  const finalize = useCallback(
-    async (override = false) => {
-      // Finalization logic...
-      if (override) {
-        setVisitorData((prev) => ({ ...prev, isCompleted: true }));
-      }
+  const finalize = useCallback<VisitorContextType['finalize']>(
+    async (personalInfo) => {
+      const data = {
+        ...visitorData,
+        ...personalInfo
+      };
+
+      setLoading(true);
+      await sendVisitorData(data)
+        .then((res) => {
+          console.log(res);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
     },
-    [setVisitorData]
+    [sendVisitorData, visitorData]
   );
 
   const goBack = useCallback(() => {
@@ -168,6 +191,7 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
       value={{
         visitor: visitorData,
         error,
+        loading,
         init,
         saveStep,
         finalize,

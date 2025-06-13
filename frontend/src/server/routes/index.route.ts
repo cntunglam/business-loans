@@ -1,15 +1,16 @@
-import { Express, Request, Response } from 'express';
+import express from 'express';
+import emailRequestHandler from './email.route';
 
-export default function bootstrapRoutes(app: Express) {
+export default function bootstrapRoutes(app: express.Express) {
   // Define your routes here
-  app.get('/', (req: Request, res: Response) => {
+  app.get('/', (_: express.Request, res: express.Response) => {
     res.send('Welcome to the API!');
   });
 
-  // Example of a route that returns JSON data
-  app.get('/data', (req: Request, res: Response) => {
-    res.json({ message: 'This is some sample data.' });
+  // Add more routes as needed
+  app.get('/health', (_: express.Request, res: express.Response) => {
+    res.status(200).json({ status: 'OK' });
   });
 
-  // Add more routes as needed
+  emailRequestHandler(app);
 }
