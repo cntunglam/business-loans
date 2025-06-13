@@ -4,7 +4,7 @@ import healthRouter from './health.route';
 
 export default function bootstrapRoutes(app: express.Express) {
   // Define your routes here
-  app.get('/', (_: express.Request, res: express.Response) => {
+  app.get('/api', (_: express.Request, res: express.Response) => {
     res.send('Welcome to the API!');
   });
 

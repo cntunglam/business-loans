@@ -16,7 +16,29 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 // Force port 3001 in development for Vite proxy
 const port = process.env.PORT || 3001;
 
-// Serve static files in production (NOT in development)
+// Determine environment
+const env = process.env.NODE_ENV || 'development';
+const envFile = `.env.${env}`;
+const envPath = path.resolve(process.cwd(), envFile);
+
+// Check if the environment-specific file exists
+if (fs.existsSync(envPath)) {
+  console.log(`Loading environment from ${envFile}`);
+  dotenv.config({ path: envPath });
+} else {
+  console.log(`Environment file ${envFile} not found. Falling back to .env`);
+  dotenv.config();
+}
+
+// Initialize API routes first
+try {
+  bootstrapRoutes(app);
+} catch (error) {
+  console.error('Error while setting up routes:', error);
+  process.exit(1);
+}
+
+// Serve static files in production (NOT in development) - AFTER API routes
 if (!isDevelopment) {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
@@ -44,27 +66,6 @@ if (!isDevelopment) {
 
     res.sendFile(path.join(distPath, 'index.html'));
   });
-}
-
-// Determine environment
-const env = process.env.NODE_ENV || 'development';
-const envFile = `.env.${env}`;
-const envPath = path.resolve(process.cwd(), envFile);
-
-// Check if the environment-specific file exists
-if (fs.existsSync(envPath)) {
-  console.log(`Loading environment from ${envFile}`);
-  dotenv.config({ path: envPath });
-} else {
-  console.log(`Environment file ${envFile} not found. Falling back to .env`);
-  dotenv.config();
-}
-
-try {
-  bootstrapRoutes(app);
-} catch (error) {
-  console.error('Error while setting up routes:', error);
-  process.exit(1);
 }
 
 // Error handling middleware
