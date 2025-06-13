@@ -16,7 +16,17 @@ const PersonalInfoValidator = {
   phoneNumber: z
     .string()
     .min(1, 'Phone number is required')
-    .regex(/^\d{10}$/, 'Phone number must be a valid 10-digit number'),
+    .regex(/^[89]\d{7}$/, 'Phone number must be 8 digits starting with 8 or 9')
+    .refine((value) => {
+      // Check for 6 consecutive identical digits
+      for (let i = 0; i <= value.length - 6; i++) {
+        const substring = value.substring(i, i + 6);
+        if (substring.split('').every((digit) => digit === substring[0])) {
+          return false;
+        }
+      }
+      return true;
+    }, 'Phone number cannot contain 6 consecutive identical digits'),
   email: z
     .string({
       required_error: 'Email is required'

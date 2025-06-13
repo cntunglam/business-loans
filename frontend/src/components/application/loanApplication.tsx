@@ -52,6 +52,7 @@ export const LoanApplication = () => {
               thickness={10}
               sx={{
                 width: '100%',
+                maxWidth: 820,
                 flexGrow: 1,
                 '--LinearProgress-radius': '10px',
                 '--LinearProgress-track-color': '#E5E5E5'
