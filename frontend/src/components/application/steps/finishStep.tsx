@@ -7,10 +7,7 @@ import WarningIcon from '../../icons/warningIcon';
 import { Flex } from '../../shared/flex';
 import { ApplicationStyledInput } from '../styled/applicationStyledInput';
 
-type ValidationValue = {
-  value: string;
-  isValid?: boolean;
-};
+type ValidationValue = { value: string; isValid?: boolean };
 
 const PersonalInfoValidator = {
   phoneNumber: z
@@ -27,12 +24,7 @@ const PersonalInfoValidator = {
       }
       return true;
     }, 'Phone number cannot contain 6 consecutive identical digits'),
-  email: z
-    .string({
-      required_error: 'Email is required'
-    })
-    .nonempty('Email is required')
-    .email('Please enter a valid email address')
+  email: z.string({ required_error: 'Email is required' }).nonempty('Email is required').email('Please enter a valid email address')
 };
 
 const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
@@ -42,29 +34,16 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
 
   const tips = useMemo(
     () => [
-      {
-        key: crypto.randomUUID(),
-        text: 'Access better rates & more features'
-      },
-      {
-        key: crypto.randomUUID(),
-        text: 'Quick loan decisions (97% approval rate)'
-      },
-      {
-        key: crypto.randomUUID(),
-        text: 'Real-time application updates via chat & mail'
-      }
+      { key: crypto.randomUUID(), text: 'Access better rates & more features' },
+      { key: crypto.randomUUID(), text: 'Quick loan decisions (97% approval rate)' },
+      { key: crypto.randomUUID(), text: 'Real-time application updates via chat & mail' }
     ],
     []
   );
 
-  const [phoneNumber, setPhoneNumber] = useState<ValidationValue>({
-    value: ''
-  });
+  const [phoneNumber, setPhoneNumber] = useState<ValidationValue>({ value: '' });
 
-  const [email, setEmail] = useState<ValidationValue>({
-    value: ''
-  });
+  const [email, setEmail] = useState<ValidationValue>({ value: '' });
 
   const submitHandler = () => {
     const validation = PersonalInfoValidator.email.safeParse(email.value);
@@ -73,38 +52,19 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
       setError(JSON.parse(validation.error.message)?.[0]?.message);
     }
 
-    setEmail(({ value }) => ({
-      value,
-      isValid: PersonalInfoValidator.email.safeParse(value).success
-    }));
+    setEmail(({ value }) => ({ value, isValid: PersonalInfoValidator.email.safeParse(value).success }));
 
-    finalize({
-      phoneNumber: phoneNumber.value,
-      email: email.value
-    }).then(() => {
+    finalize({ phoneNumber: phoneNumber.value, email: email.value }).then(() => {
       setShowSuccessModal(true);
     });
   };
 
-  useImperativeHandle(ref, () => ({
-    getValue: () => ({
-      phoneNumber,
-      email
-    })
-  }));
+  useImperativeHandle(ref, () => ({ getValue: () => ({ phoneNumber, email }) }));
 
   return (
     <React.Fragment>
       <Flex y gap={5}>
-        <Flex
-          sx={{
-            key: '',
-            alignItems: 'center',
-            textWrap: 'wrap'
-          }}
-          y
-          gap={2.5}
-        >
+        <Flex sx={{ key: '', alignItems: 'center', textWrap: 'wrap' }} y gap={2.5}>
           <Typography
             fontWeight={800}
             textColor={'secondary.500'}
@@ -155,10 +115,7 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
                 onClick={() => {
                   const validation = PersonalInfoValidator.phoneNumber.safeParse(phoneNumber.value);
 
-                  setPhoneNumber(({ value }) => ({
-                    value,
-                    isValid: validation.success
-                  }));
+                  setPhoneNumber(({ value }) => ({ value, isValid: validation.success }));
 
                   if (validation.success) {
                     setError('');
@@ -179,26 +136,8 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
         </Flex>
 
         {!phoneNumber.isValid && (
-          <Flex
-            gap={7.5}
-            xc
-            maxWidth={673}
-            sx={{
-              flexDirection: {
-                xs: 'column',
-                md: 'row'
-              }
-            }}
-          >
-            <img
-              src={ASSETS.FINAL_STEP}
-              alt="final-step"
-              style={{
-                flex: 'none'
-              }}
-              width={266}
-              height={278}
-            />
+          <Flex gap={7.5} xc maxWidth={673} sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
+            <img src={ASSETS.FINAL_STEP} alt="final-step" style={{ flex: 'none' }} width={266} height={278} />
 
             <Flex y gap={2.5}>
               <Typography textColor={'secondary.500'}>{'Borrowers use ROSHI to compare rates, apply online & settle faster.'}</Typography>
@@ -234,15 +173,7 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
               </Typography>
             </div>
 
-            <FormControl
-              error={email.isValid === false}
-              sx={{
-                width: {
-                  xs: '100%',
-                  md: 'auto'
-                }
-              }}
-            >
+            <FormControl error={email.isValid === false} sx={{ width: { xs: '100%', md: 'auto' } }}>
               <FormLabel>Email</FormLabel>
               <ApplicationStyledInput
                 placeholder={'Enter your email'}
@@ -293,32 +224,8 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
       </Flex>
 
       <Modal open={showSuccessModal}>
-        <ModalDialog
-          sx={{
-            borderRadius: 16,
-            minWidth: {
-              xs: '100%',
-              md: 600
-            }
-          }}
-        >
-          <Flex
-            y
-            yc
-            xc
-            gap={3}
-            sx={{
-              width: {
-                xs: '100%',
-                md: 500
-              },
-              height: {
-                xs: '100%',
-                md: 400
-              }
-            }}
-            mx={'auto'}
-          >
+        <ModalDialog sx={{ borderRadius: 16, minWidth: { xs: '100%', md: 600 } }}>
+          <Flex y yc xc gap={3} sx={{ width: { xs: '100%', md: 500 }, height: { xs: '100%', md: 400 } }} mx={'auto'}>
             <img src={ASSETS.APPLICATION_LIVE} alt="Application Live" width={85} height={96} />
 
             <Typography
@@ -328,15 +235,13 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
               fontSize={{ xs: '1.75rem', md: '2.125rem' }}
               textAlign="center"
             >
-              {'Your Application is Live'}
+              {'Your application has been successfully submitted! '}
             </Typography>
 
             <Typography
               whiteSpace="pre-wrap"
               textAlign={'center'}
-            >{`Customized home loan options will appear at the bottom of your dashboard as soon as mortgage brokers have placed their offers.
-  
-  We will notify you at once!`}</Typography>
+            >{`We'll review your details and contact you soon. Thank you for your patience.`}</Typography>
           </Flex>
         </ModalDialog>
       </Modal>
