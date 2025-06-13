@@ -7,15 +7,16 @@
     "dev": "concurrently -n fe,api -c green,blue \"npm run dev:frontend\" \"npm run dev:api\"",
     "dev:frontend": "vite",
     "dev:api": "tsx watch src/server/index.ts",
-    "build": "tsc && vite build",
-    "build:production": "tsc && vite build --mode production",
-    "build:staging": "tsc && vite build --mode staging",
+    "build": "tsc && vite build && npm run build:server && npm run postbuild:server",
+    "build:production": "tsc && vite build --mode production && npm run build:server && npm run postbuild:server",
+    "build:staging": "tsc && vite build --mode staging && npm run build:server && npm run postbuild:server",
+    "build:server": "vite build --config vite.server.config.ts",
+    "postbuild:server": "cp src/server/server.js dist/server/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test": "node --import tsx --test src/**/*.test.ts",
     "pretty": "prettier --write \"./**/*.{ts,tsx,css}\"",
     "preview": "vite preview",
-    "precommit": "tsc --noEmit",
-    "test:e2e": "playwright test"
+    "precommit": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",

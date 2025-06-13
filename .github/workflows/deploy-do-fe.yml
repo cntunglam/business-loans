@@ -2,7 +2,7 @@ name: DEV - DigitalOcean - Build and Deploy Frontend
 on:
   push:
     branches:
-      - "dev"
+      - ""
 
 jobs:
   build-and-deploy:

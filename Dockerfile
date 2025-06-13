@@ -12,8 +12,11 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Build frontend
+# Build frontend and server
 RUN cd frontend && npm install && npm run build:production
+
+# Ensure server.js is copied to dist/server
+RUN mkdir -p /app/frontend/dist/server && cp /app/frontend/src/server/server.js /app/frontend/dist/server/
 
 # Set environment variables
 ENV NODE_ENV=production
