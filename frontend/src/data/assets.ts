@@ -33,5 +33,6 @@ export const ASSETS = {
   MATCH_YOU_WITH_BEST_OFFERS: '/images/match-you-with-best-offers.webp',
   PROTECTING_YOUR_INFO: '/images/protecting-your-information.webp',
   FACEBOOK_COLOR_CIRCLE: '/icons/FacebookColorCircle.svg',
-  GOOGLE_COLOR_CIRCLE: '/icons/Google.png'
+  GOOGLE_COLOR_CIRCLE: '/icons/Google.png',
+  APPLICATION_LIVE: '/icons/ApplicationLive.svg'
 };

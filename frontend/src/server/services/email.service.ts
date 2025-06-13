@@ -11,12 +11,15 @@ const createTransporter = () => {
     host: process.env.MAIL_HOST || 'localhost',
     port: process.env.MAIL_PORT ? Number(process.env.MAIL_PORT) : 1025,
     secure: process.env.MAIL_ENCRYPTION === 'ssl',
-    auth: {
-      user: process.env.MAIL_USERNAME || '',
-      pass: process.env.MAIL_PASSWORD || ''
-    },
+    auth:
+      process.env.MAIL_USERNAME && process.env.MAIL_PASSWORD
+        ? {
+            user: process.env.MAIL_USERNAME,
+            pass: process.env.MAIL_PASSWORD
+          }
+        : undefined,
     tls: {
-      ciphers: 'SSLv3',
+      ciphers: process.env.MAIL_ENCRYPTION === 'ssl' ? 'SSLv3' : 'TLSv1.2',
       rejectUnauthorized: false // Use this for development only
     },
     from: {

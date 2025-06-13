@@ -174,6 +174,7 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
         .catch((error) => {
           console.log(error);
           setLoading(false);
+          throw new Error('Failed to send visitor data');
         });
     },
     [sendVisitorData, visitorData]
