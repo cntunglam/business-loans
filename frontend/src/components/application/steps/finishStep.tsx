@@ -112,7 +112,7 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
 
         <FormControl error={phoneNumber.isValid === false}>
           <ApplicationStyledInput
-            startDecorator={<Typography textColor={'primary.500'}>+86</Typography>}
+            startDecorator={<Typography textColor={'primary.500'}>+65</Typography>}
             placeholder={'Enter your phone number'}
             sx={{ maxWidth: { xs: '100%', sm: 340, md: 340 } }}
             type="number"
