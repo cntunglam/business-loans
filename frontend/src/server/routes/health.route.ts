@@ -3,7 +3,7 @@ import { Router } from 'express';
 const healthRouter = Router();
 
 // Basic health check endpoint
-healthRouter.get('/health', (_req, res) => {
+healthRouter.get('/api/health', (_req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 

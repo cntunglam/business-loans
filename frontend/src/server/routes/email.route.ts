@@ -21,7 +21,7 @@ const emailLimiter = rateLimit({
 });
 
 export default function emailRequestHandler(app: express.Express) {
-  app.get('/email', emailLimiter, async (_: express.Request, res: express.Response) => {
+  app.get('/api/email', emailLimiter, async (_: express.Request, res: express.Response) => {
     const email = getEmailTemplate('hnguyen26@roshi.sg');
 
     try {
@@ -33,7 +33,7 @@ export default function emailRequestHandler(app: express.Express) {
     }
   });
 
-  app.post('/email', async (req: express.Request<unknown, unknown, EmailDataType>, res: express.Response) => {
+  app.post('/api/email', async (req: express.Request<unknown, unknown, EmailDataType>, res: express.Response) => {
     const data: EmailDataType = {
       ...req.body,
       borrowPurpose: loanPurposesLabels[req.body.borrowPurpose as loanPurposesEnum]

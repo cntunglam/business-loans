@@ -8,46 +8,47 @@ import bootstrapRoutes from './routes/index.route';
 
 const app = express();
 
+// Setup standard middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const isDevelopment = process.env.NODE_ENV === 'development';
-// Force port 3001 in development for Vite proxy
 const port = process.env.PORT || 3001;
 
-// Determine environment
+// Log basic server info
+console.log(`Server starting in ${isDevelopment ? 'development' : 'production'} mode on port ${port}`);
+
+// Load environment variables
 const env = process.env.NODE_ENV || 'development';
 const envFile = `.env.${env}`;
 const envPath = path.resolve(process.cwd(), envFile);
 
-// Check if the environment-specific file exists
 if (fs.existsSync(envPath)) {
-  console.log(`Loading environment from ${envFile}`);
   dotenv.config({ path: envPath });
 } else {
-  console.log(`Environment file ${envFile} not found. Falling back to .env`);
   dotenv.config();
 }
 
-// Initialize API routes first
-try {
-  bootstrapRoutes(app);
-} catch (error) {
-  console.error('Error while setting up routes:', error);
-  process.exit(1);
-}
-
-// Serve static files in production (NOT in development) - AFTER API routes
+// Handle production static files - must be set up before API routes
 if (!isDevelopment) {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
+
+  // Find the dist directory
   const distPath = path.resolve(__dirname, '../../dist');
 
+  if (!fs.existsSync(distPath) || !fs.existsSync(path.join(distPath, 'index.html'))) {
+    console.error('ERROR: Cannot find build files at', distPath);
+    process.exit(1);
+  }
+
+  const indexPath = path.join(distPath, 'index.html');
+
+  // Serve static files
   app.use(
     express.static(distPath, {
       setHeaders: (res, path) => {
-        // Only set no-cache for index.html to ensure authentication
         if (path.endsWith('index.html')) {
           res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
         }
@@ -55,16 +56,27 @@ if (!isDevelopment) {
     })
   );
 
-  // Serve index.html for client-side routing in production
+  // Root path handler
+  app.get('/', (_req, res) => {
+    res.sendFile(indexPath);
+  });
+}
+
+// Initialize API routes
+bootstrapRoutes(app);
+
+// For client-side routing in production - must come after API routes
+if (!isDevelopment) {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const indexPath = path.join(__dirname, '../../dist', 'index.html');
+
   app.get('*', (req, res, next) => {
-    // Skip non-HTML routes and ensure req.path is a valid route path
     if (req.path.startsWith('/api/') || req.path.includes('://')) {
-      console.log('Skipping invalid path:', req.path);
       next();
       return;
     }
-
-    res.sendFile(path.join(distPath, 'index.html'));
+    res.sendFile(indexPath);
   });
 }
 
