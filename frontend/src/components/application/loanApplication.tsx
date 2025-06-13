@@ -38,12 +38,12 @@ export const LoanApplication = () => {
   return (
     <Flex>
       {imgToRender && (
-        <Box sx={{ height: '100vh', width: 420, textAlign: 'center' }} bgcolor={'#FCF9FF'}>
+        <Box sx={{ height: '100vh', width: 420, textAlign: 'center', display: { xs: 'none', md: 'block' } }} bgcolor={'#FCF9FF'}>
           <img src={imgToRender ?? ''} style={{ width: '100%' }} alt="" />
         </Box>
       )}
 
-      <Flex y xc grow py={7.5} px={12.5}>
+      <Flex y xc grow px={{ xs: 2, lg: 12.5 }} py={{ xs: 2, lg: 7.5 }}>
         {currentStepData && (
           <Flex fullwidth y xc mb={7.5}>
             <LinearProgress
@@ -69,18 +69,31 @@ export const LoanApplication = () => {
               fontSize={{ xs: '1.75rem', md: '2.125rem' }}
               textAlign="center"
               mb={5}
-              maxWidth={537}
+              maxWidth={{
+                xs: '100%',
+                lg: 537
+              }}
             >
               <Balancer>{currentStepData.title}</Balancer>
             </Typography>
           </Flex>
         )}
 
-        <Flex y minHeight="250px" rowGap={12.5}>
+        <Flex
+          y
+          minHeight="250px"
+          rowGap={12.5}
+          sx={{
+            width: {
+              xs: '100%',
+              md: 'auto'
+            }
+          }}
+        >
           {currentStepIndex >= steps.length && <FinishStep />}
           {currentStepIndex < steps.length && (
             <>
-              <Flex y>
+              <Flex y fullwidth>
                 {stepComponent && cloneElement(stepComponent as ReactElement, { ref: currentStepRef })}
 
                 {error && (
@@ -97,7 +110,10 @@ export const LoanApplication = () => {
                 <Button
                   onClick={onNextStep}
                   sx={{
-                    width: 320,
+                    width: {
+                      xs: '100%',
+                      lg: 320
+                    },
                     outline: 'none !important',
                     minHeight: '3rem',
                     fontWeight: 800

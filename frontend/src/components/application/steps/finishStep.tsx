@@ -96,7 +96,6 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
           level="title-lg"
           fontSize={{ xs: '1.75rem', md: '2.125rem' }}
           textAlign="center"
-          width={'100%'}
         >
           {'Protecting your information'}
         </Typography>
@@ -165,7 +164,17 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
       </Flex>
 
       {!phoneNumber.isValid && (
-        <Flex gap={7.5} xc maxWidth={673}>
+        <Flex
+          gap={7.5}
+          xc
+          maxWidth={673}
+          sx={{
+            flexDirection: {
+              xs: 'column',
+              md: 'row'
+            }
+          }}
+        >
           <img
             src={ASSETS.FINAL_STEP}
             alt="final-step"
@@ -210,7 +219,15 @@ const FinishStep = forwardRef<{ getValue: () => unknown }>((_, ref) => {
             </Typography>
           </div>
 
-          <FormControl error={email.isValid === false}>
+          <FormControl
+            error={email.isValid === false}
+            sx={{
+              width: {
+                xs: '100%',
+                md: 'auto'
+              }
+            }}
+          >
             <FormLabel>Email</FormLabel>
             <ApplicationStyledInput
               placeholder={'Enter your email'}

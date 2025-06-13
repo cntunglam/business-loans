@@ -7,15 +7,6 @@ interface IEmailService {
 }
 
 const createTransporter = () => {
-  // Log environment values for debugging
-  console.log('Email Environment Variables:');
-  console.log('NODE_ENV:', process.env.NODE_ENV);
-  console.log('MAIL_HOST:', process.env.MAIL_HOST);
-  console.log('MAIL_PORT:', process.env.MAIL_PORT);
-  console.log('MAIL_USERNAME:', process.env.MAIL_USERNAME ? '[SET]' : '[NOT SET]');
-  console.log('MAIL_FROM_NAME:', process.env.MAIL_FROM_NAME);
-  console.log('MAIL_FROM_ADDRESS:', process.env.MAIL_FROM_ADDRESS);
-
   const smtpConfig: SMTPTransport.Options = {
     host: process.env.MAIL_HOST || 'localhost',
     port: process.env.MAIL_PORT ? Number(process.env.MAIL_PORT) : 1025,
@@ -33,8 +24,6 @@ const createTransporter = () => {
       address: process.env.MAIL_FROM_ADDRESS || 'no-reply@roshi.sg'
     }
   };
-
-  console.log('SMTP Config:', JSON.stringify(smtpConfig, null, 2));
 
   return nodemailer.createTransport(smtpConfig);
 };
