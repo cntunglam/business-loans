@@ -33,13 +33,35 @@ export default function emailRequestHandler(app: express.Express) {
     }
   });
 
-  app.post('/api/email', async (req: express.Request<unknown, unknown, EmailDataType>, res: express.Response) => {
+  app.post('/api/email', emailLimiter, async (req: express.Request<unknown, unknown, EmailDataType, unknown>, res: express.Response) => {
+    // Cast the request body to the expected type
+    const reqBody = req.body;
     const data: EmailDataType = {
-      ...req.body,
-      borrowPurpose: loanPurposesLabels[req.body.borrowPurpose as loanPurposesEnum]
+      ...reqBody,
+      borrowPurpose: loanPurposesLabels[reqBody.borrowPurpose as loanPurposesEnum]
     };
 
-    const templatePath = path.join(__dirname, '../routes/emailTemplate.hbs');
+    // Handle different paths in dev vs production
+    let templatePath = path.join(__dirname, '../email-template/emailTemplate.hbs'); // Production path
+
+    // If template doesn't exist, try development path
+    if (!fs.existsSync(templatePath)) {
+      templatePath = path.join(__dirname, 'email-template/emailTemplate.hbs');
+    }
+
+    // Final fallback - try relative path from cwd
+    if (!fs.existsSync(templatePath)) {
+      templatePath = path.resolve(process.cwd(), 'dist/server/email-template/emailTemplate.hbs');
+    }
+
+    console.log(`Loading email template from: ${templatePath}`);
+
+    if (!fs.existsSync(templatePath)) {
+      console.error(`Email template not found at: ${templatePath}`);
+      res.status(500).send('Email template not found');
+      throw new Error(`Email template not found at: ${templatePath}`);
+    }
+
     const templateContent = fs.readFileSync(templatePath, 'utf8');
 
     const emailTemplate = handlebars.compile(templateContent);

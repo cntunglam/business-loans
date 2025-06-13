@@ -11,7 +11,7 @@
     "build:production": "tsc && vite build --mode production && npm run build:server && npm run postbuild:server",
     "build:staging": "tsc && vite build --mode staging && npm run build:server && npm run postbuild:server",
     "build:server": "vite build --config vite.server.config.ts",
-    "postbuild:server": "cp src/server/server.js dist/server/",
+    "postbuild:server": "cp src/server/server.js dist/server/ && cp -r src/server/email-template dist/server/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test": "node --import tsx --test src/**/*.test.ts",
     "pretty": "prettier --write \"./**/*.{ts,tsx,css}\"",
